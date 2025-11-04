@@ -1,0 +1,37 @@
+/* Stylesheet | <<GROUP NAME>> */
+
+/* ---------- Root Template ---------- */
+:root {
+  --background-color: ;
+  --text-color: ;
+  --accent-color: ;
+  --border-color: ;
+  --button-color: ;
+  --button-hover-color: ;
+  --header-bg: ;
+  --footer-bg: ;
+  --font-family: ;
+}
+
+/* ---------- General Page Layout ---------- */
+/* Add global styles for layout, spacing, and responsiveness */
+body {
+  /* background-color: var(--background-color); */
+  /* color: var(--text-color); */
+  /* font-family: var(--font-family); */
+}
+
+/* ---------- Header ---------- */
+/* Style the navigation bar (brand, links, layout) */
+
+/* ---------- Buttons ---------- */
+/* Style buttons (padding, color, hover transitions) */
+
+/* ---------- Forms ---------- */
+/* Style inputs, textareas, and form labels */
+
+/* ---------- Cards / Containers ---------- */
+/* Style reusable components like cards or sections */
+
+/* ---------- Footer ---------- */
+/* Add footer background, text color, and alignment */
