@@ -23,8 +23,26 @@ def queue_work():
 
 @app.route("/work/deque", methods=["GET", "POST"])
 def deque_work():
-    # Member #4
-    return render_template("deque.html")
+    global my_deque
+    
+    if request.method == "POST":
+        action = request.form.get("action")
+        value = request.form.get("inputValue")
+
+        if action == "enqueue_front" and value:
+            my_deque.appendleft(value)
+        elif action == "enqueue_rear" and value:
+            my_deque.append(value)
+        elif action == "dequeue_front":
+            if my_deque:
+                my_deque.popleft()
+        elif action == "dequeue_rear":
+            if my_deque:
+                my_deque.pop()
+
+    deque_contents = " ← ".join(my_deque) if my_deque else "[ empty ]"
+    return render_template("deque.html", deque_contents=deque_contents)
+
 
 @app.route("/about")
 def about():
