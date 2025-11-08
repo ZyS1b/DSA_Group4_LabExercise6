@@ -1,9 +1,220 @@
-<!-- Home Page (Member #1) -->
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-<h1>Welcome to <<GROUP NAME>></h1>
-<p class="lead">Short description of the group portfolio and its purpose.</p>
-<!-- Member #1: Add a short paragraph introducing your group -->
-<!-- Member #1: Add a “View Works” button linking to the Works page -->
+<head>
+    <style>
+        .main {
+            margin: 0;
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+            overflow: y;
+            margin: 0;
+            padding: 0;
+        }
+        .slides {
+            width: 100%;
+            height: 100vh;
+            color: black;
+            margin: 0;
+            padding: 0 100px 100px 100px;
+        }   
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .homepage-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            background-color: var(--background-color);
+            align-items: center;
+        }
+
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .hero-content {
+            flex: 1;
+            text-align: left;
+            padding: 40px;
+            border-radius: 10px;
+        }
+
+        .hero-image {
+            flex: 1;
+            height: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        /* Image hover effect - zoom and lift */
+        .hero-image:hover img {
+            transform: scale(1.15) translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Text animations */
+        .hero-content h3 {
+            font-size: 1em;
+            font-style: italic;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: 0.2s;
+        }
+
+        .hero-content h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: 0.4s;
+        }
+
+        .hero-content p {
+            font-size: 1.2em;
+            margin-bottom: 50px;
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: 0.6s;
+        }
+
+        .cta-btn {
+            padding: 10px 20px;
+            background-color: #1e90ff;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: 0.8s;
+        }
+
+        .cta-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(30, 144, 255, 0.4);
+        }
+
+        /* Fade in and slide up animation */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Second slide animations */
+        .article-card {
+            padding: 20px;
+        }
+
+        .article-card h3 {
+            opacity: 0;
+            animation: fadeInLeft 0.8s ease-out forwards;
+            animation-delay: 0.2s;
+        }
+
+        .description {
+            text-align: justify;
+            opacity: 0;
+            animation: fadeInLeft 0.8s ease-out forwards;
+            animation-delay: 0.4s;
+        }
+
+        /* Fade in from left animation */
+        @keyframes fadeInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Image animation on load */
+        .hero-image {
+            opacity: 0;
+            animation: fadeInScale 1s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<div class="slides">
+    <div class="homepage-container">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h3>DSA: Where Logic Inspires Innovation.</h3>
+                <h1>Welcome!</h1>
+                <p>We are the Group 4 a team of nine students demonstrating skills in Data Structures and Algorithms, alongside modern web development practices through this portfolio project.</p>
+                <a href="{{ url_for('works') }}" class="cta-btn">View Works</a>
+            </div>
+            <div class="hero-image">
+                <img src="/static/que.png" alt="DSA Illustration">
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="slides">
+    <div class="homepage-container">
+        <section class="hero-section">
+            <div class="hero-content">
+                <article class="article-card">
+                    <h3>Project Description.</h3>
+                    <p class="description">This Data Structures and Algorithms portfolio showcases the implementation of fundamental queue-based data structures using linked lists in a Flask web application. The project features two core components: a standard Queue with enqueue and dequeue operations, and a Double-Ended Queue (Deque) that supports insertion and deletion at both ends through enqueue, enqueue head, dequeue, and dequeue head methods. Built with Python Flask and integrated with an interactive user interface, this portfolio demonstrates practical applications of linear data structures. Each implementation follows best practices in data structure design, providing users with hands-on visualization of queue operations and their real-world applications.</p>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>
+
 {% endblock %}
