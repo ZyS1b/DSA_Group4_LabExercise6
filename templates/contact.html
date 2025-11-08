@@ -5,5 +5,44 @@
 <h1>Contact Us</h1>
 <p class="lead">Provide a way for visitors to reach your group.</p>
 <!-- Member #6: Add a contact form (Name, Email, Message) -->
+ <form action="/contact" method="POST" class="contact-form">
+  <div>
+    <label for="name">Your Name:</label><br>
+    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+  </div>
+  <br>
+  <div>
+    <label for="email">Your Email:</label><br>
+    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+  </div>
+  <br>
+
+  <h3>Contact Any Member:</h3>
+  <ul>
+    <li>Zybert Jio D. Sibolboro – <a href="mailto:zybert@gmail.com">zybert@gmail.com</a></li>
+    <li>John Mike P. Asuncion – <a href="mailto:johnmike@gmail.com">johnmike@gmail.com</a></li>
+    <li>Angelo Raphael M. Biticon – <a href="mailto:angelo@gmail.com">angelo@gmail.com</a></li>
+    <li>Roswell M. Buñag – <a href="mailto:roswell@gmail.com">roswell@gmail.com</a></li>
+    <li>Renier G. Dela Cruz – <a href="mailto:renier@gmail.com">renier@gmail.com</a></li>
+    <li>Luke Philip L. Lopez – <a href="mailto:luke28@gmail.com">luke28@gmail.com</a></li>
+    <li>Dave Michael P. Sinsioco – <a href="mailto:dave.michael@gmail.com">dave.michael@gmail.com</a></li>
+    <li>Rein Gabriel Atienza – <a href="mailto:rein@gmail.com">rein@gmail.com</a></li>
+    <li>Dave Casinginan – <a href="mailto:dave.c@gmail.com">dave.c@gmail.com</a></li>
+  </ul>
+  <br>
+
+    <div>
+    <label for="message">Message for the Group:</label><br>
+    <textarea id="message" name="message" rows="4" placeholder="Write your message here..." required></textarea>
+  </div>
+  <br>
+  <button type="submit">Send Message</button>
+</form>
+
 <!-- Member #6: Add placeholder for success message after sending -->
+ {% if request.method == 'POST' %}
+  <p style="color: green; margin-top: 20px;">
+    ✅ Message received! 
+  </p>
+
 {% endblock %}
