@@ -251,54 +251,17 @@
   <div class="menu-backdrop" id="menu-backdrop"></div>
 
   <nav class="menu" id="menu" role="navigation" aria-label="Main Navigation">
-    <a href="#home" aria-label="Go to Home">🏠 Home</a>
-    <a href="#works" aria-label="Go to Works">💼 Works</a>
-    <a href="#about" aria-label="Go to About">ℹ️ About</a>
-    <a href="#queue" aria-label="Go to Queue">📋 Queue</a>
+    <a href="{{ url_for('home') }}" aria-label="Go to Home">🏠 Home</a>
+    <a href="{{ url_for('works') }}" aria-label="Go to Works">💼 Works</a>
+    <a href="{{ url_for('about') }}" aria-label="Go to About">ℹ️ About</a>
+    <a href="" aria-label="Go to Queue">📋 Queue</a>
     <a href="#deque" aria-label="Go to Deque">🔄 Deque</a>
     <a href="#contact" aria-label="Go to Contact">📞 Contact</a>
   </nav>
 
   <!-- ---------- Main Content ---------- -->
   <div class="container" style="overflow: auto;">
-    <main class="main" id="home">
-      <section>
-        <h2>Welcome to Our Site</h2>
-        <p>FWNFWIFWUBFW.</p>
-        <div class="content-grid">
-          <article class="article-card">
-            <h3>FWNFWIFWUBFW.</h3>
-            <p>FWNFWIFWUBFW.</p>
-            <a href="#" class="read-more">FWNFWIFWUBFW.</a>
-          </article>
-          <article class="article-card">
-            <h3>FWNFWIFWUBFW.</h3>
-            <p>FWNFWIFWUBFFWNFWIFWUBFW.</p>
-            <a href="#" class="read-more">FWNFWIFWUBFW.</a>
-          </article>
-          <article class="article-card">
-            <h3>FWNFWIFWUBFW.</h3>
-            <p>FWNFWIFWUBFW.</p>
-            <a href="#" class="read-more">FWNFWIFWUBFW.</a>
-          </article>
-          <article class="article-card">
-            <h3>FWNFWIFWUBFW.</h3>
-            <p>FWNFWIFWUBFW.</p>
-            <a href="#" class="read-more">FWNFWIFWUBFW.</a>
-          </article>
-          <article class="article-card">
-            <h3>FWNFWIFWUBFW.</h3>
-            <p>FWNFWIFWUBFW.</p>
-            <a href="#" class="read-more">FWNFWIFWUBFW.</a>
-          </article>
-          <article class="article-card">
-            <h3>FWNFWIFWUBFW.</h3>
-            <p>FWNFWIFWUBFW.</p>
-            <a href="#" class="read-more">FWNFWIFWUBFW.</a>
-          </article>
-        </div>
-      </section>
-    </main>
+    {% block content%} {% endblock %}
   </div>
 
   <footer>
