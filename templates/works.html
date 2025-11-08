@@ -1,8 +1,107 @@
 <!-- Works Page (Member #2) -->
 {% extends "base.html" %}
-{% block title %}Works{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block title %}Our Works{% endblock %}
 {% block content %}
-<h1>Our Works</h1>
-<p class="lead">Briefly describe what tools or features the group implemented.</p>
-<!-- Member #2: Add buttons or links for "Queue" and "Deque" pages -->
+<div style="background-color: #4a5164; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 50px;">
+  <h2 style="font-weight: bold; margin: 20px 0;">Welcome to our Works Page</h2>
+  <p style="max-width: 1000px; text-align: center; margin: 0 20px;">
+    Here, you can explore the functionalities of Queue and Dequeue data structures. 
+    <br>
+    Click on a button below to navigate to their respective pages and see how they work in action!
+  </p>
+</div>
+
+<style>
+  .row {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+    padding: 40px 0;
+  }
+
+  .card {
+    background-color: #f8f8f8;
+    color: #333;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 280px; /* same width */
+    height: 300px; /* same height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .container {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .button {
+    background-color: #4a5164;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .button:hover {
+    background-color: #2e3342;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  h2 {
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin-bottom: 10px;
+  }
+</style>
+
+<div style="display: flex; justify-content: center; align-items: center; min-height: 75vh;">
+  <div class="row">
+    <div class="column">
+      <div class="card">
+        <div class="container">
+          <h2>Dave Casinginan</h2>
+          <p>Designed and implemented the Queue Page</p>
+          <a href="/work/queue" title="Go to Queue Page">
+            <button class="button">Queue Page</button>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="card">
+        <div class="container">
+          <h2>Zybert Sibolboro</h2>
+          <p>Designed and implemented the Dequeue Page</p>
+          <a href="/work/deque" title="Go to Dequeue Page">
+            <button class="button">Dequeue Page</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}

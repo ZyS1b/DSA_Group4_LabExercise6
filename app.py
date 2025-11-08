@@ -8,10 +8,13 @@ def home():
     # Member #1
     return render_template("index.html")
 
-@app.route("/works")
+@app.route('/works', methods=['GET', 'POST'])
 def works():
-    # Member #2
-    return render_template("works.html")
+    result = None
+    if request.method == 'POST':
+        input_string = request.form.get('inputString', '')
+        result = input_string.upper()
+    return render_template('works.html', result=result)
 
 @app.route("/work/queue", methods=["GET", "POST"])
 def queue_work():
