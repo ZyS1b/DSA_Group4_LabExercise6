@@ -18,8 +18,20 @@ def works():
 
 @app.route("/work/queue", methods=["GET", "POST"])
 def queue_work():
-    # Member #3
-    return render_template("queue.html")
+    global my_queue
+
+    if request.method == "POST":
+        action = request.form.get("action")
+        value = request.form.get("inputValue")
+
+        if action == "enqueue" and value:
+            my_queue.append(value)
+        elif action == "dequeue":
+            if my_queue:
+                my_queue.pop(0)
+
+    queue_contents = " <- ".join(my_queue) if my_queue else "[ empty ]"
+    return render_template("queue.html", queue_contents=queue_contents)
 
 @app.route("/work/deque", methods=["GET", "POST"])
 def deque_work():

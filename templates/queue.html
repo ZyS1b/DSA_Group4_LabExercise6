@@ -6,4 +6,19 @@
 <p class="lead">Explain what a Queue is and its main operations.</p>
 <!-- Member #3: Add form input for enqueue/dequeue and buttons -->
 <!-- Member #3: Add a section to display the current queue -->
+<div class="queue-section">
+    <form method="POST">
+        <div class="form-group">
+            <label for="inputValue">Enter Value:</label>
+            <input type="text" class="form-control" id="inputValue" name="inputValue" required>
+        </div>
+        <!-- Enqueue Button -->
+        <button type="submit" name="action" value="enqueue" class="btn btn-primary">Enqueue</button>
+        <!-- Dequeue Button -->
+        <button type="submit" name="action" value="dequeue" class="btn btn-danger">Dequeue</button>
+    </form>
+</div>
+<div class="current-queue">
+    <h2>Current Queue:</h2>
+    <p>{{ queue_contents }}</p>
 {% endblock %}
