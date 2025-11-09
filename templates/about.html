@@ -3,18 +3,22 @@
 <h2 class="brand">About Our Team</h2>
 
 <p class="panel">
-  <strong>Nodeus</strong> is a team of passionate Computer Engineering students who apply algorithms,
+  <strong>{{ site_name }}</strong> is a team of passionate Computer Engineering students who apply algorithms,
   creativity, and teamwork to build experiences that make complex ideas feel intuitive.
 </p>
 
 <div class="img-grid">
   {% for m in members %}
   <div class="member">
-    <img src="{{ m.photo }}" alt="{{ m.name }}">
+    <img src="{{ url_for('static', filename='images/' ~ m.photo) }}" alt="{{ m.name }}">
     <h4>{{ m.name }}</h4>
     <p><strong>{{ m.role }}</strong></p>
     <p class="note">{{ m.desc }}</p>
-    <p><a href="mailto:{{ m.email }}">{{ m.email }}</a></p>
+    <p class="email-link">
+      <a href="mailto:{{ m.email }}" title="Email {{ m.name }}">
+        <img src="{{ url_for('static', filename='icons/email.svg') }}" alt="Email icon" class="email-icon">
+      </a>
+    </p>
   </div>
   {% endfor %}
 </div>
