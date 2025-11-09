@@ -15,6 +15,7 @@ DSA_Group4_LabExercise6/
 ├── static/
 │   ├── icons/
 │   ├── images/
+│   ├── pages/
 │   └── style.css
 ├── templates/
 │   ├── about.html
