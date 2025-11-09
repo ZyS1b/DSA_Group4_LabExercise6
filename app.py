@@ -265,7 +265,7 @@ def about():
          "role": "Contact Page", "desc": "Implemented a clean, accessible contact workflow and form handling.",
          "photo": "angelo.png"},
 
-        {"name": "Dave Casinginan", "first": "Dave", "email": "davecasinginan@gmail.com",
+        {"name": "Dave D. Casinginan", "first": "Dave", "email": "davecasinginan@gmail.com",
          "role": "Queue Page", "desc": "Designed and implemented the Queue page operations and UI.",
          "photo": "dave.png"},
 
@@ -274,7 +274,7 @@ def about():
          "photo": "michael.jpg"},
 
         {"name": "John Mike P. Asuncion", "first": "John", "email": "johnmikeasuncion17@gmail.com",
-         "role": "Queue Structure", "desc": "Structured the FIFO logic with a robust linked-list implementation.",
+         "role": "Base Template & Styling", "desc": "Built the base layout and neon theme for a cohesive look.",
          "photo": "mike.jpg"},
 
         {"name": "Luke Philip L. Lopez", "first": "Luke", "email": "lukephilip299@gmail.com",
@@ -282,7 +282,7 @@ def about():
          "photo": "luke.jpg"},
 
         {"name": "Rein Gabriel Atienza", "first": "Rein", "email": "atienza.reingabriel308129@gmail.com",
-         "role": "Base Template & Styling", "desc": "Built the base layout and neon theme for a cohesive look.",
+         "role": "Queue Structure", "desc": "Structured the FIFO logic with a robust linked-list implementation.",
          "photo": "rein.jpg"},
 
         {"name": "Renier G. Dela Cruz", "first": "Renier", "email": "renier@gmail.com",
