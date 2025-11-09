@@ -121,7 +121,7 @@ class Deque:
 # ---------------------------
 # App State
 # ---------------------------
-SITE_NAME = "Nodeus"  # short, one-word, data-structures vibe
+SITE_NAME = "Nodeus"
 queue_ds = Queue()
 deque_ds = Deque()
 
@@ -225,20 +225,69 @@ def works_deque():
 
 @app.route("/about")
 def about():
-    # Keeping the original nine members from your earlier list,
-    # and pairing them with concise roles aligned to your new outline.
+    """
+    Photos are expected to be placed under:
+      static/images/
+    using FirstName.jpg (or .png). For duplicate first names,
+    this setup uses an initial to avoid collisions (e.g., DaveC.jpg, DaveS.jpg).
+    """
     members = [
-        {"name": "Zybert Jio D. Sibolboro", "email": "zybert@gmail.com", "role": "Deque Page", "desc": "Built the Deque page with clean double-ended operations.", "photo": "https://picsum.photos/seed/zybert/220/220"},
-        {"name": "John Mike P. Asuncion", "email": "johnmike@gmail.com", "role": "Queue Structure", "desc": "Structured the Queue components for smooth FIFO behavior.", "photo": "https://picsum.photos/seed/johnmike/220/220"},
-        {"name": "Angelo Raphael M. Biticon", "email": "angelo@gmail.com", "role": "Contact Page", "desc": "Implemented the Contact page for fast, accessible feedback.", "photo": "https://picsum.photos/seed/angelo/220/220"},
-        {"name": "Roswell M. Buñag", "email": "roswell@gmail.com", "role": "Website Design", "desc": "Shaped the core layout and visual system across pages.", "photo": "https://picsum.photos/seed/roswell/220/220"},
-        {"name": "Renier G. Dela Cruz", "email": "renier@gmail.com", "role": "Queue Page", "desc": "Developed the Queue interactions and validation UX.", "photo": "https://picsum.photos/seed/renier/220/220"},
-        {"name": "Luke Philip L. Lopez", "email": "luke28@gmail.com", "role": "Design & Integration", "desc": "Integrated pages, themes, and component-level styling.", "photo": "https://picsum.photos/seed/luke/220/220"},
-        {"name": "Dave Michael P. Sinsioco", "email": "dave.michael@gmail.com", "role": "Queue Page", "desc": "Implemented enqueue/dequeue logic and display state.", "photo": "https://picsum.photos/seed/davems/220/220"},
-        {"name": "Rein Gabriel Atienza", "email": "rein@gmail.com", "role": "Animations & Theming", "desc": "Crafted a cohesive, performant dark-theme experience.", "photo": "https://picsum.photos/seed/rein/220/220"},
-        {"name": "Dave Casinginan", "email": "dave.c@gmail.com", "role": "Project Coordination", "desc": "Coordinated team tasks and kept delivery on track.", "photo": "https://picsum.photos/seed/davec/220/220"},
+        # Role mapping (your list):
+        # 1. Home Page - Dela Cruz
+        # 2. Works Page - Ros
+        # 3. Queue Page - Casinginan
+        # 4. Deque Page - Sibolboro
+        # 5. About Page - Cute  -> assume Luke as "Cute"
+        # 6. Contact Page - Biticon
+        # 7. Queue Structure - Asuncion
+        # 8. Deque Structure - Dave S.
+        # 9. Base Template & Styling - Atienza
+        {"name": "Angelo Raphael M. Biticon", "first": "Angelo", "email": "angelo@gmail.com",
+         "role": "Contact Page", "desc": "Implemented a clean, accessible contact workflow and form handling.",
+         "photo": "angelo.png"},
+
+        {"name": "Dave Casinginan", "first": "Dave", "email": "dave.c@gmail.com",
+         "role": "Queue Page", "desc": "Designed and implemented the Queue page operations and UI.",
+         "photo": "dave.png"},
+
+        {"name": "Dave Michael P. Sinsioco", "first": "Dave", "email": "dave.michael@gmail.com",
+         "role": "Deque Structure", "desc": "Engineered the linked-list Deque internals for efficient two-ended ops.",
+         "photo": "michael.jpg"},
+
+        {"name": "John Mike P. Asuncion", "first": "John", "email": "johnmike@gmail.com",
+         "role": "Queue Structure", "desc": "Structured the FIFO logic with a robust linked-list implementation.",
+         "photo": "mike.jpg"},
+
+        {"name": "Luke Philip L. Lopez", "first": "Luke", "email": "luke28@gmail.com",
+         "role": "About Page", "desc": "Authored and organized the team profile and summary content.",
+         "photo": "luke.jpg"},
+
+        {"name": "Rein Gabriel Atienza", "first": "Rein", "email": "rein@gmail.com",
+         "role": "Base Template & Styling", "desc": "Built the base layout and neon theme for a cohesive look.",
+         "photo": "rein.jpg"},
+
+        {"name": "Renier G. Dela Cruz", "first": "Renier", "email": "renier@gmail.com",
+         "role": "Home Page", "desc": "Crafted the landing copy and hero layout to introduce the project.",
+         "photo": "renier.jpg"},
+
+        {"name": "Roswell M. Buñag", "first": "Roswell", "email": "roswell@gmail.com",
+         "role": "Works Page", "desc": "Built the Works overview and navigation to Queue/Deque demos.",
+         "photo": "roswell.jpg"},
+
+        {"name": "Zybert Jio D. Sibolboro", "first": "Zybert", "email": "zybert@gmail.com",
+         "role": "Deque Page", "desc": "Implemented the Deque page controls and display behavior.",
+         "photo": "zybert.jpg"},
     ]
-    return render_template("about.html", site_name=SITE_NAME, members=members, page_class="theme-about")
+
+    # Sort alphabetically by the first name for rendering
+    members_sorted = sorted(members, key=lambda m: m["first"].lower())
+
+    return render_template(
+        "about.html",
+        site_name=SITE_NAME,
+        members=members_sorted,
+        page_class="theme-about"
+    )
 
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
