@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="brand">Deque (Double-Ended Queue)</h2>
+<div class="card card-outline">
+  <p>
+    A <strong>deque</strong> is a linear data structure that supports insertion and removal at both ends:
+    the head and the tail. Deques enable operations to be performed efficiently and provide
+    more flexibility than a standard queue.
+  </p>
+
+  <form method="POST" class="grid form-grid-5">
+    <label for="dvalue" class="note">Enter Value:</label>
+    <input id="dvalue" type="text" name="value" placeholder="Value">
+    <button type="submit" name="action" value="enqueue" class="btn-deque">Enqueue (Tail)</button>
+    <button type="submit" name="action" value="enqueue_head" class="btn-deque">Enqueue (Head)</button>
+    <button type="submit" name="action" value="dequeue" class="btn-deque ghost">Dequeue (Tail)</button>
+    <button type="submit" name="action" value="dequeue_head" class="btn-deque ghost">Dequeue (Head)</button>
+  </form>
+
+  <div class="panel">
+    <strong>Current Deque:</strong>
+    <div class="deque-display">
+      {% if items %}
+        {% for it in items %}<span class="chip chip-deque" title="Node">{{ it }}</span>{% endfor %}
+      {% else %}
+        <span class="note">Empty</span>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

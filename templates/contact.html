@@ -1,137 +1,28 @@
-<!-- Contact Page (Member #6) -->
 {% extends "base.html" %}
-{% block title %}Contact Us{% endblock %}
 {% block content %}
-<div class="contact-container">
-  <h1>Contact Us</h1>
-  <p class="lead">Reach out to any of our members or send a message to the whole group below.</p>
+<h2 class="brand">Contact Us</h2>
+<p class="panel">Have questions or feedback? We’d love to hear from you!</p>
 
-<style>
-  .contact-container {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
+<div class="card card-outline">
+  <form method="POST" class="grid" style="grid-template-columns:1fr">
+    <label for="name" class="note">Name</label>
+    <input id="name" type="text" name="name" placeholder="Your Name" required>
 
-  .contact-section {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 50px;
-    flex-wrap: wrap;
-    padding: 40px 20px;
-  }
+    <label for="email" class="note">Email</label>
+    <input id="email" type="email" name="email" placeholder="Email" required>
 
-  .contact-left, .contact-right {
-    background-color: #f8f8f8;
-    color: #333;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    padding: 30px;
-    width: 420px;
-    box-sizing: border-box;
-    text-align: left;
-  }
+    <label for="message" class="note">Message</label>
+    <textarea id="message" name="message" rows="5" placeholder="Write your message..." required></textarea>
 
-  .contact-left h3, .contact-right h3 {
-    text-align: center;
-    margin-bottom: 15px;
-    color: #4a5164;
-  }
+    <button type="submit" class="cta">Send Message</button>
+  </form>
 
-  .contact-left ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .contact-left li {
-    margin-bottom: 10px;
-  }
-
-  .contact-left a {
-    color: #4a5164;
-    text-decoration: none;
-    font-weight: bold;
-  }
-
-  .contact-left a:hover {
-    text-decoration: underline;
-  }
-
-  .contact-form label {
-    font-weight: bold;
-  }
-
-  .contact-form input,
-  .contact-form textarea {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-
-  .contact-form button {
-    background-color: #4a5164;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
-  }
-
-  .contact-form button:hover {
-    background-color: #2e3342;
-  }
-</style>
-  <div class="contact-section">
-    <div class="contact-left">
-      <h3>Contact Any Member:</h3>
-      <ul>
-        <li>Zybert Jio D. Sibolboro – <a href="mailto:zybert@gmail.com">zybert@gmail.com</a></li>
-        <li>John Mike P. Asuncion – <a href="mailto:johnmike@gmail.com">johnmike@gmail.com</a></li>
-        <li>Angelo Raphael M. Biticon – <a href="mailto:angelo@gmail.com">angelo@gmail.com</a></li>
-        <li>Roswell M. Buñag – <a href="mailto:roswell@gmail.com">roswell@gmail.com</a></li>
-        <li>Renier G. Dela Cruz – <a href="mailto:renier@gmail.com">renier@gmail.com</a></li>
-        <li>Luke Philip L. Lopez – <a href="mailto:luke28@gmail.com">luke28@gmail.com</a></li>
-        <li>Dave Michael P. Sinsioco – <a href="mailto:dave.michael@gmail.com">dave.michael@gmail.com</a></li>
-        <li>Rein Gabriel Atienza – <a href="mailto:rein@gmail.com">rein@gmail.com</a></li>
-        <li>Dave Casinginan – <a href="mailto:dave.c@gmail.com">dave.c@gmail.com</a></li>
-      </ul>
-    </div>
-
-    <div class="contact-right">
-      <h3>Send a Message</h3>
-      <form action="/contact" method="POST" class="contact-form">
-        <div>
-          <label for="name">Your Name:</label>
-          <input type="text" id="name" name="name" placeholder="Enter your name" required>
-        </div>
-        <br>
-        <div>
-          <label for="email">Your Email:</label>
-          <input type="email" id="email" name="email" placeholder="Enter your email" required>
-        </div>
-        <br>
-        <div>
-          <label for="message">Message for the Group:</label>
-          <textarea id="message" name="message" rows="4" placeholder="Write your message here..." required></textarea>
-        </div>
-        <br>
-        <button type="submit">Send Message</button>
-      </form>
-
-      {% if request.method == 'POST' %}
-      <p style="color: green; margin-top: 20px;">
-        ✅ Message received!
-      </p>
-      {% endif %}
-    </div>
-  </div>
+  <p class="note" style="margin-top: var(--space-3)">
+    {% if submitted %}
+      <span class="success">Message received{% if name %}, {{ name }}{% endif %}! We’ll get back to you soon.</span>
+    {% else %}
+      We usually reply within 24–48 hours.
+    {% endif %}
+  </p>
 </div>
-
 {% endblock %}

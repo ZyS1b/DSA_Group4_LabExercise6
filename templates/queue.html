@@ -1,93 +1,29 @@
-<!-- Queue Page (Member #3) -->
 {% extends "base.html" %}
-{% block title %}Queue (FIFO){% endblock %}
 {% block content %}
-<div style="display: flex; flex-direction: column; align-items: center; text-align: cemter; margin-top: 5px;">
-    <h1>Queue (FIFO)</h1>
+<h2 class="brand">Queue (FIFO)</h2>
+<div class="card card-outline">
+  <p>
+    A <strong>queue</strong> is a linear data structure that follows the First-In, First-Out principle.
+    Typical operations include enqueuing elements to the tail, dequeuing from the head, checking whether it’s empty,
+    and peeking at the front element without removing it.
+  </p>
 
-    <!-- Explanation Box -->
-    <div style="
-        background-color: #f7eda8;
-        border-left: 5px solid #007bff;
-        border-radius: 8px;
-        padding: 15px 20px;
-        max-width: 700px;
-        margin-top: 10px ;
-    ">
-        <p class="lead" style="font-size: 1.05em; text-align: justify; margin: 0">A queue is a linear data structure that follows the First-In, First-Out (FIFO) principle, where the first element added is the first to be removed. Its main operations are enqueue, which adds an element to the rear (end) of the queue, and dequeue, which removes an element from the front (head). Other common operations include checking if the queue is empty, checking if it's full, and peeking at the front element without removing it.</p>
+  <form method="POST" class="grid form-grid">
+    <label for="qvalue" class="note">Enter Value:</label>
+    <input id="qvalue" type="text" name="value" placeholder="Value to enqueue">
+    <button type="submit" name="action" value="enqueue" class="btn-queue">Enqueue</button>
+    <button type="submit" name="action" value="dequeue" class="btn-queue ghost">Dequeue</button>
+  </form>
+
+  <div class="panel">
+    <strong>Current Queue:</strong>
+    <div class="queue-display">
+      {% if items %}
+        {% for it in items %}<span class="chip chip-queue" title="Node">{{ it }}</span>{% endfor %}
+      {% else %}
+        <span class="note">Empty</span>
+      {% endif %}
     </div>
-    <!-- Member #3: Add form input for enqueue/dequeue and buttons -->
-    <!-- Member #3: Add a section to display the current queue -->
-
-    <!-- Queue Section -->
-    <div class="queue-section" style="
-        background-color: #f8f9fa;
-        border: 2px solid #007bff;
-        border-radius: 15px;
-        padding: 30px;
-        margin-top: 20px;
-        width: 100%;
-        max-width: 600px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    ">
-    
-        <!-- Input Form -->
-        <form method="POST" style="display: flex;flex-direction: column; align-items: center;width: 100%; max-width: 350px;">
-            <div class="form-group" style="width: 100%; display: flex;flex-direction: column;align-items: center;">
-                <label for="inputValue" style="font-weight: bold; margin-bottom: 5px;">Enter Value:</label>
-                <input type="text" class="form-control" id="inputValue" name="inputValue" required style="
-                    width: 100%;
-                    padding: 10px;
-                    border: 1px solid #050505;
-                    border-radius: 6px;
-                ">
-            </div>
-
-            <!-- Enqueue and Dequeue Buttons -->
-            <div style="display: flex; gap: 15px; margin-top: 15px;">
-                <!-- Enqueue Buttons -->
-                <button type="submit" name="action" value="enqueue" class="btn btn-primary" style="
-                    background-color: #007bff;
-                    color: white;
-                    border: none;
-                    border-radius: 8px;
-                    padding: 10px 20px;
-                    font-weight: bold;
-                    cursor: pointer;
-                    transition: all 0.8 ease;
-                    box-shadow: 0 3px 6px rgba(0, 0, 0, 1);"
-                    onmouseover="this.style.backgroundColor='#0056b3'"
-                    onmouseout="this.style.backgroundColor='#007bff'"
-                >
-                ➕ Enqueue
-                </button>
-                <!-- Dequeue Buttons -->
-                <button type="submit" name="action" value="dequeue" class="btn btn-danger" style="
-                    background-color: #007bff;
-                    color: white;
-                    border: none;
-                    border-radius: 8px;
-                    padding: 10px 20px;
-                    font-weight: bold;
-                    cursor: pointer;
-                    transition: all 0.8 ease;
-                    box-shadow: 0 3px 6px rgba(0, 0, 0, 1);"
-                    onmouseover="this.style.backgroundColor='#0056b3'"
-                    onmouseout="this.style.backgroundColor='#007bff'"
-                >
-                🗑️ Dequeue
-                </button>
-            </div>
-        </form>
-    
-        <div class="current-queue">
-            <h2>Current Queue:</h2>
-            <p>{{ queue_contents }}</p>
-        </div>
-    </div>
+  </div>
 </div>
-
 {% endblock %}

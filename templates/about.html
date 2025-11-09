@@ -1,132 +1,28 @@
-<!-- About Page (Member #5) -->
 {% extends "base.html" %}
-{% block title %}About Us{% endblock %}
 {% block content %}
-<!-- Member #5: Add member photos, names, and their specific roles -->
-<div class="about-section">
-    <h1 style="text-align:center; font-weight: bold; font-size: 30px;">About Our Team</h1>
-    <p style="font-size: 1rem; line-height: 1.2; text-align: center;padding-left: 50px;padding-right: 50px;">We are a team of passionate Computer Engineering students who collaborate to design, build, and innovate technology-based projects. Together, we aim to apply our technical knowledge, creativity, and teamwork to create solutions that make a difference.</p>
+<h2 class="brand">About Our Team</h2>
+
+<p class="panel">
+  <strong>Nodeus</strong> is a team of passionate Computer Engineering students who apply algorithms,
+  creativity, and teamwork to build experiences that make complex ideas feel intuitive.
+</p>
+
+<div class="img-grid">
+  {% for m in members %}
+  <div class="member">
+    <img src="{{ m.photo }}" alt="{{ m.name }}">
+    <h4>{{ m.name }}</h4>
+    <p><strong>{{ m.role }}</strong></p>
+    <p class="note">{{ m.desc }}</p>
+    <p><a href="mailto:{{ m.email }}">{{ m.email }}</a></p>
   </div>
+  {% endfor %}
+</div>
 
-  
-
-  <div class="row">
-    <div class="column">
-      <div class="card">
-        <img src="picture.jpg" alt="" style="width:100%">
-        <div class="container">
-          <h2>Zybert Jio D. Sibolboro</h2>
-          <p class="title">Deque Page</p>
-          <p>Built the Deque Page, applying advanced logic and organization.</p>
-          <p>zybert@gmail.com</p>
-          <p><a href="{{ url_for('contact') }}" class="button">Contact</a></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="column">
-      <div class="card">
-        <img src="/static/images/mike.jpg" alt="" style="width:100%">
-        <div class="container">
-          <h2>John Mike P. Asuncion</h2>
-          <p class="title">Queue Structure</p>
-          <p>Structured the Queue Components, ensuring smooth data flow and performance.</p>
-          <p>johnmike@gmail.com</p>
-          <p><a href="{{ url_for('contact') }}" class="button">Contact</a></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="column">
-      <div class="card">
-        <img src="static/images/angelo.png" alt="" style="width:100%">
-        <div class="container">
-          <h2>Angelo Raphael M. Biticon</h2>
-          <p class="title">Contact Page</p>
-          <p>Handled the Contact Page, enabling effective communication and feedback.</p>
-          <p>angelo@gmail.com</p>
-          <p><a href="{{ url_for('contact') }}" class="button">Contact</a></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="column">
-      <div class="card">
-        <img src="picture.jpg" alt="" style="width:100%">
-        <div class="container">
-          <h2>Roswell M. Buñag</h2>
-          <p class="title">Works Page</p>
-          <p>Created the Works Page, showcasing our outputs and accomplishments.</p>
-          <p>roswell@gmail.com</p>
-          <p><a href="{{ url_for('contact') }}" class="button">Contact</a></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="column">
-      <div class="card">
-        <img src="/static/images/renier.jpg" alt="" style="width:100%">
-        <div class="container">
-          <h2>Renier G. Dela Cruz</h2>
-          <p class="title">Home Page</p>
-          <p>Developed the Home Page, providing a clean and engaging introduction to our project.</p>
-          <p>renierdelacruz666@gmail.com</p>
-          <p><a href="{{ url_for('contact') }}" class="button">Contact</a></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="column">
-      <div class="card">
-        <img src="picture.jpg" alt="" style="width:100%">
-        <div class="container">
-          <h2>Luke Philip L. Lopez</h2>
-          <p class="title">About Page</p>
-          <p>Developed the About Page, introducing our team and highlighting our goals.</p>
-          <p>luke28@gmail.com</p>
-          <p><a href="{{ url_for('contact') }}" class="button">Contact</a></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="column">
-      <div class="card">
-        <img src="static/images/dave.png" alt="" style="width:100%">
-        <div class="container">
-          <h2>Dave Michael P. Sinsioco</h2>
-          <p class="title">Deque Structure</p>
-          <p>Managed the Deque Structure, focusing on efficient data manipulation.</p>
-          <p>dave.michael@gmail.com</p>
-          <p><a href="{{ url_for('contact') }}" class="button">Contact</a></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="column">
-      <div class="card">
-        <img src="picture.jpg" alt="" style="width:100%">
-        <div class="container">
-          <h2>Rein Gabriel Atienza</h2>
-          <p class="title">Base Template & Styling</p>
-          <p>Designed the Base Template & Styling, maintaining visual consistency across all pages. <br>rein@gmail.com <br></p>
-          <p><a href="{{ url_for('contact') }}" class="button">Contact</a></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="column">
-      <div class="card">
-        <img src="picture.jpg" alt="" style="width:100%">
-        <div class="container">
-          <h2>Dave Casinginan</h2>
-          <p class="title">Queue Page</p>
-          <p>Designed and implemented the Queue Page, ensuring proper functionality and structure</p>
-          <p>dave.c@gmail.com</p>
-          <p><a href="{{ url_for('contact') }}" class="button">Contact</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-</body>
-</html>
+<div class="panel" style="margin-top: var(--space-4)">
+  <p>
+    This Data Structures and Algorithms portfolio showcases the implementation and visualization of queue
+    and deque operations, demonstrating their behavior and real-world applications through a modern, responsive UI.
+  </p>
+</div>
 {% endblock %}
