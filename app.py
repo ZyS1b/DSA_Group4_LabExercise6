@@ -261,27 +261,27 @@ def about():
         # 7. Queue Structure - Asuncion
         # 8. Deque Structure - Dave S.
         # 9. Base Template & Styling - Atienza
-        {"name": "Angelo Raphael M. Biticon", "first": "Angelo", "email": "angelo@gmail.com",
+        {"name": "Angelo Raphael M. Biticon", "first": "Angelo", "email": "angelobiticon@gmail.com",
          "role": "Contact Page", "desc": "Implemented a clean, accessible contact workflow and form handling.",
          "photo": "angelo.png"},
 
-        {"name": "Dave Casinginan", "first": "Dave", "email": "dave.c@gmail.com",
+        {"name": "Dave Casinginan", "first": "Dave", "email": "davecasinginan@gmail.com",
          "role": "Queue Page", "desc": "Designed and implemented the Queue page operations and UI.",
          "photo": "dave.png"},
 
-        {"name": "Dave Michael P. Sinsioco", "first": "Dave", "email": "dave.michael@gmail.com",
+        {"name": "Dave Michael P. Sinsioco", "first": "Dave", "email": "sinciocodave@gmail.com",
          "role": "Deque Structure", "desc": "Engineered the linked-list Deque internals for efficient two-ended ops.",
          "photo": "michael.jpg"},
 
-        {"name": "John Mike P. Asuncion", "first": "John", "email": "johnmike@gmail.com",
+        {"name": "John Mike P. Asuncion", "first": "John", "email": "johnmikeasuncion17@gmail.com",
          "role": "Queue Structure", "desc": "Structured the FIFO logic with a robust linked-list implementation.",
          "photo": "mike.jpg"},
 
-        {"name": "Luke Philip L. Lopez", "first": "Luke", "email": "luke28@gmail.com",
+        {"name": "Luke Philip L. Lopez", "first": "Luke", "email": "lukephilip299@gmail.com",
          "role": "About Page", "desc": "Authored and organized the team profile and summary content.",
          "photo": "luke.jpg"},
 
-        {"name": "Rein Gabriel Atienza", "first": "Rein", "email": "rein@gmail.com",
+        {"name": "Rein Gabriel Atienza", "first": "Rein", "email": "atienza.reingabriel308129@gmail.com",
          "role": "Base Template & Styling", "desc": "Built the base layout and neon theme for a cohesive look.",
          "photo": "rein.jpg"},
 
@@ -289,11 +289,11 @@ def about():
          "role": "Home Page", "desc": "Crafted the landing copy and hero layout to introduce the project.",
          "photo": "renier.jpg"},
 
-        {"name": "Roswell M. Buñag", "first": "Roswell", "email": "roswell@gmail.com",
+        {"name": "Roswell M. Buñag", "first": "Roswell", "email": "roswellbunag05@gmail.com",
          "role": "Works Page", "desc": "Built the Works overview and navigation to Queue/Deque demos.",
          "photo": "roswell.png"},
 
-        {"name": "Zybert Jio D. Sibolboro", "first": "Zybert", "email": "zybert@gmail.com",
+        {"name": "Zybert Jio D. Sibolboro", "first": "Zybert", "email": "zybertjiosibolboro@gmail.com",
          "role": "Deque Page", "desc": "Implemented the Deque page controls and display behavior.",
          "photo": "zybert.jpg"},
     ]
