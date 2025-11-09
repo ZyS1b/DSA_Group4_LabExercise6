@@ -1,12 +1,3 @@
-/* ==========
-   Structa — Futuristic Neon Theme (Static Glows, Per-Page Backgrounds)
-   - Static aurora (no animations) to prevent lag
-   - Page background colors follow the page theme
-   - Smooth, slightly slower transitions
-   - Hovers blend with page bg (no black flips)
-   ========== */
-
-/* Typography, motion & spacing scales */
 :root{
   --bg:#050816;                  /* base background */
   --panel:#0b1027;
@@ -382,8 +373,6 @@ input:hover, textarea:hover{
   .nav-links.open{ display:flex; }
 }
 
-/* ===== FINAL EMAIL ICON FIX ===== */
-
 /* Explicitly style only avatar images */
 .member img.avatar {
   width: 120px;
@@ -448,4 +437,52 @@ input:hover, textarea:hover{
   opacity: 1;
   transform: translateY(-1px);
   filter: brightness(1.6) drop-shadow(0 0 3px color-mix(in oklab, var(--accent), transparent 55%));
+}
+
+/* ==== Queue/Deque form layout (aligned & responsive) ==== */
+.tool-form{
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.tool-form .field{
+  display: grid;
+  gap: var(--space-1);
+  max-width: 520px;
+}
+
+.actions{
+  display: grid;
+  gap: var(--space-2);
+}
+
+.actions-3{ grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+.actions-5{ grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+
+/* Equal height buttons and inputs */
+.actions button,
+.tool-form input{
+  min-height: 48px;
+}
+
+/* Reset button style (subtle red neon) */
+.btn-reset{
+  background: transparent;
+  color: var(--neon-red);
+  border: 1px solid color-mix(in oklab, var(--neon-red), #fff 20%);
+  box-shadow: 0 0 16px color-mix(in oklab, var(--neon-red), transparent 75%);
+}
+.btn-reset:hover{
+  background: color-mix(in oklab, var(--neon-red), var(--bg) 85%);
+  border-color: color-mix(in oklab, var(--neon-red), #fff 32%);
+  color: #ffd6d6;
+  box-shadow: 0 0 22px color-mix(in oklab, var(--neon-red), transparent 55%);
+}
+
+/* Tighten the big form row spacing on very wide screens */
+@media (min-width: 1040px){
+  .tool-form{
+    grid-template-columns: 1fr;
+  }
 }

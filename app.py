@@ -139,8 +139,10 @@ def works():
 
 @app.route("/works/queue", methods=["GET", "POST"])
 def works_queue():
+    global queue_ds  # needed so we can reset the instance
     message = None
     category = None
+
     if request.method == "POST":
         action = request.form.get("action")
         value = (request.form.get("value") or "").strip()
@@ -153,6 +155,7 @@ def works_queue():
             else:
                 message = "Please enter a value to enqueue."
                 category = "warning"
+
         elif action == "dequeue":
             removed = queue_ds.dequeue()
             if removed is None:
@@ -161,6 +164,11 @@ def works_queue():
             else:
                 message = f"Dequeued: {removed}"
                 category = "success"
+
+        elif action == "reset":
+            queue_ds = Queue()
+            message = "Queue has been reset."
+            category = "success"
 
     items = queue_ds.display()
     return render_template(
@@ -172,22 +180,26 @@ def works_queue():
         category=category
     )
 
+
 @app.route("/works/deque", methods=["GET", "POST"])
 def works_deque():
+    global deque_ds  # needed so we can reset the instance
     message = None
     category = None
+
     if request.method == "POST":
         action = request.form.get("action")
         value = (request.form.get("value") or "").strip()
 
         if action == "enqueue":
             if value:
-                deque_ds.enqueue(value)
+                deque_ds.enqueue(value)  # tail
                 message = f"Enqueued at tail: {value}"
                 category = "success"
             else:
                 message = "Please enter a value."
                 category = "warning"
+
         elif action == "enqueue_head":
             if value:
                 deque_ds.enqueue_head(value)
@@ -196,14 +208,16 @@ def works_deque():
             else:
                 message = "Please enter a value."
                 category = "warning"
+
         elif action == "dequeue":
-            removed = deque_ds.dequeue()
+            removed = deque_ds.dequeue()  # tail
             if removed is None:
                 message = "Deque is empty."
                 category = "danger"
             else:
                 message = f"Dequeued at tail: {removed}"
                 category = "success"
+
         elif action == "dequeue_head":
             removed = deque_ds.dequeue_head()
             if removed is None:
@@ -212,6 +226,11 @@ def works_deque():
             else:
                 message = f"Dequeued at head: {removed}"
                 category = "success"
+
+        elif action == "reset":
+            deque_ds = Deque()
+            message = "Deque has been reset."
+            category = "success"
 
     items = deque_ds.display()
     return render_template(
