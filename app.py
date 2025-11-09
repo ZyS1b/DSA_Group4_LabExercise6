@@ -2,6 +2,8 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
+my_queue = []
+
 # ---------- Static Pages ----------
 @app.route("/")
 def home():
