@@ -30,4 +30,28 @@ DSA_Group4_LabExercise6/
 └── app.py
 ```
 
+## **Pages**
+
+### **Home Page**
+![Home Page](./static/pages/home-page.png)
+
+### **Works Page**
+![Works Page](./static/pages/works-page.png)
+
+### **About Page**
+![About Page](./static/pages/about-page-1.png)
+![About Page](./static/pages/about-page-2.png)
+
+### **Contact Page**
+![Contact Page](./static/pages/contact-page-1.png)
+![Contact Page](./static/pages/contact-page-2.png)
+
+## **Works**
+
+### **Queue**
+![Queue](./static/pages/queue.png)
+
+### **Dequeue**
+![Dequeue](./static/pages/dequeue.png)
+
 <img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=gradient&section=footer"/>
