@@ -267,7 +267,7 @@ def about():
 
         {"name": "Dave D. Casinginan", "first": "Dave", "email": "davecasinginan@gmail.com",
          "role": "Queue Page", "desc": "Designed and implemented the Queue page operations and UI.",
-         "photo": "dave.png"},
+         "photo": "dave.jpg"},
 
         {"name": "Dave Michael P. Sinsioco", "first": "Dave", "email": "sinciocodave@gmail.com",
          "role": "Deque Structure", "desc": "Engineered the linked-list Deque internals for efficient two-ended ops.",
