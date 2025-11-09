@@ -272,7 +272,7 @@ def about():
 
         {"name": "Roswell M. Buñag", "first": "Roswell", "email": "roswell@gmail.com",
          "role": "Works Page", "desc": "Built the Works overview and navigation to Queue/Deque demos.",
-         "photo": "roswell.jpg"},
+         "photo": "roswell.png"},
 
         {"name": "Zybert Jio D. Sibolboro", "first": "Zybert", "email": "zybert@gmail.com",
          "role": "Deque Page", "desc": "Implemented the Deque page controls and display behavior.",

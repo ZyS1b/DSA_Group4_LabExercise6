@@ -10,13 +10,13 @@
 <div class="img-grid">
   {% for m in members %}
   <div class="member">
-    <img src="{{ url_for('static', filename='images/' ~ m.photo) }}" alt="{{ m.name }}">
+    <img class="avatar" src="{{ url_for('static', filename='images/' ~ m.photo) }}" alt="{{ m.name }}">
     <h4>{{ m.name }}</h4>
     <p><strong>{{ m.role }}</strong></p>
     <p class="note">{{ m.desc }}</p>
     <p class="email-link">
       <a href="mailto:{{ m.email }}" title="Email {{ m.name }}">
-        <img src="{{ url_for('static', filename='icons/email.svg') }}" alt="Email icon" class="email-icon">
+        <img src="{{ url_for('static', filename='icons/email.png') }}" alt="Email" class="email-icon">
       </a>
     </p>
   </div>
