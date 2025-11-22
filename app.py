@@ -119,84 +119,11 @@ class Deque:
 
 
 # ---------------------------
-# Binary Tree Data Structure
-# ---------------------------
-class TreeNode:
-    def __init__(self, data):
-        self.data = data
-        self.left = None
-        self.right = None
-
-
-class BinaryTree:
-    def __init__(self):
-        self.root = None
-
-    def insert(self, root, key):
-        if root is None:
-            return TreeNode(key)
-        if key < root.data:
-            root.left = self.insert(root.left, key)
-        else:
-            root.right = self.insert(root.right, key)
-        return root
-
-    def search(self, root, key):
-        if root is None or root.data == key:
-            return root
-        if key < root.data:
-            return self.search(root.left, key)
-        return self.search(root.right, key)
-
-    def delete_node(self, root, key):
-        if root is None:
-            return root
-        if key < root.data:
-            root.left = self.delete_node(root.left, key)
-        elif key > root.data:
-            root.right = self.delete_node(root.right, key)
-        else:
-            if root.left is None:
-                return root.right
-            elif root.right is None:
-                return root.left
-            temp = self.min_value_node(root.right)
-            root.data = temp.data
-            root.right = self.delete_node(root.right, temp.data)
-        return root
-
-    def min_value_node(self, node):
-        current = node
-        while current.left is not None:
-            current = current.left
-        return current
-
-    def inorder_traversal(self, root, result):
-        if root:
-            self.inorder_traversal(root.left, result)
-            result.append(root.data)
-            self.inorder_traversal(root.right, result)
-
-    def preorder_traversal(self, root, result):
-        if root:
-            result.append(root.data)
-            self.preorder_traversal(root.left, result)
-            self.preorder_traversal(root.right, result)
-
-    def postorder_traversal(self, root, result):
-        if root:
-            self.postorder_traversal(root.left, result)
-            self.postorder_traversal(root.right, result)
-            result.append(root.data)
-
-
-# ---------------------------
 # App State
 # ---------------------------
 SITE_NAME = "Nodeus"
 queue_ds = Queue()
 deque_ds = Deque()
-tree_ds = BinaryTree()
 
 
 # ---------------------------
@@ -256,7 +183,7 @@ def works_queue():
 
 @app.route("/works/deque", methods=["GET", "POST"])
 def works_deque():
-    global deque_ds  
+    global deque_ds  # needed so we can reset the instance
     message = None
     category = None
 
@@ -313,83 +240,6 @@ def works_deque():
         page_class="theme-deque",
         message=message,
         category=category
-    )
-
-@app.route("/works/tree", methods=["GET", "POST"])
-def works_tree():
-    global tree_ds 
-    message = None
-    category = None
-    traversal_type = "inorder"
-
-    if request.method == "POST":
-        action = request.form.get("action")
-        value = (request.form.get("value") or "").strip()
-        traversal_type = request.form.get("traversal_type", "inorder")
-
-        if action == "insert":
-            if value:
-                try:
-                    key = int(value)
-                    tree_ds.root = tree_ds.insert(tree_ds.root, key)
-                    message = f"Inserted: {key}"
-                    category = "success"
-                except ValueError:
-                    message = "Please enter a valid integer."
-                    category = "warning"
-            else:
-                message = "Please enter a value to insert."
-                category = "warning"
-
-        elif action == "search":
-            if value:
-                try:
-                    key = int(value)
-                    result = tree_ds.search(tree_ds.root, key)
-                    message = f"Found: {key}" if result else f"{key} not found"
-                    category = "success" if result else "danger"
-                except ValueError:
-                    message = "Please enter a valid integer."
-                    category = "warning"
-            else:
-                message = "Please enter a value to search."
-                category = "warning"
-
-        elif action == "delete":
-            if value:
-                try:
-                    key = int(value)
-                    tree_ds.root = tree_ds.delete_node(tree_ds.root, key)
-                    message = f"Deleted: {key}"
-                    category = "success"
-                except ValueError:
-                    message = "Please enter a valid integer."
-                    category = "warning"
-            else:
-                message = "Please enter a value to delete."
-                category = "warning"
-
-        elif action == "reset":
-            tree_ds = BinaryTree()
-            message = "Tree has been reset."
-            category = "success"
-
-    items = []
-    if traversal_type == "inorder":
-        tree_ds.inorder_traversal(tree_ds.root, items)
-    elif traversal_type == "preorder":
-        tree_ds.preorder_traversal(tree_ds.root, items)
-    elif traversal_type == "postorder":
-        tree_ds.postorder_traversal(tree_ds.root, items)
-
-    return render_template(
-        "tree.html",
-        site_name=SITE_NAME,
-        items=items,
-        page_class="theme-tree",
-        message=message,
-        category=category,
-        traversal_type=traversal_type
     )
 
 @app.route("/about")

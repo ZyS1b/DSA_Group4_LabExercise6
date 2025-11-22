@@ -2,7 +2,7 @@
 {% block content %}
 <h2 class="brand">Works</h2>
 <p class="panel">
-  Here, you can explore the functionalities of <strong>Queue</strong>, <strong>Deque</strong>, and <strong>Binary Search Tree</strong> data structures.
+  Here, you can explore the functionalities of <strong>Queue</strong> and <strong>Deque</strong> data structures.
   Click a button below to navigate to their respective pages and see how they work in action!
 </p>
 
@@ -16,11 +16,6 @@
     <h3>Deque (Double-Ended Queue)</h3>
     <p>Insert and remove at both the head and the tail for flexible operations.</p>
     <a class="cta" href="{{ url_for('works_deque') }}">Open Deque</a>
-  </div>
-  <div class="card card-outline">
-    <h3>Binary Search Tree</h3>
-    <p>Efficient insertion, search, and deletion with left/right subtree ordering.</p>
-    <a class="cta" href="{{ url_for('works_tree') }}">Open Tree</a>
   </div>
 </div>
 {% endblock %}
