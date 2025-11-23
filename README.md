@@ -38,7 +38,7 @@ DSA_Group4_LabExercise6/
 ![Home Page](./static/pages/home-page.png)
 
 ### **Works Page**
-![Works Page](./static/pages/works-page.png)
+<!-- ![Works Page](./static/pages/works-page.png) -->
 
 ### **About Page**
 ![About Page](./static/pages/about-page-1.png)
