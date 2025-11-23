@@ -232,6 +232,7 @@ button.ghost:hover{
 .cta-queue, .btn-queue{
   background:var(--neon-blue);
   border-color: color-mix(in oklab, var(--neon-blue), #fff 22%);
+  color: #160014;
 }
 .cta-deque, .btn-deque{
   background:var(--neon-pink);
@@ -485,4 +486,123 @@ input:hover, textarea:hover{
   .tool-form{
     grid-template-columns: 1fr;
   }
+}
+
+/* ====================================
+   TREE PAGE
+   ==================================== */
+
+.theme-tree{
+  --accent: var(--neon-red);
+  --accent-2: var(--neon-orange);
+  --bg-aurora-1: var(--neon-red);
+  --bg-aurora-2: var(--neon-orange);
+  --bg-aurora-3: var(--neon-red);
+}
+
+.theme-tree input::placeholder,
+.theme-tree textarea::placeholder{
+  color: color-mix(in oklab, var(--muted), #fff 40%);
+  opacity: 0.9;
+}
+
+.theme-tree select,
+.theme-tree .tree-select{
+  background: transparent !important;
+  color: color-mix(in oklab, #ffffff, var(--muted) 25%);
+  border: 1px solid color-mix(in oklab, var(--neon-red), #ffffff 12%);
+  backdrop-filter: blur(2px);
+}
+.theme-tree select option{
+  background: #070712;
+  color: #ffffff;
+}
+
+/* Tree page: Insert + Traversal button text color default */
+.theme-tree .actions-row button[name="action"][value="insert"],
+.theme-tree .field-inline button[name="action"][value="traversal"]{
+  color: #160014 !important;
+}
+
+/* On hover (and focus), turn text white */
+.theme-tree .actions-row button[name="action"][value="insert"]:hover,
+.theme-tree .actions-row button[name="action"][value="insert"]:focus-visible,
+.theme-tree .field-inline button[name="action"][value="traversal"]:hover,
+.theme-tree .field-inline button[name="action"][value="traversal"]:focus-visible{
+  color: #ffffff !important;
+}
+
+.actions-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:var(--space-2);
+  margin-top:var(--space-2);
+}
+
+.tree-panel{ margin-top: var(--space-3); }
+
+.tree-output{
+  display:flex;
+  flex-wrap:wrap;
+  gap:var(--space-2);
+  margin-top:var(--space-2);
+}
+
+/* ---------- Tree wrap + stage ---------- */
+.tree-wrap{
+  width:100%;
+  overflow-x:auto;
+  padding:var(--space-3) var(--space-1);
+  text-align:center;
+}
+
+/* Absolute pyramid stage */
+.tree-abs-stage{
+  position: relative;
+  margin: 0 auto;
+}
+
+/* nodes are absolutely placed by JS */
+.tree-node-abs{
+  position: absolute;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+  z-index: 2;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* hover effect */
+.tree-node-abs:hover{
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+/* SVG branches behind nodes */
+.tree-svg{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+}
+
+/* glowing red branch lines */
+.branch-line{
+  fill:none;
+  stroke: color-mix(in oklab, var(--neon-red), #fff 10%);
+  stroke-width:2.6;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  filter:
+    drop-shadow(0 0 4px rgba(255,80,80,0.75))
+    drop-shadow(0 0 10px rgba(255,40,40,0.7))
+    drop-shadow(0 0 18px rgba(255,0,0,0.55));
+}
+
+/* chips */
+.chip-tree{
+  border-color: color-mix(in oklab, var(--neon-red), #fff 18%);
+  box-shadow:
+    0 0 10px color-mix(in oklab, var(--neon-red), transparent 75%) inset,
+    0 0 14px color-mix(in oklab, var(--neon-red), transparent 60%);
+  text-shadow:
+    0 0 8px color-mix(in oklab, var(--neon-red), transparent 60%);
 }
