@@ -412,7 +412,7 @@ def works_tree():
     category = None
     traversal_type = "inorder"
     traversal_output = None
-    found_id = None  # ✅ NEW
+    found_id = None
 
     if request.method == "POST":
         action = request.form.get("action")
@@ -439,7 +439,7 @@ def works_tree():
         elif action == "search":
             found = tree_ds.search_value(tree_ds.root, val)
             if found:
-                found_id = found.id          # ✅ NEW: pass node id to template
+                found_id = found.id          # pass node id to template
                 message = f"Found: {val}"
                 category = "success"
             else:
@@ -474,7 +474,7 @@ def works_tree():
         traversal_output=traversal_output,
         message=message,
         category=category,
-        found_id=found_id,          # ✅ NEW
+        found_id=found_id,
         page_class="theme-tree"
     )
 
