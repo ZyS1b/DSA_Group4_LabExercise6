@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+import uuid
 
 app = Flask(__name__)
 
@@ -113,10 +114,9 @@ class Deque:
             cur = cur.next
         return out
 
-import uuid
 
 # ---------------------------
-# Binary Search Tree (BST)
+# General Binary Tree (Module Behavior)
 # ---------------------------
 class TreeNode:
     def __init__(self, value):
@@ -127,85 +127,132 @@ class TreeNode:
         self.id = str(uuid.uuid4())
 
 
-class BinarySearchTree:
+class BinaryTree:
     def __init__(self):
         self.root = None
 
-    # ---------------------------
-    # BST INSERT (auto-place by value)
-    # ---------------------------
+    # Level-order insert (first not-full node)
     def insert(self, value):
-        """Insert value following BST rules. Reject duplicates."""
         new_node = TreeNode(value)
 
         if self.root is None:
             self.root = new_node
             return True, f"Inserted root {value}"
 
-        cur = self.root
-        while True:
-            if value < cur.value:
-                if cur.left is None:
-                    cur.left = new_node
-                    return True, f"Inserted {value} to LEFT of {cur.value}"
-                cur = cur.left
-            elif value > cur.value:
-                if cur.right is None:
-                    cur.right = new_node
-                    return True, f"Inserted {value} to RIGHT of {cur.value}"
-                cur = cur.right
-            else:
-                return False, f"Duplicate value {value} not allowed in BST."
+        q = [self.root]
+        while q:
+            cur = q.pop(0)
 
-    # ---------------------------
-    # INSERT LEFT / RIGHT WITH VALIDATION
-    # (only if side is empty and value respects BST rule)
-    # ---------------------------
+            if cur.left is None:
+                cur.left = new_node
+                return True, f"Inserted {value} to LEFT of {cur.value}"
+
+            if cur.right is None:
+                cur.right = new_node
+                return True, f"Inserted {value} to RIGHT of {cur.value}"
+
+            q.append(cur.left)
+            q.append(cur.right)
+
+        return False, "Insert failed."
+
+    # Insert left w/ subtree shift (module rule)
     def insert_left(self, parent, value):
-        if value >= parent.value:
-            return False, f"{value} must be LESS than {parent.value} to insert LEFT."
-        if parent.left is not None:
-            return False, f"Left child of {parent.value} already exists."
-        parent.left = TreeNode(value)
+        new_node = TreeNode(value)
+        if parent.left is None:
+            parent.left = new_node
+        else:
+            old = parent.left
+            parent.left = new_node
+            new_node.left = old
         return True, f"Inserted {value} to LEFT of {parent.value}"
 
+    # Insert right w/ subtree shift (module rule)
     def insert_right(self, parent, value):
-        if value <= parent.value:
-            return False, f"{value} must be GREATER than {parent.value} to insert RIGHT."
-        if parent.right is not None:
-            return False, f"Right child of {parent.value} already exists."
-        parent.right = TreeNode(value)
+        new_node = TreeNode(value)
+        if parent.right is None:
+            parent.right = new_node
+        else:
+            old = parent.right
+            parent.right = new_node
+            new_node.right = old
         return True, f"Inserted {value} to RIGHT of {parent.value}"
 
-    # ---------------------------
-    # SEARCH
-    # ---------------------------
+    # Search by value (general BT BFS)
     def search_value(self, root, key):
-        """BST search by value."""
-        cur = root
-        while cur:
-            if key < cur.value:
-                cur = cur.left
-            elif key > cur.value:
-                cur = cur.right
-            else:
-                return cur
-        return None
-
-    def search_id(self, root, node_id):
-        """Search by unique id (for reference dropdown)."""
         if root is None:
             return None
-        if root.id == node_id:
-            return root
-        left_found = self.search_id(root.left, node_id)
-        if left_found:
-            return left_found
-        return self.search_id(root.right, node_id)
+        q = [root]
+        while q:
+            cur = q.pop(0)
+            if cur.value == key:
+                return cur
+            if cur.left:
+                q.append(cur.left)
+            if cur.right:
+                q.append(cur.right)
+        return None
 
-    # ---------------------------
-    # TRAVERSALS
-    # ---------------------------
+    # Search by id (for reference dropdown)
+    def search_id(self, root, node_id):
+        if root is None:
+            return None
+        q = [root]
+        while q:
+            cur = q.pop(0)
+            if cur.id == node_id:
+                return cur
+            if cur.left:
+                q.append(cur.left)
+            if cur.right:
+                q.append(cur.right)
+        return None
+
+    # Deletion by value (general BT):
+    # replace target with deepest-rightmost node
+    def delete_value(self, key):
+        if self.root is None:
+            return False
+
+        # single-node tree
+        if self.root.left is None and self.root.right is None:
+            if self.root.value == key:
+                self.root = None
+                return True
+            return False
+
+        q = [self.root]
+        target = None
+        last = None
+        parent_of_last = None
+
+        while q:
+            last = q.pop(0)
+            if last.value == key:
+                target = last
+            if last.left:
+                parent_of_last = last
+                q.append(last.left)
+            if last.right:
+                parent_of_last = last
+                q.append(last.right)
+
+        if target is None:
+            return False
+
+        # copy deepest-rightmost into target
+        target.value = last.value
+        target.id = last.id
+
+        # remove deepest-rightmost
+        if parent_of_last and parent_of_last.right == last:
+            parent_of_last.right = None
+        elif parent_of_last and parent_of_last.left == last:
+            parent_of_last.left = None
+
+        return True
+
+    # Traversals
     def inorder(self, root, out):
         if root:
             self.inorder(root.left, out)
@@ -224,53 +271,12 @@ class BinarySearchTree:
             self.postorder(root.right, out)
             out.append(root.value)
 
-    # ---------------------------
-    # DELETE (BST standard)
-    # ---------------------------
-    def delete_node(self, root, key):
-        if root is None:
-            return root, False
-
-        if key < root.value:
-            root.left, deleted = self.delete_node(root.left, key)
-            return root, deleted
-        elif key > root.value:
-            root.right, deleted = self.delete_node(root.right, key)
-            return root, deleted
-
-        # found node
-        if root.left is None and root.right is None:
-            return None, True
-        if root.left is None:
-            return root.right, True
-        if root.right is None:
-            return root.left, True
-
-        # two children: replace with inorder successor
-        succ_parent = root
-        succ = root.right
-        while succ.left:
-            succ_parent = succ
-            succ = succ.left
-
-        root.value = succ.value
-        root.id = succ.id  # keep id tied to actual node value
-
-        if succ_parent.left == succ:
-            succ_parent.left, _ = self.delete_node(succ_parent.left, succ.value)
-        else:
-            succ_parent.right, _ = self.delete_node(succ_parent.right, succ.value)
-
-        return root, True
-
-    # ---------------------------
-    # HELPERS FOR REFERENCE DROPDOWN
-    # ---------------------------
+    # Collect nodes for reference dropdown
+    # only_not_full=True -> nodes missing L or R
     def collect_nodes(self, root, only_not_full=False, out=None):
         if out is None:
             out = []
         if root:
-            # preorder collection keeps a nice top-down ref list
             if (not only_not_full) or (root.left is None or root.right is None):
                 out.append(root)
             self.collect_nodes(root.left, only_not_full, out)
@@ -278,9 +284,9 @@ class BinarySearchTree:
         return out
 
     def first_not_full_node(self):
-        """Return first node that has a missing child."""
         nodes = self.collect_nodes(self.root, only_not_full=True)
         return nodes[0] if nodes else None
+
 
 # ---------------------------
 # App State
@@ -288,7 +294,8 @@ class BinarySearchTree:
 SITE_NAME = "Nodeus"
 queue_ds = Queue()
 deque_ds = Deque()
-tree_ds = BinarySearchTree()  # start empty BST
+tree_ds = BinaryTree()  # ✅ general binary tree (empty)
+
 
 # ---------------------------
 # Routes
@@ -297,9 +304,11 @@ tree_ds = BinarySearchTree()  # start empty BST
 def home():
     return render_template("index.html", site_name=SITE_NAME, page_class="theme-home")
 
+
 @app.route("/works")
 def works():
     return render_template("works.html", site_name=SITE_NAME, page_class="theme-works")
+
 
 @app.route("/works/queue", methods=["GET", "POST"])
 def works_queue():
@@ -343,6 +352,7 @@ def works_queue():
         message=message,
         category=category
     )
+
 
 @app.route("/works/deque", methods=["GET", "POST"])
 def works_deque():
@@ -405,6 +415,7 @@ def works_deque():
         category=category
     )
 
+
 @app.route("/works/tree", methods=["GET", "POST"])
 def works_tree():
     global tree_ds
@@ -416,44 +427,65 @@ def works_tree():
 
     if request.method == "POST":
         action = request.form.get("action")
-        raw_value = (request.form.get("value") or "").strip()
+        value = (request.form.get("value") or "").strip()
+        parent_id = (request.form.get("parent_id") or "").strip()
         traversal_type = request.form.get("traversal_type", "inorder")
 
-        def parse_int(x):
-            try:
-                return int(x)
-            except:
-                return None
-
-        val = parse_int(raw_value) if raw_value else None
-
-        if action in ("insert", "search", "delete") and val is None:
-            message = "BST only accepts integer values."
+        if action in ("insert", "insert_left", "insert_right", "search", "delete") and not value:
+            message = "Please enter a value."
             category = "warning"
 
         elif action == "insert":
-            ok, msg = tree_ds.insert(val)
+            ok, msg = tree_ds.insert(value)
             message = msg
             category = "success" if ok else "danger"
 
+        elif action == "insert_left":
+            if tree_ds.root is None:
+                message = "Insert a root first."
+                category = "warning"
+            else:
+                parent = tree_ds.search_id(tree_ds.root, parent_id)
+                if parent:
+                    ok, msg = tree_ds.insert_left(parent, value)
+                    message = msg
+                    category = "success" if ok else "danger"
+                else:
+                    message = "Reference parent not found."
+                    category = "danger"
+
+        elif action == "insert_right":
+            if tree_ds.root is None:
+                message = "Insert a root first."
+                category = "warning"
+            else:
+                parent = tree_ds.search_id(tree_ds.root, parent_id)
+                if parent:
+                    ok, msg = tree_ds.insert_right(parent, value)
+                    message = msg
+                    category = "success" if ok else "danger"
+                else:
+                    message = "Reference parent not found."
+                    category = "danger"
+
         elif action == "search":
-            found = tree_ds.search_value(tree_ds.root, val)
+            found = tree_ds.search_value(tree_ds.root, value)
             if found:
-                found_id = found.id          # pass node id to template
-                message = f"Found: {val}"
+                found_id = found.id
+                message = f"Found: {value}"
                 category = "success"
             else:
-                message = f"{val} not found."
+                message = f"{value} not found."
                 category = "danger"
 
         elif action == "delete":
-            tree_ds.root, deleted = tree_ds.delete_node(tree_ds.root, val)
-            message = f"Deleted {val}." if deleted else f"{val} not found."
+            deleted = tree_ds.delete_value(value)
+            message = f"Deleted {value}." if deleted else f"{value} not found."
             category = "success" if deleted else "danger"
 
         elif action == "reset":
-            tree_ds = BinarySearchTree()
-            message = "BST reset (empty)."
+            tree_ds = BinaryTree()
+            message = "Tree reset (empty)."
             category = "success"
 
         elif action == "traversal":
@@ -466,10 +498,16 @@ def works_tree():
                 elif traversal_type == "postorder":
                     tree_ds.postorder(tree_ds.root, traversal_output)
 
+    nodes_for_ref = tree_ds.collect_nodes(tree_ds.root, only_not_full=True)
+    default_ref = tree_ds.first_not_full_node()
+    default_ref_id = default_ref.id if default_ref else None
+
     return render_template(
         "tree.html",
         site_name=SITE_NAME,
         root=tree_ds.root,
+        nodes_for_ref=nodes_for_ref,
+        default_ref_id=default_ref_id,
         traversal_type=traversal_type,
         traversal_output=traversal_output,
         message=message,
@@ -478,53 +516,54 @@ def works_tree():
         page_class="theme-tree"
     )
 
+
 @app.route("/about")
 def about():
     members = [
         {"name": "Angelo Raphael M. Biticon", "first": "Angelo", "email": "angelobiticon@gmail.com",
-        "role": "Front-end Developer",
-        "desc": "Worked on building responsive UI components and improving user interaction across the portfolio.",
-        "photo": "angelo.png"},
+         "role": "Front-end Developer",
+         "desc": "Worked on building responsive UI components and improving user interaction across the portfolio.",
+         "photo": "angelo.png"},
 
         {"name": "Dave D. Casinginan", "first": "Dave", "email": "davecasinginan@gmail.com",
-        "role": "Front-end Developer",
-        "desc": "Contributed to interface design and interactive controls for the data structure demos.",
-        "photo": "dave.jpg"},
+         "role": "Front-end Developer",
+         "desc": "Contributed to interface design and interactive controls for the data structure demos.",
+         "photo": "dave.jpg"},
 
         {"name": "Dave Michael P. Sinsioco", "first": "Dave", "email": "sinciocodave@gmail.com",
-        "role": "Back-end Developer",
-        "desc": "Implemented core data structure logic and server-side operations for the application.",
-        "photo": "michael.jpg"},
+         "role": "Back-end Developer",
+         "desc": "Implemented core data structure logic and server-side operations for the application.",
+         "photo": "michael.jpg"},
 
         {"name": "John Mike P. Asuncion", "first": "John", "email": "johnmikeasuncion17@gmail.com",
-        "role": "Front-end Developer",
-        "desc": "Helped develop the base layout system and styling to keep the UI consistent and clean.",
-        "photo": "mike.jpg"},
+         "role": "Front-end Developer",
+         "desc": "Helped develop the base layout system and styling to keep the UI consistent and clean.",
+         "photo": "mike.jpg"},
 
         {"name": "Luke Philip L. Lopez", "first": "Luke", "email": "lukephilip299@gmail.com",
-        "role": "Back-end Developer",
-        "desc": "Supported back-end logic and routing, ensuring the demos function correctly end-to-end.",
-        "photo": "luke.jpg"},
+         "role": "Back-end Developer",
+         "desc": "Supported back-end logic and routing, ensuring the demos function correctly end-to-end.",
+         "photo": "luke.jpg"},
 
         {"name": "Rein Gabriel Atienza", "first": "Rein", "email": "atienza.reingabriel308129@gmail.com",
-        "role": "Back-end Developer",
-        "desc": "Assisted with implementing and validating algorithms and structure behavior on the server side.",
-        "photo": "rein.jpg"},
+         "role": "Back-end Developer",
+         "desc": "Assisted with implementing and validating algorithms and structure behavior on the server side.",
+         "photo": "rein.jpg"},
 
         {"name": "Renier G. Dela Cruz", "first": "Renier", "email": "renier@gmail.com",
-        "role": "Front-end Developer",
-        "desc": "Contributed to page layouts, UI polish, and overall visual consistency of the portfolio.",
-        "photo": "renier.jpg"},
+         "role": "Front-end Developer",
+         "desc": "Contributed to page layouts, UI polish, and overall visual consistency of the portfolio.",
+         "photo": "renier.jpg"},
 
         {"name": "Roswell M. Buñag", "first": "Roswell", "email": "roswellbunag05@gmail.com",
-        "role": "Front-end Developer",
-        "desc": "Worked on structuring the works section UI and improving navigation between demos.",
-        "photo": "roswell.png"},
+         "role": "Front-end Developer",
+         "desc": "Worked on structuring the works section UI and improving navigation between demos.",
+         "photo": "roswell.png"},
 
         {"name": "Zybert Jio D. Sibolboro", "first": "Zybert", "email": "zybertjiosibolboro@gmail.com",
-        "role": "Front-end Developer",
-        "desc": "Helped implement interactive visuals and controls for the data structure modules.",
-        "photo": "zybert.jpg"},
+         "role": "Front-end Developer",
+         "desc": "Helped implement interactive visuals and controls for the data structure modules.",
+         "photo": "zybert.jpg"},
     ]
 
     members_sorted = sorted(members, key=lambda m: m["first"].lower())
@@ -534,6 +573,7 @@ def about():
         members=members_sorted,
         page_class="theme-about"
     )
+
 
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
@@ -549,6 +589,7 @@ def contact():
         name=name,
         page_class="theme-contact"
     )
+
 
 if __name__ == "__main__":
     app.run(debug=True)

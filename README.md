@@ -4,9 +4,9 @@
 
 <img width="100%" height="50" src="https://i.imgur.com/dBaSKWF.gif"/>
 
-# **DSA Group 4 Lab Exercise 6**
+# **DSA Group 4 Lab 2**
 
-Our web portfolio is a Flask-based website with a futuristic neon and glass look that highlights our group's work in programming and web design. It includes pages like Home, About, Works, and Contact, with special demo pages showing how Queue and Deque data structures work using Linked Lists in Python. Each of the nine team members has their own profile section, and the site is built so we can easily add more projects later. The design is clean, simple, and consistent across all pages, focusing on both functionality and modern style.
+Our web portfolio is a Flask-based website with a futuristic neon and glass look that highlights our group's work in programming and web design. It includes pages like Home, About, Works, and Contact, with special demo pages showing how data structures work using Python. Each of the nine team members has their own profile section, and the site is built so we can easily add more projects later. The design is clean, simple, and consistent across all pages, focusing on both functionality and modern style.
 
 ## **Directory Structure**
 
@@ -24,6 +24,7 @@ DSA_Group4_LabExercise6/
 │   ├── deque.html
 │   ├── index.html
 │   ├── queue.html
+│   ├── tree.html
 │   └── works.html
 ├── .gitignore
 ├── LICENSE
@@ -54,5 +55,8 @@ DSA_Group4_LabExercise6/
 
 ### **Dequeue**
 ![Dequeue](./static/pages/dequeue.png)
+
+### **Binary Tree**
+![Binary Tree](./static/pages/tree.png)
 
 <img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=gradient&section=footer"/>
