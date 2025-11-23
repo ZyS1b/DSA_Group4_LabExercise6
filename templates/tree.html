@@ -40,10 +40,11 @@
     {# heap-indexed absolute nodes so JS can lay out cleanly #}
     {% macro render_abs(node, index=0, level=0, parent_index=None) %}
       {% if node %}
-        <div class="chip chip-tree tree-node-abs"
-             data-index="{{ index }}"
-             data-level="{{ level }}"
-             {% if parent_index is not none %}data-parent="{{ parent_index }}"{% endif %}>
+        <div class="chip chip-tree tree-node-abs {% if found_id and node.id == found_id %}found-node{% endif %}"
+            data-id="{{ node.id }}"
+            data-index="{{ index }}"
+            data-level="{{ level }}"
+            {% if parent_index is not none %}data-parent="{{ parent_index }}"{% endif %}>
           {{ node.value }}
         </div>
 
@@ -250,6 +251,21 @@ function layoutTreeAndBranches() {
     path.setAttribute("class","branch-line");
     svg.appendChild(path);
   });
+
+  // Auto-scroll DOWN only (vertical), keep horizontal untouched
+  const foundEl = stage.querySelector(".found-node");
+  if (foundEl){
+    const r = foundEl.getBoundingClientRect();
+
+    // center vertically in viewport
+    const targetY =
+      window.scrollY + r.top - (window.innerHeight / 2 - r.height / 2);
+
+    window.scrollTo({
+      top: Math.max(0, targetY),
+      behavior: "smooth"
+    });
+  }
 }
 
 // Run after layout settles

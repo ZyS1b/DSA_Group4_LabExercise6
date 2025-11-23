@@ -412,14 +412,13 @@ def works_tree():
     category = None
     traversal_type = "inorder"
     traversal_output = None
+    found_id = None  # ✅ NEW
 
     if request.method == "POST":
         action = request.form.get("action")
         raw_value = (request.form.get("value") or "").strip()
-        parent_id = (request.form.get("parent_id") or "").strip()
         traversal_type = request.form.get("traversal_type", "inorder")
 
-        # BST requires numeric comparison
         def parse_int(x):
             try:
                 return int(x)
@@ -428,7 +427,7 @@ def works_tree():
 
         val = parse_int(raw_value) if raw_value else None
 
-        if action in ("insert", "insert_left", "insert_right", "search", "delete") and val is None:
+        if action in ("insert", "search", "delete") and val is None:
             message = "BST only accepts integer values."
             category = "warning"
 
@@ -439,8 +438,13 @@ def works_tree():
 
         elif action == "search":
             found = tree_ds.search_value(tree_ds.root, val)
-            message = f"Found: {val}" if found else f"{val} not found."
-            category = "success" if found else "danger"
+            if found:
+                found_id = found.id          # ✅ NEW: pass node id to template
+                message = f"Found: {val}"
+                category = "success"
+            else:
+                message = f"{val} not found."
+                category = "danger"
 
         elif action == "delete":
             tree_ds.root, deleted = tree_ds.delete_node(tree_ds.root, val)
@@ -470,6 +474,7 @@ def works_tree():
         traversal_output=traversal_output,
         message=message,
         category=category,
+        found_id=found_id,          # ✅ NEW
         page_class="theme-tree"
     )
 
