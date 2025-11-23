@@ -477,51 +477,51 @@ def works_tree():
 def about():
     members = [
         {"name": "Angelo Raphael M. Biticon", "first": "Angelo", "email": "angelobiticon@gmail.com",
-        "role": "Front-end & Forms", 
-        "desc": "Contributed to UI building, form workflows, and interactive page behavior across the app.",
+        "role": "Front-end Developer",
+        "desc": "Worked on building responsive UI components and improving user interaction across the portfolio.",
         "photo": "angelo.png"},
 
         {"name": "Dave D. Casinginan", "first": "Dave", "email": "davecasinginan@gmail.com",
-        "role": "Front-end & Interactions", 
-        "desc": "Helped implement interactive controls and visual behavior for the data-structure demos.",
+        "role": "Front-end Developer",
+        "desc": "Contributed to interface design and interactive controls for the data structure demos.",
         "photo": "dave.jpg"},
 
         {"name": "Dave Michael P. Sinsioco", "first": "Dave", "email": "sinciocodave@gmail.com",
-        "role": "Back-end & Data Structure Logic", 
-        "desc": "Worked on core linked-list logic and server-side operations for structure behavior.",
+        "role": "Back-end Developer",
+        "desc": "Implemented core data structure logic and server-side operations for the application.",
         "photo": "michael.jpg"},
 
         {"name": "John Mike P. Asuncion", "first": "John", "email": "johnmikeasuncion17@gmail.com",
-        "role": "Base UI, Styling & Integration", 
-        "desc": "Contributed to the overall layout system, neon theme, and consistent component styling.",
+        "role": "Front-end Developer",
+        "desc": "Helped develop the base layout system and styling to keep the UI consistent and clean.",
         "photo": "mike.jpg"},
 
         {"name": "Luke Philip L. Lopez", "first": "Luke", "email": "lukephilip299@gmail.com",
-        "role": "Documentation & Content", 
-        "desc": "Helped organize team documentation, project summaries, and feature explanations.",
+        "role": "Back-end Developer",
+        "desc": "Supported back-end logic and routing, ensuring the demos function correctly end-to-end.",
         "photo": "luke.jpg"},
 
         {"name": "Rein Gabriel Atienza", "first": "Rein", "email": "atienza.reingabriel308129@gmail.com",
-        "role": "Algorithm Logic & BST Support", 
-        "desc": "Assisted in implementing algorithm rules and validation, including Binary Search Tree features.",
+        "role": "Back-end Developer",
+        "desc": "Assisted with implementing and validating algorithms and structure behavior on the server side.",
         "photo": "rein.jpg"},
 
         {"name": "Renier G. Dela Cruz", "first": "Renier", "email": "renier@gmail.com",
-        "role": "UI/UX & Content Support", 
-        "desc": "Contributed to layout flow, interface clarity, and polishing of project copy.",
+        "role": "Front-end Developer",
+        "desc": "Contributed to page layouts, UI polish, and overall visual consistency of the portfolio.",
         "photo": "renier.jpg"},
 
         {"name": "Roswell M. Buñag", "first": "Roswell", "email": "roswellbunag05@gmail.com",
-        "role": "App Flow & Works Integration", 
-        "desc": "Helped connect structure demos into the portfolio flow and improve navigation/UX.",
+        "role": "Front-end Developer",
+        "desc": "Worked on structuring the works section UI and improving navigation between demos.",
         "photo": "roswell.png"},
 
         {"name": "Zybert Jio D. Sibolboro", "first": "Zybert", "email": "zybertjiosibolboro@gmail.com",
-        "role": "Front-end, Controls & BST Support", 
-        "desc": "Implemented interactive UI controls and assisted with Binary Search Tree visualization/behavior.",
+        "role": "Front-end Developer",
+        "desc": "Helped implement interactive visuals and controls for the data structure modules.",
         "photo": "zybert.jpg"},
     ]
-    
+
     members_sorted = sorted(members, key=lambda m: m["first"].lower())
     return render_template(
         "about.html",
