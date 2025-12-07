@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="brand">Binary Search Tree</h2>
+<div class="card card-outline">
+  <p>
+    A <strong>Binary Search Tree (BST)</strong> is a binary tree where each node’s left subtree contains values
+    less than the node, and the right subtree contains values greater.
+    This ordering enables efficient searching, insertion, and deletion.
+  </p>
+
+  <form method="POST" class="tool-form">
+    <div class="field">
+      <label for="value" class="note">New Value (integer):</label>
+      <input id="value" type="text" name="value" placeholder="Enter an integer (e.g., 42)">
+    </div>
+
+    <div class="actions-row">
+      <button type="submit" name="action" value="insert" class="btn-tree">Insert</button>
+      <button type="submit" name="action" value="search" class="btn-tree ghost">Search</button>
+      <button type="submit" name="action" value="delete" class="btn-tree ghost">Delete</button>
+      <button type="submit" name="action" value="get_max" class="btn-tree ghost">Get Max</button>
+      <button type="submit" name="action" value="height" class="btn-tree ghost">Find Height</button>
+      <button type="submit" name="action" value="reset" class="btn-reset">Reset</button>
+    </div>
+
+    <div class="field field-inline">
+      <label for="traversal_type" class="note">Traversal Type:</label>
+      <select id="traversal_type" name="traversal_type" class="tree-select">
+        <option value="inorder"  {% if traversal_type == 'inorder'  %}selected{% endif %}>Inorder</option>
+        <option value="preorder" {% if traversal_type == 'preorder' %}selected{% endif %}>Preorder</option>
+        <option value="postorder"{% if traversal_type == 'postorder'%}selected{% endif %}>Postorder</option>
+      </select>
+      <button type="submit" name="action" value="traversal" class="btn-tree">
+        Show Traversal Output
+      </button>
+    </div>
+  </form>
+
+  <div class="panel tree-panel">
+    <strong>Current Tree:</strong>
+
+    {% macro render_abs(node, index=0, level=0, parent_index=None) %}
+      {% if node %}
+        <div class="chip chip-tree tree-node-abs {% if found_id and node.id == found_id %}found-node{% endif %}"
+             data-id="{{ node.id }}"
+             data-index="{{ index }}"
+             data-level="{{ level }}"
+             {% if parent_index is not none %}data-parent="{{ parent_index }}"{% endif %}>
+          {{ node.value }}
+        </div>
+
+        {{ render_abs(node.left,  index*2 + 1, level+1, index) }}
+        {{ render_abs(node.right, index*2 + 2, level+1, index) }}
+      {% endif %}
+    {% endmacro %}
+
+    <div class="tree-wrap">
+      {% if root %}
+        <div class="tree-abs-stage" id="treeStage">
+          <svg class="tree-svg" id="treeSvg"></svg>
+          {{ render_abs(root) }}
+        </div>
+      {% else %}
+        <div class="note" style="margin-top:8px;">
+          BST is empty. Insert a value to start.
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if traversal_output is not none %}
+    <div class="panel tree-panel">
+      <strong>{{ traversal_type.title() }} Output:</strong>
+      <div class="tree-output">
+        {% if traversal_output %}
+          {% for v in traversal_output %}
+            <span class="chip chip-tree">{{ v }}</span>
+          {% endfor %}
+        {% else %}
+          <span class="note">Empty</span>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+function layoutTreeAndBranches() {
+  const stage = document.getElementById("treeStage");
+  const svg = document.getElementById("treeSvg");
+  if (!stage || !svg) return;
+
+  const nodes = Array.from(stage.querySelectorAll(".tree-node-abs"));
+  if (!nodes.length) return;
+
+  const byIndex = {};
+  nodes.forEach(n => byIndex[+n.dataset.index] = n);
+
+  function build(index=0, level=0) {
+    const el = byIndex[index];
+    if (!el) return null;
+    return {
+      index,
+      level,
+      el,
+      left: build(index*2 + 1, level+1),
+      right: build(index*2 + 2, level+1)
+    };
+  }
+
+  const root = build(0,0);
+  if (!root) return;
+
+  const levelGap = 120;
+  const topPad = 40;
+
+  const allBoxes = nodes.map(n => n.getBoundingClientRect());
+  const maxChipW = Math.max(...allBoxes.map(b => b.width));
+
+  const baseGap = 32;
+  const nodeGapMin = maxChipW + baseGap;
+
+  let nextX = 0;
+
+  function layout(node) {
+    if (!node) return { leftX: 0, rightX: 0, centerX: 0 };
+
+    const L = layout(node.left);
+    const R = layout(node.right);
+
+    if (!node.left && !node.right) {
+      const w = node.el.getBoundingClientRect().width;
+      const step = Math.max(nodeGapMin, w + baseGap);
+      const cx = nextX;
+      nextX += step;
+      node.centerX = cx;
+      return { leftX: cx, rightX: cx, centerX: cx };
+    }
+
+    if (node.left && !node.right) {
+      node.centerX = L.centerX;
+      return { leftX: L.leftX, rightX: L.rightX, centerX: node.centerX };
+    }
+    if (!node.left && node.right) {
+      node.centerX = R.centerX;
+      return { leftX: R.leftX, rightX: R.rightX, centerX: node.centerX };
+    }
+
+    node.centerX = (L.centerX + R.centerX) / 2;
+    return { leftX: L.leftX, rightX: R.rightX, centerX: node.centerX };
+  }
+
+  layout(root);
+
+  const treeWidth = Math.max(0, nextX - nodeGapMin);
+  const stageWidth = Math.max(700, treeWidth + maxChipW * 2);
+  const maxLevel = Math.max(...nodes.map(n => +n.dataset.level));
+  const height = topPad + (maxLevel + 1) * levelGap;
+
+  stage.style.width = stageWidth + "px";
+  stage.style.height = height + "px";
+
+  const offsetX = (stageWidth - treeWidth) / 2;
+
+  function applyPositions(node) {
+    if (!node) return;
+    node.el.style.left = (node.centerX + offsetX) + "px";
+    node.el.style.top = (topPad + node.level * levelGap) + "px";
+    applyPositions(node.left);
+    applyPositions(node.right);
+  }
+  applyPositions(root);
+
+  svg.setAttribute("width", stageWidth);
+  svg.setAttribute("height", height);
+  svg.setAttribute("viewBox", `0 0 ${stageWidth} ${height}`);
+  svg.innerHTML = "";
+
+  nodes.forEach(child => {
+    const parentIdx = child.dataset.parent;
+    if (parentIdx == null) return;
+    const parent = byIndex[+parentIdx];
+    if (!parent) return;
+
+    const pBox = parent.getBoundingClientRect();
+    const cBox = child.getBoundingClientRect();
+    const sBox = stage.getBoundingClientRect();
+
+    const pCx = (pBox.left - sBox.left) + pBox.width/2;
+    const pCy = (pBox.top  - sBox.top ) + pBox.height/2;
+    const cCx = (cBox.left - sBox.left) + cBox.width/2;
+
+    const pR = Math.min(pBox.width, pBox.height)/2;
+    const cR = Math.min(cBox.width, cBox.height)/2;
+
+    const childIndex = +child.dataset.index;
+    const parentIndex = +parentIdx;
+    const isLeft = childIndex === parentIndex * 2 + 1;
+    const side = isLeft ? -1 : 1;
+
+    const startEdgeOffset = pBox.width * 0.35;
+    const startX = pCx + side * startEdgeOffset;
+    const startY = (pBox.bottom - sBox.top) + 2;
+
+    const endX = cCx;
+    const endY = (cBox.top - sBox.top) - 2;
+
+    const maxR = Math.max(pR, cR);
+    const reach = Math.min(0,  maxR * 1.8);
+    const pull  = Math.min(100, maxR * 1.1);
+
+    const c1X = startX + side * reach;
+    const c1Y = startY + pull;
+    const c2X = endX   - side * reach;
+    const c2Y = endY   - pull;
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg","path");
+    path.setAttribute(
+      "d",
+      `M ${startX} ${startY} C ${c1X} ${c1Y}, ${c2X} ${c2Y}, ${endX} ${endY}`
+    );
+    path.setAttribute("class","branch-line");
+    svg.appendChild(path);
+  });
+
+  // vertical-only auto scroll to found node
+  const foundEl = stage.querySelector(".found-node");
+  if (foundEl){
+    const r = foundEl.getBoundingClientRect();
+    const targetY =
+      window.scrollY + r.top - (window.innerHeight / 2 - r.height / 2);
+    window.scrollTo({ top: Math.max(0, targetY), behavior: "smooth" });
+  }
+}
+
+window.addEventListener("load", () =>
+  requestAnimationFrame(() => requestAnimationFrame(layoutTreeAndBranches))
+);
+window.addEventListener("resize", () =>
+  requestAnimationFrame(layoutTreeAndBranches)
+);
+</script>
+{% endblock %}
