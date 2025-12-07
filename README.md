@@ -38,7 +38,7 @@ DSA_Group4_LabExercise6/
 ![Home Page](./static/pages/home-page.png)
 
 ### **Works Page**
-![Works Page](./static/pages/works-page.png)
+![Works Page](./static/pages/work-page.png)
 
 ### **About Page**
 ![About Page](./static/pages/about-page-1.png)
@@ -58,5 +58,8 @@ DSA_Group4_LabExercise6/
 
 ### **Binary Tree**
 ![Binary Tree](./static/pages/tree.png)
+
+### **Binary Search Tree**
+![Binary Tree](./static/pages/binary-search-tree.png)
 
 <img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=gradient&section=footer"/>
