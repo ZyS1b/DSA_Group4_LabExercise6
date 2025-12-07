@@ -4,7 +4,7 @@
 
 <img width="100%" height="50" src="https://i.imgur.com/dBaSKWF.gif"/>
 
-# **DSA Group 4 Lab 2**
+# **DSA Group 4 Lab 3**
 
 Our web portfolio is a Flask-based website with a futuristic neon and glass look that highlights our group's work in programming and web design. It includes pages like Home, About, Works, and Contact, with special demo pages showing how data structures work using Python. Each of the nine team members has their own profile section, and the site is built so we can easily add more projects later. The design is clean, simple, and consistent across all pages, focusing on both functionality and modern style.
 
@@ -26,6 +26,7 @@ DSA_Group4_LabExercise6/
 │   ├── queue.html
 │   ├── tree.html
 │   └── works.html
+│   └── bst.html
 ├── .gitignore
 ├── LICENSE
 ├── README.md
