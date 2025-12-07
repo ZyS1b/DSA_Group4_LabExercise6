@@ -116,22 +116,25 @@ class Deque:
 
 
 # ---------------------------
-# Binary Tree
+# General Binary Tree (Module Behavior)
 # ---------------------------
 class TreeNode:
     def __init__(self, value):
         self.value = value
         self.left = None
         self.right = None
-        self.id = str(uuid.uuid4())  # for duplicates-safe referencing
+        # unique id so reference dropdown handles duplicates safely
+        self.id = str(uuid.uuid4())
 
 
 class BinaryTree:
     def __init__(self):
         self.root = None
 
+    # Level-order insert (first not-full node)
     def insert(self, value):
         new_node = TreeNode(value)
+
         if self.root is None:
             self.root = new_node
             return True, f"Inserted root {value}"
@@ -139,17 +142,21 @@ class BinaryTree:
         q = [self.root]
         while q:
             cur = q.pop(0)
+
             if cur.left is None:
                 cur.left = new_node
                 return True, f"Inserted {value} to LEFT of {cur.value}"
+
             if cur.right is None:
                 cur.right = new_node
                 return True, f"Inserted {value} to RIGHT of {cur.value}"
+
             q.append(cur.left)
             q.append(cur.right)
 
         return False, "Insert failed."
 
+    # Insert left w/ subtree shift (module rule)
     def insert_left(self, parent, value):
         new_node = TreeNode(value)
         if parent.left is None:
@@ -160,6 +167,7 @@ class BinaryTree:
             new_node.left = old
         return True, f"Inserted {value} to LEFT of {parent.value}"
 
+    # Insert right w/ subtree shift (module rule)
     def insert_right(self, parent, value):
         new_node = TreeNode(value)
         if parent.right is None:
@@ -170,6 +178,7 @@ class BinaryTree:
             new_node.right = old
         return True, f"Inserted {value} to RIGHT of {parent.value}"
 
+    # Search by value (general BT BFS)
     def search_value(self, root, key):
         if root is None:
             return None
@@ -178,10 +187,13 @@ class BinaryTree:
             cur = q.pop(0)
             if cur.value == key:
                 return cur
-            if cur.left: q.append(cur.left)
-            if cur.right: q.append(cur.right)
+            if cur.left:
+                q.append(cur.left)
+            if cur.right:
+                q.append(cur.right)
         return None
 
+    # Search by id (for reference dropdown)
     def search_id(self, root, node_id):
         if root is None:
             return None
@@ -190,14 +202,19 @@ class BinaryTree:
             cur = q.pop(0)
             if cur.id == node_id:
                 return cur
-            if cur.left: q.append(cur.left)
-            if cur.right: q.append(cur.right)
+            if cur.left:
+                q.append(cur.left)
+            if cur.right:
+                q.append(cur.right)
         return None
 
+    # Deletion by value (general BT):
+    # replace target with deepest-rightmost node
     def delete_value(self, key):
         if self.root is None:
             return False
 
+        # single-node tree
         if self.root.left is None and self.root.right is None:
             if self.root.value == key:
                 self.root = None
@@ -223,9 +240,11 @@ class BinaryTree:
         if target is None:
             return False
 
+        # copy deepest-rightmost into target
         target.value = last.value
         target.id = last.id
 
+        # remove deepest-rightmost
         if parent_of_last and parent_of_last.right == last:
             parent_of_last.right = None
         elif parent_of_last and parent_of_last.left == last:
@@ -233,7 +252,7 @@ class BinaryTree:
 
         return True
 
-    # traversals
+    # Traversals
     def inorder(self, root, out):
         if root:
             self.inorder(root.left, out)
@@ -252,6 +271,8 @@ class BinaryTree:
             self.postorder(root.right, out)
             out.append(root.value)
 
+    # Collect nodes for reference dropdown
+    # only_not_full=True -> nodes missing L or R
     def collect_nodes(self, root, only_not_full=False, out=None):
         if out is None:
             out = []
@@ -268,122 +289,12 @@ class BinaryTree:
 
 
 # ---------------------------
-# Binary Search Tree
-# ---------------------------
-class BSTNode:
-    def __init__(self, value):
-        self.value = value
-        self.left = None
-        self.right = None
-        self.id = str(uuid.uuid4())
-
-
-class BinarySearchTree:
-    def __init__(self):
-        self.root = None
-
-    def insert(self, value):
-        if self.root is None:
-            self.root = BSTNode(value)
-            return True, f"Inserted root {value}"
-        self.root = self._insert(self.root, value)
-        return True, f"Inserted {value} using BST rule."
-
-    def _insert(self, node, value):
-        if node is None:
-            return BSTNode(value)
-        if value < node.value:
-            node.left = self._insert(node.left, value)
-        elif value > node.value:
-            node.right = self._insert(node.right, value)
-        return node
-
-    def search(self, node, value):
-        if node is None:
-            return None
-        if node.value == value:
-            return node
-        if value < node.value:
-            return self.search(node.left, value)
-        return self.search(node.right, value)
-
-    def get_max_value(self, node):
-        if node is None:
-            return None
-        cur = node
-        while cur.right is not None:
-            cur = cur.right
-        return cur.value
-
-    def find_height(self, node):
-        if node is None:
-            return -1  # height in edges; empty = -1
-        return 1 + max(self.find_height(node.left), self.find_height(node.right))
-
-    def delete(self, node, value):
-        if node is None:
-            return None, False
-
-        if value < node.value:
-            node.left, deleted = self.delete(node.left, value)
-            return node, deleted
-        if value > node.value:
-            node.right, deleted = self.delete(node.right, value)
-            return node, deleted
-
-        # found node
-        if node.left is None and node.right is None:
-            return None, True
-        if node.left is None:
-            return node.right, True
-        if node.right is None:
-            return node.left, True
-
-        # two children: replace with inorder successor
-        succ_parent = node
-        succ = node.right
-        while succ.left:
-            succ_parent = succ
-            succ = succ.left
-
-        node.value = succ.value
-        node.id = succ.id
-
-        if succ_parent.left == succ:
-            succ_parent.left, _ = self.delete(succ_parent.left, succ.value)
-        else:
-            succ_parent.right, _ = self.delete(succ_parent.right, succ.value)
-
-        return node, True
-
-    # traversals
-    def inorder(self, node, out):
-        if node:
-            self.inorder(node.left, out)
-            out.append(node.value)
-            self.inorder(node.right, out)
-
-    def preorder(self, node, out):
-        if node:
-            out.append(node.value)
-            self.preorder(node.left, out)
-            self.preorder(node.right, out)
-
-    def postorder(self, node, out):
-        if node:
-            self.postorder(node.left, out)
-            self.postorder(node.right, out)
-            out.append(node.value)
-
-
-# ---------------------------
 # App State
 # ---------------------------
 SITE_NAME = "Nodeus"
 queue_ds = Queue()
 deque_ds = Deque()
-tree_ds = BinaryTree()          # general BT
-bst_ds = BinarySearchTree()     # separate BST
+tree_ds = BinaryTree()  # ✅ general binary tree (empty)
 
 
 # ---------------------------
@@ -505,7 +416,6 @@ def works_deque():
     )
 
 
-# -------- Binary Tree page--------
 @app.route("/works/tree", methods=["GET", "POST"])
 def works_tree():
     global tree_ds
@@ -531,24 +441,32 @@ def works_tree():
             category = "success" if ok else "danger"
 
         elif action == "insert_left":
-            parent = tree_ds.search_id(tree_ds.root, parent_id)
-            if parent:
-                ok, msg = tree_ds.insert_left(parent, value)
-                message = msg
-                category = "success" if ok else "danger"
+            if tree_ds.root is None:
+                message = "Insert a root first."
+                category = "warning"
             else:
-                message = "Reference parent not found."
-                category = "danger"
+                parent = tree_ds.search_id(tree_ds.root, parent_id)
+                if parent:
+                    ok, msg = tree_ds.insert_left(parent, value)
+                    message = msg
+                    category = "success" if ok else "danger"
+                else:
+                    message = "Reference parent not found."
+                    category = "danger"
 
         elif action == "insert_right":
-            parent = tree_ds.search_id(tree_ds.root, parent_id)
-            if parent:
-                ok, msg = tree_ds.insert_right(parent, value)
-                message = msg
-                category = "success" if ok else "danger"
+            if tree_ds.root is None:
+                message = "Insert a root first."
+                category = "warning"
             else:
-                message = "Reference parent not found."
-                category = "danger"
+                parent = tree_ds.search_id(tree_ds.root, parent_id)
+                if parent:
+                    ok, msg = tree_ds.insert_right(parent, value)
+                    message = msg
+                    category = "success" if ok else "danger"
+                else:
+                    message = "Reference parent not found."
+                    category = "danger"
 
         elif action == "search":
             found = tree_ds.search_value(tree_ds.root, value)
@@ -599,95 +517,6 @@ def works_tree():
     )
 
 
-# -------- BST work/page --------
-@app.route("/works/bst", methods=["GET", "POST"])
-def works_bst():
-    global bst_ds
-    message = None
-    category = None
-    traversal_type = "inorder"
-    traversal_output = None
-    found_id = None
-    max_value = None
-    height_value = None
-
-    if request.method == "POST":
-        action = request.form.get("action")
-        raw_value = (request.form.get("value") or "").strip()
-        traversal_type = request.form.get("traversal_type", "inorder")
-
-        def parse_int(x):
-            try:
-                return int(x)
-            except:
-                return None
-
-        val = parse_int(raw_value) if raw_value else None
-
-        if action in ("insert", "search", "delete") and val is None:
-            message = "BST only accepts integer values."
-            category = "warning"
-
-        elif action == "insert":
-            ok, msg = bst_ds.insert(val)
-            message = msg
-            category = "success"
-
-        elif action == "search":
-            found = bst_ds.search(bst_ds.root, val)
-            if found:
-                found_id = found.id
-                message = f"Found: {val}"
-                category = "success"
-            else:
-                message = f"{val} not found."
-                category = "danger"
-
-        elif action == "delete":
-            bst_ds.root, deleted = bst_ds.delete(bst_ds.root, val)
-            message = f"Deleted {val}." if deleted else f"{val} not found."
-            category = "success" if deleted else "danger"
-
-        elif action == "get_max":
-            max_value = bst_ds.get_max_value(bst_ds.root)
-            message = f"Max value: {max_value}" if max_value is not None else "Tree is empty."
-            category = "success" if max_value is not None else "danger"
-
-        elif action == "height":
-            height_value = bst_ds.find_height(bst_ds.root)
-            message = f"Height (edges): {height_value}" if bst_ds.root else "Tree is empty."
-            category = "success" if bst_ds.root else "danger"
-
-        elif action == "reset":
-            bst_ds = BinarySearchTree()
-            message = "BST reset (empty)."
-            category = "success"
-
-        elif action == "traversal":
-            traversal_output = []
-            if bst_ds.root:
-                if traversal_type == "inorder":
-                    bst_ds.inorder(bst_ds.root, traversal_output)
-                elif traversal_type == "preorder":
-                    bst_ds.preorder(bst_ds.root, traversal_output)
-                elif traversal_type == "postorder":
-                    bst_ds.postorder(bst_ds.root, traversal_output)
-
-    return render_template(
-        "bst.html",
-        site_name=SITE_NAME,
-        root=bst_ds.root,
-        traversal_type=traversal_type,
-        traversal_output=traversal_output,
-        message=message,
-        category=category,
-        found_id=found_id,
-        max_value=max_value,
-        height_value=height_value,
-        page_class="theme-bst"
-    )
-
-
 @app.route("/about")
 def about():
     members = [
@@ -695,34 +524,42 @@ def about():
          "role": "Front-end Developer",
          "desc": "Worked on building responsive UI components and improving user interaction across the portfolio.",
          "photo": "angelo.png"},
+
         {"name": "Dave D. Casinginan", "first": "Dave", "email": "davecasinginan@gmail.com",
          "role": "Front-end Developer",
          "desc": "Contributed to interface design and interactive controls for the data structure demos.",
          "photo": "dave.jpg"},
+
         {"name": "Dave Michael P. Sinsioco", "first": "Dave", "email": "sinciocodave@gmail.com",
          "role": "Back-end Developer",
          "desc": "Implemented core data structure logic and server-side operations for the application.",
          "photo": "michael.jpg"},
+
         {"name": "John Mike P. Asuncion", "first": "John", "email": "johnmikeasuncion17@gmail.com",
          "role": "Front-end Developer",
          "desc": "Helped develop the base layout system and styling to keep the UI consistent and clean.",
          "photo": "mike.jpg"},
+
         {"name": "Luke Philip L. Lopez", "first": "Luke", "email": "lukephilip299@gmail.com",
          "role": "Back-end Developer",
          "desc": "Supported back-end logic and routing, ensuring the demos function correctly end-to-end.",
          "photo": "luke.jpg"},
+
         {"name": "Rein Gabriel Atienza", "first": "Rein", "email": "atienza.reingabriel308129@gmail.com",
          "role": "Back-end Developer",
          "desc": "Assisted with implementing and validating algorithms and structure behavior on the server side.",
          "photo": "rein.jpg"},
+
         {"name": "Renier G. Dela Cruz", "first": "Renier", "email": "renier@gmail.com",
          "role": "Front-end Developer",
          "desc": "Contributed to page layouts, UI polish, and overall visual consistency of the portfolio.",
          "photo": "renier.jpg"},
+
         {"name": "Roswell M. Buñag", "first": "Roswell", "email": "roswellbunag05@gmail.com",
          "role": "Front-end Developer",
          "desc": "Worked on structuring the works section UI and improving navigation between demos.",
          "photo": "roswell.png"},
+
         {"name": "Zybert Jio D. Sibolboro", "first": "Zybert", "email": "zybertjiosibolboro@gmail.com",
          "role": "Front-end Developer",
          "desc": "Helped implement interactive visuals and controls for the data structure modules.",
