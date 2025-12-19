@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import uuid
+from queue import Queue as PyQueue  # ✅ Python queue for BFS
 
 app = Flask(__name__)
 
@@ -116,14 +117,14 @@ class Deque:
 
 
 # ---------------------------
-# Binary Tree
+# General Binary Tree (Module Behavior)
 # ---------------------------
 class TreeNode:
     def __init__(self, value):
         self.value = value
         self.left = None
         self.right = None
-        self.id = str(uuid.uuid4())  # for duplicates-safe referencing
+        self.id = str(uuid.uuid4())
 
 
 class BinaryTree:
@@ -233,7 +234,6 @@ class BinaryTree:
 
         return True
 
-    # traversals
     def inorder(self, root, out):
         if root:
             self.inorder(root.left, out)
@@ -268,7 +268,7 @@ class BinaryTree:
 
 
 # ---------------------------
-# Binary Search Tree
+# Binary Search Tree (separate work)
 # ---------------------------
 class BSTNode:
     def __init__(self, value):
@@ -317,7 +317,7 @@ class BinarySearchTree:
 
     def find_height(self, node):
         if node is None:
-            return -1  # height in edges; empty = -1
+            return -1
         return 1 + max(self.find_height(node.left), self.find_height(node.right))
 
     def delete(self, node, value):
@@ -331,7 +331,6 @@ class BinarySearchTree:
             node.right, deleted = self.delete(node.right, value)
             return node, deleted
 
-        # found node
         if node.left is None and node.right is None:
             return None, True
         if node.left is None:
@@ -339,7 +338,6 @@ class BinarySearchTree:
         if node.right is None:
             return node.left, True
 
-        # two children: replace with inorder successor
         succ_parent = node
         succ = node.right
         while succ.left:
@@ -356,7 +354,6 @@ class BinarySearchTree:
 
         return node, True
 
-    # traversals
     def inorder(self, node, out):
         if node:
             self.inorder(node.left, out)
@@ -375,6 +372,207 @@ class BinarySearchTree:
             self.postorder(node.right, out)
             out.append(node.value)
 
+from queue import Queue as PyQueue
+
+# ---------------------------
+# Graph: Rail map + BFS (MRT/LRT)
+# ---------------------------
+class RailGraph:
+    def __init__(self):
+        self.adj = {}  # station -> set(neighbors)
+
+    def add_station(self, name):
+        if name not in self.adj:
+            self.adj[name] = set()
+
+    def add_edge(self, a, b):
+        self.add_station(a)
+        self.add_station(b)
+        self.adj[a].add(b)
+        self.adj[b].add(a)
+
+    def add_line(self, stations):
+        for i in range(len(stations) - 1):
+            self.add_edge(stations[i], stations[i + 1])
+
+    def shortest_path_bfs(self, start, goal):
+        if start not in self.adj or goal not in self.adj:
+            return None
+
+        q = PyQueue()
+        q.put(start)
+        prev = {start: None}
+        visited = {start}
+
+        while not q.empty():
+            cur = q.get()
+            if cur == goal:
+                break
+            for nxt in self.adj[cur]:
+                if nxt not in visited:
+                    visited.add(nxt)
+                    prev[nxt] = cur
+                    q.put(nxt)
+
+        if goal not in prev:
+            return None
+
+        path = []
+        cur = goal
+        while cur is not None:
+            path.append(cur)
+            cur = prev[cur]
+        path.reverse()
+        return path
+
+
+def build_rail_graph_with_map():
+    g = RailGraph()
+
+    mrt3 = [
+        "North Avenue", "Quezon Avenue", "GMA-Kamuning", "Araneta Center-Cubao (MRT-3)",
+        "Santolan-Annapolis", "Ortigas", "Shaw Boulevard", "Boni", "Guadalupe",
+        "Buendia", "Ayala", "Magallanes", "Taft Avenue"
+    ]
+    lrt2 = [
+        "Recto", "Legarda", "Pureza", "V. Mapa", "J. Ruiz", "Gilmore",
+        "Betty Go-Belmonte", "Araneta Center-Cubao (LRT-2)", "Anonas", "Katipunan",
+        "Santolan", "Marikina-Pasig", "Antipolo"
+    ]
+    lrt1 = [
+        "Fernando Poe Jr.", "Balintawak", "Monumento", "5th Avenue", "R. Papa",
+        "Abad Santos", "Blumentritt", "Tayuman", "Bambang", "Doroteo Jose",
+        "Carriedo", "Central Terminal", "United Nations", "Pedro Gil", "Quirino",
+        "Vito Cruz", "Gil Puyat", "Libertad", "EDSA", "Baclaran",
+        "Redemptorist-Aseana", "MIA Road", "PITX", "Ninoy Aquino Avenue", "Dr. Santos"
+    ]
+
+    # Build edges
+    g.add_line(mrt3)
+    g.add_line(lrt2)
+    g.add_line(lrt1)
+
+    # Walk transfers (dashed links)
+    transfers = [
+        ("Doroteo Jose", "Recto"),
+        ("Araneta Center-Cubao (MRT-3)", "Araneta Center-Cubao (LRT-2)"),
+        ("EDSA", "Taft Avenue"),
+    ]
+
+    # Graph connections for transfers
+    for a, b in transfers:
+        g.add_edge(a, b)
+
+    # -----------------------------------------
+    # MANUAL COORDINATES (EDIT THESE FREELY)
+    # viewBox is 0 0 1120 640 in graph.html
+    # -----------------------------------------
+    coords = {
+        # ----- LRT-1 (Red) -----
+        "Fernando Poe Jr.": {"x": 160, "y": 70},
+        "Balintawak": {"x": 160, "y": 95},
+        "Monumento": {"x": 160, "y": 114},
+        "5th Avenue": {"x": 160, "y": 136},
+        "R. Papa": {"x": 160, "y": 158},
+        "Abad Santos": {"x": 160, "y": 180},
+        "Blumentritt": {"x": 160, "y": 202},
+        "Tayuman": {"x": 160, "y": 224},
+        "Bambang": {"x": 160, "y": 246},
+        "Doroteo Jose": {"x": 160, "y": 268},  # align with Recto
+        "Carriedo": {"x": 160, "y": 290},
+        "Central Terminal": {"x": 160, "y": 312},
+        "United Nations": {"x": 160, "y": 334},
+        "Pedro Gil": {"x": 160, "y": 356},
+        "Quirino": {"x": 160, "y": 378},
+        "Vito Cruz": {"x": 160, "y": 400},
+        "Gil Puyat": {"x": 160, "y": 422},
+        "Libertad": {"x": 160, "y": 444},
+        "EDSA": {"x": 160, "y": 466},
+        "Baclaran": {"x": 160, "y": 488},
+        "Redemptorist-Aseana": {"x": 160, "y": 510},
+        "MIA Road": {"x": 160, "y": 532},
+        "PITX": {"x": 160, "y": 554},
+        "Ninoy Aquino Avenue": {"x": 160, "y": 576},
+        "Dr. Santos": {"x": 160, "y": 598},
+
+        # ----- LRT-2 (Blue) -----
+        "Recto": {"x": 200, "y": 268},   # connected to Doroteo Jose
+        "Legarda": {"x": 270, "y": 268},
+        "Pureza": {"x": 340, "y": 268},
+        "V. Mapa": {"x": 410, "y": 268},
+        "J. Ruiz": {"x": 480, "y": 268},
+        "Gilmore": {"x": 550, "y": 268},
+        "Betty Go-Belmonte": {"x": 620, "y": 268},
+        "Araneta Center-Cubao (LRT-2)": {"x": 690, "y": 268},
+        "Anonas": {"x": 760, "y": 268},
+        "Katipunan": {"x": 830, "y": 268},
+        "Santolan": {"x": 900, "y": 268},
+        "Marikina-Pasig": {"x": 970, "y": 268},
+        "Antipolo": {"x": 1040, "y": 268},
+
+        # ----- MRT-3 (Green) -----
+        "North Avenue": {"x": 660, "y": 70},
+        "Quezon Avenue": {"x": 700, "y": 115},
+        "GMA-Kamuning": {"x": 700, "y": 160},
+        "Araneta Center-Cubao (MRT-3)": {"x": 670, "y": 298},
+        "Santolan-Annapolis": {"x": 820, "y": 235},
+        "Ortigas": {"x": 760, "y": 305},
+        "Shaw Boulevard": {"x": 740, "y": 350},
+        "Boni": {"x": 720, "y": 395},
+        "Guadalupe": {"x": 700, "y": 440},
+        "Buendia": {"x": 730, "y": 485},
+        "Ayala": {"x": 780, "y": 525},
+        "Magallanes": {"x": 840, "y": 565},
+        "Taft Avenue": {"x": 460, "y": 476},  # near EDSA for transfer (adjust as you want)
+    }
+
+    # -----------------------------------------
+    # Lines config (colors)
+    # -----------------------------------------
+    lines = [
+        {"name": "LRT-1", "color": "#ff3b30", "stations": lrt1},
+        {"name": "LRT-2", "color": "#2f5cff", "stations": lrt2},
+        {"name": "MRT-3", "color": "#22c55e", "stations": mrt3},
+    ]
+
+    # Label shortening (map only)
+    label_text = {st: st for st in coords.keys()}
+    label_text["Araneta Center-Cubao (MRT-3)"] = "Cubao (MRT-3)"
+    label_text["Araneta Center-Cubao (LRT-2)"] = "Cubao (LRT-2)"
+    label_text["Betty Go-Belmonte"] = "Betty Go"
+    label_text["Santolan-Annapolis"] = "Santolan-Ann."
+    label_text["Marikina-Pasig"] = "Marikina"
+    label_text["Ninoy Aquino Avenue"] = "NAIA Ave."
+
+    # Label placement meta (edit freely too)
+    label_meta = {}
+    def set_label(st, dx, dy, anchor):
+        label_meta[st] = {"dx": dx, "dy": dy, "anchor": anchor}
+
+    for st in coords.keys():
+        set_label(st, 12, 4, "start")  # default right
+
+    # LRT-1 labels left side
+    for st in lrt1:
+        set_label(st, -12, 4, "end")
+
+    # LRT-2 alternate above/below centered
+    for i, st in enumerate(lrt2):
+        set_label(st, 0, (-14 if i % 2 == 0 else 20), "middle")
+
+    # MRT-3 alternate right/top
+    for i, st in enumerate(mrt3):
+        set_label(st, 14, (-14 if i % 2 == 0 else 18), "start")
+
+    # transfer tweak labels
+    set_label("Doroteo Jose", -12, 18, "end")
+    set_label("Recto", 0, -16, "middle")
+    set_label("EDSA", -12, -14, "end")
+    set_label("Taft Avenue", 12, 18, "start")
+
+    return g, coords, lines, label_meta, label_text, transfers
+
+rail_graph, rail_coords, rail_lines, rail_label_meta, rail_label_text, rail_transfers = build_rail_graph_with_map()
 
 # ---------------------------
 # App State
@@ -382,8 +580,8 @@ class BinarySearchTree:
 SITE_NAME = "Nodeus"
 queue_ds = Queue()
 deque_ds = Deque()
-tree_ds = BinaryTree()          # general BT
-bst_ds = BinarySearchTree()     # separate BST
+tree_ds = BinaryTree()
+bst_ds = BinarySearchTree()
 
 
 # ---------------------------
@@ -505,7 +703,6 @@ def works_deque():
     )
 
 
-# -------- Binary Tree page--------
 @app.route("/works/tree", methods=["GET", "POST"])
 def works_tree():
     global tree_ds
@@ -599,7 +796,6 @@ def works_tree():
     )
 
 
-# -------- BST work/page --------
 @app.route("/works/bst", methods=["GET", "POST"])
 def works_bst():
     global bst_ds
@@ -650,12 +846,12 @@ def works_bst():
 
         elif action == "get_max":
             max_value = bst_ds.get_max_value(bst_ds.root)
-            message = f"Max value: {max_value}" if max_value is not None else "Tree is empty."
+            message = f"Max value: {max_value}" if max_value is not None else "BST is empty."
             category = "success" if max_value is not None else "danger"
 
         elif action == "height":
             height_value = bst_ds.find_height(bst_ds.root)
-            message = f"Height (edges): {height_value}" if bst_ds.root else "Tree is empty."
+            message = f"Height (edges): {height_value}" if bst_ds.root else "BST is empty."
             category = "success" if bst_ds.root else "danger"
 
         elif action == "reset":
@@ -686,6 +882,64 @@ def works_bst():
         height_value=height_value,
         page_class="theme-bst"
     )
+
+
+# ---------------------------
+# Graph Route
+# ---------------------------
+@app.route("/works/graph", methods=["GET", "POST"])
+def works_graph():
+    message = None
+    category = None
+    start = None
+    end = None
+    path = None
+
+    stations = sorted(rail_graph.adj.keys(), key=lambda s: s.lower())
+
+    if request.method == "POST":
+        start = request.form.get("start")
+        end = request.form.get("end")
+
+        if not start or not end:
+            message = "Please select both start and destination stations."
+            category = "warning"
+        elif start == end:
+            path = [start]
+            message = "Start and destination are the same station."
+            category = "success"
+        else:
+            path = rail_graph.shortest_path_bfs(start, end)
+            if path is None:
+                message = "No path found (check if stations are connected)."
+                category = "danger"
+            else:
+                message = f"Shortest path found: {len(path)-1} stops."
+                category = "success"
+
+    transfers = [
+        ["Doroteo Jose", "Recto"],
+        ["Araneta Center-Cubao (MRT-3)", "Araneta Center-Cubao (LRT-2)"],
+        ["EDSA", "Taft Avenue"]
+    ]
+
+    return render_template(
+        "graph.html",
+        site_name=SITE_NAME,
+        stations=stations,
+        start=start,
+        end=end,
+        path=path,
+        coords=rail_coords,
+        lines=rail_lines,
+        label_meta=rail_label_meta,
+        label_text=rail_label_text,
+        transfers=rail_transfers,
+        message=message,
+        category=category,
+        page_class="theme-graph"
+    )
+
 
 
 @app.route("/about")
@@ -719,7 +973,7 @@ def about():
          "role": "Front-end Developer",
          "desc": "Contributed to page layouts, UI polish, and overall visual consistency of the portfolio.",
          "photo": "renier.jpg"},
-        {"name": "Roswell M. Buñag", "first": "Roswell", "email": "roswellbunag05@gmail.com",
+        {"name": "Roswell M. Buñag", "first": "Roswell", "email": "roswell@gmail.com",
          "role": "Front-end Developer",
          "desc": "Worked on structuring the works section UI and improving navigation between demos.",
          "photo": "roswell.png"},
@@ -728,14 +982,8 @@ def about():
          "desc": "Helped implement interactive visuals and controls for the data structure modules.",
          "photo": "zybert.jpg"},
     ]
-
     members_sorted = sorted(members, key=lambda m: m["first"].lower())
-    return render_template(
-        "about.html",
-        site_name=SITE_NAME,
-        members=members_sorted,
-        page_class="theme-about"
-    )
+    return render_template("about.html", site_name=SITE_NAME, members=members_sorted, page_class="theme-about")
 
 
 @app.route("/contact", methods=["GET", "POST"])
@@ -745,13 +993,7 @@ def contact():
     if request.method == "POST":
         submitted = True
         name = request.form.get("name")
-    return render_template(
-        "contact.html",
-        site_name=SITE_NAME,
-        submitted=submitted,
-        name=name,
-        page_class="theme-contact"
-    )
+    return render_template("contact.html", site_name=SITE_NAME, submitted=submitted, name=name, page_class="theme-contact")
 
 
 if __name__ == "__main__":

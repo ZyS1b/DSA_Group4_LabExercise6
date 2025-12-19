@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="brand">Rail Graph (MRT/LRT)</h2>
+
+{% if message %}
+  <div class="banner {{ category }}" style="margin-bottom: 12px;">
+    {{ message }}
+  </div>
+{% endif %}
+
+<div class="card card-outline">
+  <p>
+    This work models MRT/LRT stations as a <strong>graph</strong> (stations = vertices, connections = edges)
+    and computes the <strong>shortest path</strong> between two stations using <strong>BFS</strong> with a Python queue.
+  </p>
+
+  <form method="POST" class="tool-form">
+    <div class="field field-inline graph-controls">
+      <label class="note" for="start">Start:</label>
+      <select id="start" name="start" class="tree-select">
+        <option value="" disabled {% if not start %}selected{% endif %}>Select a station</option>
+        {% for s in stations %}
+          <option value="{{ s }}" {% if start == s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+
+      <label class="note" for="end">Destination:</label>
+      <select id="end" name="end" class="tree-select">
+        <option value="" disabled {% if not end %}selected{% endif %}>Select a station</option>
+        {% for s in stations %}
+          <option value="{{ s }}" {% if end == s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+
+      <button type="submit" class="btn-tree" name="action" value="find">Find Shortest Path</button>
+    </div>
+  </form>
+
+  <div class="panel tree-panel" style="margin-top: 14px;">
+    <strong>Rail Map:</strong>
+
+    <div class="graph-wrap">
+      <div class="graph-stage">
+
+        <svg class="rail-map"
+             viewBox="0 0 1120 640"
+             preserveAspectRatio="xMidYMid meet"
+             role="img"
+             aria-label="MRT/LRT rail map">
+
+          <!-- Rail line segments -->
+          {% for line in lines %}
+            {% for i in range(line.stations|length - 1) %}
+              {% set a = line.stations[i] %}
+              {% set b = line.stations[i+1] %}
+              {% set pa = coords[a] %}
+              {% set pb = coords[b] %}
+              {% if pa and pb %}
+                <path
+                  class="rail-seg"
+                  data-key="{{ (a ~ '||' ~ b) if a < b else (b ~ '||' ~ a) }}"
+                  stroke="{{ line.color }}"
+                  d="M {{ pa.x }} {{ pa.y }} L {{ pb.x }} {{ pb.y }}"
+                />
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+
+          <!-- Walkable transfer links (dashed) -->
+          {% for a, b in transfers %}
+            {% set pa = coords[a] %}
+            {% set pb = coords[b] %}
+            {% if pa and pb %}
+              <path class="transfer-link" d="M {{ pa.x }} {{ pa.y }} L {{ pb.x }} {{ pb.y }}"></path>
+            {% endif %}
+          {% endfor %}
+
+          <!-- Station dots + labels -->
+          {% set path_set = path if path else [] %}
+          {% set start_node = path_set[0] if path_set|length > 0 else None %}
+          {% set end_node = path_set[-1] if path_set|length > 0 else None %}
+
+          {% for name, p in coords.items() %}
+            {% set meta = label_meta.get(name) %}
+            {% set dx = meta.dx if meta else 12 %}
+            {% set dy = meta.dy if meta else 4 %}
+            {% set anchor = meta.anchor if meta else "start" %}
+            {% set txt = label_text.get(name, name) %}
+
+            <g class="station
+                      {% if name in path_set %} node-active{% endif %}
+                      {% if name == start_node %} node-start{% endif %}
+                      {% if name == end_node %} node-end{% endif %}"
+               data-station="{{ name }}">
+              <circle class="station-dot" cx="{{ p.x }}" cy="{{ p.y }}" r="7"></circle>
+
+              <text class="station-label"
+                    text-anchor="{{ anchor }}"
+                    x="{{ p.x + dx }}"
+                    y="{{ p.y + dy }}">
+                {{ txt }}
+              </text>
+            </g>
+          {% endfor %}
+        </svg>
+
+        <!-- Legend (bottom-right) -->
+        <div class="graph-legend" aria-label="Legend">
+          <div class="legend-row">
+            <span class="legend-line lrt1"></span><span>LRT-1</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-line lrt2"></span><span>LRT-2</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-line mrt3"></span><span>MRT-3</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-dash"></span><span>Walk transfer</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    {% if path is not none %}
+      <div class="graph-result">
+        <div class="note" style="margin-top:10px;">
+          Stops: <strong>{{ path|length - 1 }}</strong>
+        </div>
+
+        <div class="tree-output" style="margin-top:10px;">
+          {% for station in path %}
+            <span class="chip chip-tree">{{ station }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+(function(){
+  // Highlight route segments (lines) after render
+  const path = {{ (path if path else []) | tojson }};
+  if (!path.length) return;
+
+  const keys = new Set();
+  for (let i = 0; i < path.length - 1; i++){
+    const a = path[i], b = path[i+1];
+    const key = (a < b) ? `${a}||${b}` : `${b}||${a}`;
+    keys.add(key);
+  }
+
+  document.querySelectorAll(".rail-seg").forEach(seg => {
+    const key = seg.getAttribute("data-key");
+    if (keys.has(key)) seg.classList.add("route-active");
+  });
+})();
+</script>
+{% endblock %}
