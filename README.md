@@ -25,8 +25,9 @@ DSA_Group4_LabExercise6/
 │   ├── index.html
 │   ├── queue.html
 │   ├── tree.html
-│   └── works.html
-│   └── bst.html
+│   ├── works.html
+│   ├── bst.html
+    └── graph.html
 ├── .gitignore
 ├── LICENSE
 ├── README.md
@@ -62,5 +63,8 @@ DSA_Group4_LabExercise6/
 
 ### **Binary Search Tree**
 ![Binary Tree](./static/pages/binary-search-tree.png)
+
+### **Rail Graph**
+![Rail Graph](./static/pages/rail-graph.png)
 
 <img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=gradient&section=footer"/>
