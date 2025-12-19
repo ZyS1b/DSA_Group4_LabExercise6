@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 import uuid
-from queue import Queue as PyQueue  # ✅ Python queue for BFS
+from queue import Queue as PyQueue 
 
 app = Flask(__name__)
 
@@ -470,7 +470,7 @@ def build_rail_graph_with_map():
     coords = {
         # ----- LRT-1 (Red) -----
         "Fernando Poe Jr.": {"x": 160, "y": 70},
-        "Balintawak": {"x": 160, "y": 95},
+        "Balintawak": {"x": 160, "y": 92},
         "Monumento": {"x": 160, "y": 114},
         "5th Avenue": {"x": 160, "y": 136},
         "R. Papa": {"x": 160, "y": 158},
@@ -511,19 +511,19 @@ def build_rail_graph_with_map():
         "Antipolo": {"x": 1040, "y": 268},
 
         # ----- MRT-3 (Green) -----
-        "North Avenue": {"x": 660, "y": 70},
-        "Quezon Avenue": {"x": 700, "y": 115},
-        "GMA-Kamuning": {"x": 700, "y": 160},
+        "North Avenue": {"x": 670, "y": 70},
+        "Quezon Avenue": {"x": 670, "y": 115},
+        "GMA-Kamuning": {"x": 670, "y": 160},
         "Araneta Center-Cubao (MRT-3)": {"x": 670, "y": 298},
-        "Santolan-Annapolis": {"x": 820, "y": 235},
-        "Ortigas": {"x": 760, "y": 305},
-        "Shaw Boulevard": {"x": 740, "y": 350},
-        "Boni": {"x": 720, "y": 395},
-        "Guadalupe": {"x": 700, "y": 440},
-        "Buendia": {"x": 730, "y": 485},
-        "Ayala": {"x": 780, "y": 525},
-        "Magallanes": {"x": 840, "y": 565},
-        "Taft Avenue": {"x": 460, "y": 476},  # near EDSA for transfer (adjust as you want)
+        "Santolan-Annapolis": {"x": 670, "y": 235},
+        "Ortigas": {"x": 670, "y": 305},
+        "Shaw Boulevard": {"x": 670, "y": 350},
+        "Boni": {"x": 670, "y": 395},
+        "Guadalupe": {"x": 670, "y": 440},
+        "Buendia": {"x": 670, "y": 485},
+        "Ayala": {"x": 670, "y": 525},
+        "Magallanes": {"x": 670, "y": 565},
+        "Taft Avenue": {"x": 200, "y": 466},  # near EDSA for transfer (adjust as you want)
     }
 
     # -----------------------------------------
@@ -558,17 +558,19 @@ def build_rail_graph_with_map():
 
     # LRT-2 alternate above/below centered
     for i, st in enumerate(lrt2):
-        set_label(st, 0, (-14 if i % 2 == 0 else 20), "middle")
+        set_label(st, 0, (20 if i % 2 == 0 else -14), "middle")
 
     # MRT-3 alternate right/top
     for i, st in enumerate(mrt3):
-        set_label(st, 14, (-14 if i % 2 == 0 else 18), "start")
+        set_label(st, 14, 4, "start")
 
     # transfer tweak labels
-    set_label("Doroteo Jose", -12, 18, "end")
-    set_label("Recto", 0, -16, "middle")
-    set_label("EDSA", -12, -14, "end")
-    set_label("Taft Avenue", 12, 18, "start")
+    set_label("Doroteo Jose", -12, 4, "end")
+    set_label("Recto", 0, 20, "middle")
+    set_label("EDSA", -12, 4, "end")
+    set_label("Taft Avenue", 0, 20, "middle")
+    set_label("Araneta Center-Cubao (MRT-3)", 14, -14, "start")
+    set_label("Araneta Center-Cubao (LRT-2)", 26, -14, "middle")
 
     return g, coords, lines, label_meta, label_text, transfers
 
