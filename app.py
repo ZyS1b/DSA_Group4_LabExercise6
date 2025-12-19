@@ -515,14 +515,14 @@ def build_rail_graph_with_map():
         "Quezon Avenue": {"x": 670, "y": 115},
         "GMA-Kamuning": {"x": 670, "y": 160},
         "Araneta Center-Cubao (MRT-3)": {"x": 670, "y": 298},
-        "Santolan-Annapolis": {"x": 670, "y": 235},
-        "Ortigas": {"x": 670, "y": 305},
-        "Shaw Boulevard": {"x": 670, "y": 350},
-        "Boni": {"x": 670, "y": 395},
-        "Guadalupe": {"x": 670, "y": 440},
-        "Buendia": {"x": 670, "y": 485},
-        "Ayala": {"x": 670, "y": 525},
-        "Magallanes": {"x": 670, "y": 565},
+        "Santolan-Annapolis": {"x": 618, "y": 316},
+        "Ortigas": {"x": 566, "y": 332},
+        "Shaw Boulevard": {"x": 514, "y": 348},
+        "Boni": {"x": 462, "y": 364},
+        "Guadalupe": {"x": 410, "y": 380},
+        "Buendia": {"x": 358, "y": 396},
+        "Ayala": {"x": 670, "y": 412},
+        "Magallanes": {"x": 670, "y": 426},
         "Taft Avenue": {"x": 200, "y": 466},  # near EDSA for transfer (adjust as you want)
     }
 
@@ -569,7 +569,7 @@ def build_rail_graph_with_map():
     set_label("Recto", 0, 20, "middle")
     set_label("EDSA", -12, 4, "end")
     set_label("Taft Avenue", 0, 20, "middle")
-    set_label("Araneta Center-Cubao (MRT-3)", 14, -14, "start")
+    set_label("Araneta Center-Cubao (MRT-3)", 14, 4, "start")
     set_label("Araneta Center-Cubao (LRT-2)", 26, -14, "middle")
 
     return g, coords, lines, label_meta, label_text, transfers

@@ -1,13 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 <h2 class="brand">Rail Graph (MRT/LRT)</h2>
-
-{% if message %}
-  <div class="banner {{ category }}" style="margin-bottom: 12px;">
-    {{ message }}
-  </div>
-{% endif %}
-
 <div class="card card-outline">
   <p>
     This work models MRT/LRT stations as a <strong>graph</strong> (stations = vertices, connections = edges)
