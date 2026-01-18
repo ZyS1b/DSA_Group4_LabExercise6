@@ -4,34 +4,49 @@
 
 <img width="100%" height="50" src="https://i.imgur.com/dBaSKWF.gif"/>
 
-# **DSA Group 4 Lab 3**
+# **DSA Group 4 Final Requirement**
 
-Our web portfolio is a Flask-based website with a futuristic neon and glass look that highlights our group's work in programming and web design. It includes pages like Home, About, Works, and Contact, with special demo pages showing how data structures work using Python. Each of the nine team members has their own profile section, and the site is built so we can easily add more projects later. The design is clean, simple, and consistent across all pages, focusing on both functionality and modern style.
+Our web portfolio is a Flask-based website with a futuristic neon and glass look that highlights our group's work in programming and web design. It includes pages like Home, About, Works, and Contact, plus interactive algorithm demos for data structures and sorting. Each of the nine team members has their own profile section, and the site is built so we can easily add more projects later. The design stays clean and consistent across pages while emphasizing both function and style.
 
 ## **Directory Structure**
 
 ```
 DSA_Group4_LabExercise6/
-├── static/
-│   ├── icons/
-│   ├── images/
-│   ├── pages/
-│   └── style.css
-├── templates/
-│   ├── about.html
-│   ├── base.html
-│   ├── contact.html
-│   ├── deque.html
-│   ├── index.html
-│   ├── queue.html
-│   ├── tree.html
-│   ├── works.html
-│   ├── bst.html
-    └── graph.html
-├── .gitignore
-├── LICENSE
-├── README.md
-└── app.py
+├─ app.py
+├─ sorting_routes.py
+├─ README.md
+├─ LICENSE
+├─ .gitignore
+├─ static/
+│  ├─ css/
+│  │  ├─ sorting_style.css
+│  │  └─ style.css
+│  ├─ js/
+│  │  ├─ base.js
+│  │  ├─ graph.js
+│  │  ├─ tree_layout.js
+│  │  └─ sorting/
+│  │     ├─ bubble_sort.js
+│  │     ├─ insertion_sort.js
+│  │     ├─ merge_sort.js
+│  │     ├─ quick_sort.js
+│  │     ├─ selection_sort.js
+│  │     └─ tabs.js
+│  ├─ icons/
+│  ├─ images/
+│  └─ pages/
+└─ templates/
+   ├─ about.html
+   ├─ base.html
+   ├─ bst.html
+   ├─ contact.html
+   ├─ deque.html
+   ├─ graph.html
+   ├─ index.html
+   ├─ queue.html
+   ├─ sorting.html
+   ├─ tree.html
+   └─ works.html
 ```
 
 ## **Pages**
@@ -66,5 +81,22 @@ DSA_Group4_LabExercise6/
 
 ### **Rail Graph**
 ![Rail Graph](./static/pages/rail-graph.png)
+
+## **Sorting Visualizer**
+
+### **Bubble Sort**
+![Bubble Sort](./static/pages/bubble.png)
+
+### **Selection Sort**
+![Selection Sort](./static/pages/selection.png)
+
+### **Insertion Sort**
+![Insertion Sort](./static/pages/insertion.png)
+
+### **Merge Sort**
+![Merge Sort](./static/pages/merge.png)
+
+### **Quick Sort**
+![Quick Sort](./static/pages/quick.png)
 
 <img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=gradient&section=footer"/>

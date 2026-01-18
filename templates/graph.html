@@ -33,7 +33,7 @@
     <strong>Rail Map:</strong>
 
     <div class="graph-wrap">
-      <div class="graph-stage">
+      <div class="graph-stage" data-path='{{ (path if path else []) | tojson }}'>
 
         <svg class="rail-map"
              viewBox="0 0 1120 640"
@@ -132,23 +132,5 @@
   </div>
 </div>
 
-<script>
-(function(){
-  // Highlight route segments (lines) after render
-  const path = {{ (path if path else []) | tojson }};
-  if (!path.length) return;
-
-  const keys = new Set();
-  for (let i = 0; i < path.length - 1; i++){
-    const a = path[i], b = path[i+1];
-    const key = (a < b) ? `${a}||${b}` : `${b}||${a}`;
-    keys.add(key);
-  }
-
-  document.querySelectorAll(".rail-seg").forEach(seg => {
-    const key = seg.getAttribute("data-key");
-    if (keys.has(key)) seg.classList.add("route-active");
-  });
-})();
-</script>
+<script src="{{ url_for('static', filename='js/graph.js') }}"></script>
 {% endblock %}

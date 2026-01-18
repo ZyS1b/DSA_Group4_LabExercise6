@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ site_name }}{% block title %}{% endblock %}</title>
   <!-- Your CSS lives directly under /static -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='sorting_style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/sorting_style.css') }}">
 </head>
 <body class="{{ page_class|default('') }}">
   <!-- Static neon background layers (no animations for performance) -->
@@ -45,15 +45,6 @@
     <p>© 2025 {{ site_name }}. Designed by Group 4.</p>
   </footer>
 
-  <script>
-    // Simple mobile nav toggle
-    const toggle = document.querySelector('.nav-toggle');
-    const links = document.querySelector('.nav-links');
-    if (toggle) {
-      toggle.addEventListener('click', () => {
-        links.classList.toggle('open');
-      });
-    }
-  </script>
+  <script src="{{ url_for('static', filename='js/base.js') }}"></script>
 </body>
 </html>
