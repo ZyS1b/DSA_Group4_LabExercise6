@@ -135,65 +135,52 @@ def selection_sort_steps():
 
 
 # ---------------------------
-# Sorting Algorithms (Merge Sort)
+# Sorting Algorithms (Insertion Sort)
 # ---------------------------
-def build_merge_sort_actions(values):
+def build_insertion_sort_actions(values):
     actions = []
     arr = list(values)
 
-    def merge(lo, mid, hi):
+    n = len(arr)
+    for i in range(1, n):
+        key = arr[i]
+        j = i - 1
         actions.append({
-            "type": "range",
-            "range": [lo, hi],
-            "desc": f"Merge subarray indices {lo}-{hi}."
+            "type": "start_pass",
+            "index": i,
+            "desc": f"Start insertion pass for index {i}, key = {key}."
         })
-        left = arr[lo:mid + 1]
-        right = arr[mid + 1:hi + 1]
-        i = 0
-        j = 0
-        for k in range(lo, hi + 1):
-            if i >= len(left):
-                value = right[j]
-                j += 1
-            elif j >= len(right):
-                value = left[i]
-                i += 1
-            else:
-                actions.append({
-                    "type": "compare",
-                    "indices": [lo + i, mid + 1 + j],
-                    "desc": f"Compare {left[i]} with {right[j]}."
-                })
-                if left[i] <= right[j]:
-                    value = left[i]
-                    i += 1
-                else:
-                    value = right[j]
-                    j += 1
+        if arr[j] > key:
             actions.append({
-                "type": "write",
-                "index": k,
-                "value": value,
-                "desc": f"Write {value} to index {k}."
+                "type": "shift",
+                "from": j,
+                "to": j + 1,
+                "desc": f"Shift {arr[j]} right from index {j} to {j + 1}."
             })
-            arr[k] = value
+            arr[j + 1] = arr[j]
+            j -= 1
+        else:
+            break    
 
-    def merge_sort(lo, hi):
-        if lo >= hi:
-            return
-        mid = (lo + hi) // 2
-        merge_sort(lo, mid)
-        merge_sort(mid + 1, hi)
-        merge(lo, mid, hi)
+        arr[j + 1] = key
+        actions.append({
+            "type": "insert",
+            "index": j + 1,
+            "value": key,
+            "desc": f"Insert key {key} at position {j + 1}."
+        })
 
-    if arr:
-        merge_sort(0, len(arr) - 1)
+        actions.append({
+            "type": "sorted_prefix",
+            "end": i,
+            "desc": f"Subarray 0 to {i} is now sorted."
+        })
+
     actions.append({"type": "done", "desc": "Array sorted."})
     return actions
 
-
-@sorting_blueprint.route("/works/sorting/merge-steps", methods=["POST"])
-def merge_sort_steps():
+@sorting_blueprint.route("/works/sorting/insertion-steps", methods=["POST"])
+def insertion_sort_steps():
     data = request.get_json(silent=True) or {}
     raw_values = data.get("values", [])
 
@@ -208,9 +195,8 @@ def merge_sort_steps():
         if len(cleaned) >= 14:
             break
 
-    actions = build_merge_sort_actions(cleaned)
+    actions = build_insertion_sort_actions(cleaned)
     return jsonify({"actions": actions, "values": cleaned})
-
 
 # ---------------------------
 # Sorting Algorithms (Quick Sort)

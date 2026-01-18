@@ -72,83 +72,17 @@
 
 .sorting-section{
   margin-bottom: 40px;
-  display: none;
-}
-
-.sorting-section.is-active{
-  display: block;
-}
-
-.sorting-tabs{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin: var(--space-3) 0 var(--space-4);
-}
-
-.sorting-tab{
-  border-radius: 999px;
-  border: 1px solid color-mix(in oklab, var(--accent), #ffffff 16%);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--text);
-  padding: 10px 16px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  cursor: pointer;
-  transition: transform 160ms var(--ease), box-shadow 160ms var(--ease), border-color 160ms var(--ease);
-}
-
-.sorting-tab:hover{
-  transform: translateY(-1px);
-  border-color: color-mix(in oklab, var(--accent), #ffffff 30%);
-}
-
-.sorting-tab.is-active{
-  border-color: color-mix(in oklab, var(--accent), #ffffff 40%);
-  background: color-mix(in oklab, var(--accent), transparent 85%);
-  box-shadow: 0 0 18px color-mix(in oklab, var(--accent), transparent 75%);
-}
-
-.sorting-section h3,
-.sorting-section h4,
-.sorting-section h5{
-  color: var(--accent);
-  text-shadow: 0 0 8px color-mix(in oklab, var(--accent), transparent 40%);
 }
 
 /* =========================================
    Sorting Page (Bubble Sort)
    ========================================= */
 #bubble {
-  --accent: #8f4bff;
-  --accent-2: #c76bff;
-  --bg-aurora-1: #8f4bff;
-  --bg-aurora-2: #c76bff;
-  --bg-aurora-3: #6d28d9;
-}
-
-#insertion{
-  --accent: var(--neon-blue);
-  --accent-2: var(--neon-cyan);
-  --bg-aurora-1: var(--neon-blue);
-  --bg-aurora-2: var(--neon-cyan);
-  --bg-aurora-3: var(--neon-blue);
-}
-
-#merge{
-  --accent: #ff1f3d;
-  --accent-2: #ff6b3d;
-  --bg-aurora-1: #ff1f3d;
-  --bg-aurora-2: #ff6b3d;
-  --bg-aurora-3: #ff0028;
-}
-
-#quick{
-  --accent: var(--neon-orange);
-  --accent-2: var(--neon-yellow);
-  --bg-aurora-1: var(--neon-orange);
-  --bg-aurora-2: var(--neon-yellow);
-  --bg-aurora-3: var(--neon-orange);
+  --accent: var(--neon-pink);
+  --accent-2: var(--neon-magenta);
+  --bg-aurora-1: var(--neon-pink);
+  --bg-aurora-2: var(--neon-magenta);
+  --bg-aurora-3: #bd00ff;
 }
 
 .bubble-grid{
@@ -258,34 +192,20 @@
 #selection {
   --accent: #00ff41;
   --accent-2: #008f11;
-  --bg-aurora-1: #00ff41;
-  --bg-aurora-2: #008f11;
-  --bg-aurora-3: #00c853;
 
-  --text-highlight: #caffd6;
-  --glow-color: rgba(0, 255, 65, 0.95);
+  --text-highlight: #00ff41;
+  --glow-color: rgba(0, 255, 65, 0.6);
 }
 
 #selection h3,
 #selection h4,
 #selection h5 {
-  color: var(--text-highlight);
-  text-shadow:
-    0 0 10px var(--glow-color),
-    0 0 22px rgba(0, 255, 65, 0.7),
-    0 0 36px rgba(0, 255, 65, 0.5);
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--glow-color)
 }
 
 #selection .note{
   color: #ccffda;
-}
-
-#selection p,
-#selection .note,
-#selection .selection-step-hint,
-#selection .selection-steps li{
-  color: #d6ffe2;
-  text-shadow: 0 0 8px rgba(0, 255, 65, 0.45);
 }
 
 #selection .sort-bar.is-sorted {
@@ -384,27 +304,27 @@
 }
 
 .sort-bar.is-pivot{
-  background: linear-gradient(180deg, color-mix(in oklab, var(--accent-2), #ffffff 24%), color-mix(in oklab, var(--accent), transparent 35%));
+  background: linear-gradient(180deg, color-mix(in oklab, var(--neon-yellow), #ffffff 24%), color-mix(in oklab, var(--neon-orange), transparent 35%));
   box-shadow:
-    0 0 20px color-mix(in oklab, var(--accent-2), transparent 40%),
-    inset 0 0 14px color-mix(in oklab, var(--accent), transparent 60%);
+    0 0 20px color-mix(in oklab, var(--neon-yellow), transparent 40%),
+    inset 0 0 14px color-mix(in oklab, var(--neon-orange), transparent 60%);
   transform: translateY(-8px);
 }
 
 .sort-bar.is-compare{
-  background: linear-gradient(180deg, color-mix(in oklab, var(--accent), #ffffff 18%), color-mix(in oklab, var(--accent-2), transparent 40%));
-  box-shadow: 0 0 18px color-mix(in oklab, var(--accent), transparent 55%);
+  background: linear-gradient(180deg, color-mix(in oklab, var(--neon-pink), #ffffff 18%), color-mix(in oklab, var(--neon-magenta), transparent 40%));
+  box-shadow: 0 0 18px color-mix(in oklab, var(--neon-pink), transparent 55%);
 }
 
 .sort-bar.is-swap{
-  background: linear-gradient(180deg, color-mix(in oklab, var(--accent-2), #ffffff 18%), color-mix(in oklab, var(--accent), transparent 40%));
-  box-shadow: 0 0 18px color-mix(in oklab, var(--accent-2), transparent 55%);
+  background: linear-gradient(180deg, color-mix(in oklab, var(--neon-orange), #ffffff 18%), color-mix(in oklab, var(--neon-yellow), transparent 40%));
+  box-shadow: 0 0 18px color-mix(in oklab, var(--neon-orange), transparent 55%);
   transform: translateY(-6px);
 }
 
 .sort-bar.is-sorted{
-  background: linear-gradient(180deg, color-mix(in oklab, var(--accent), #ffffff 12%), color-mix(in oklab, var(--accent), transparent 40%));
-  box-shadow: 0 0 18px color-mix(in oklab, var(--accent), transparent 60%);
+  background: linear-gradient(180deg, color-mix(in oklab, var(--neon-green), #ffffff 12%), color-mix(in oklab, var(--neon-green), transparent 40%));
+  box-shadow: 0 0 18px color-mix(in oklab, var(--neon-green), transparent 60%);
 }
 
 .selection-grid{
@@ -521,16 +441,32 @@
 }
 
 /* =========================================
-   Sorting Page (Merge Sort)
+   Sorting Page (Insertion Sort)
    ========================================= */
-.merge-grid{
+
+#insertion {
+  --accent: var(--neon-orange);
+  --accent-2: var(--neon-yellow);
+  --bg-aurora-1: var(--neon-orange);
+  --bg-aurora-2: var(--neon-yellow);
+  --bg-aurora-3: #ffb300;
+}
+
+#insertion h3,
+#insertion h4,
+#insertion h5 {
+  color: var(--accent);
+  text-shadow: 0 0 8px color-mix(in oklab, var(--accent), transparent 40%);
+}
+
+.insertion-grid{
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-4);
   margin-top: var(--space-3);
 }
 
-.merge-visual-grid{
+.insertion-visual-grid{
   display: grid;
   grid-template-columns: minmax(240px, 1fr) minmax(360px, 2fr);
   gap: var(--space-4);
@@ -538,15 +474,15 @@
   align-items: start;
 }
 
-.merge-visual-grid .sorter{
+.insertion-visual-grid .sorter{
   margin-top: 0;
 }
 
-.merge-panel-wide{
+.insertion-panel-wide{
   grid-column: 1 / -1;
 }
 
-.merge-panel{
+.insertion-panel{
   background: var(--panel);
   border-radius: var(--radius-2);
   border: 1px solid color-mix(in oklab, var(--accent), #ffffff 14%);
@@ -554,35 +490,46 @@
   box-shadow: 0 0 34px color-mix(in oklab, var(--accent), transparent 88%);
 }
 
-.merge-panel h4{
+.insertion-panel h4{
   margin: 0 0 var(--space-2);
   font-family: 'Orbitron';
   font-size: var(--fs-2);
 }
 
-.merge-panel h5{
+.insertion-panel h5{
   margin: var(--space-2) 0 var(--space-1);
   font-size: var(--fs-1);
   color: color-mix(in oklab, var(--text), #ffffff 8%);
 }
 
-.merge-subpanel + .merge-subpanel{
+.insertion-subpanel + .insertion-subpanel{
   margin-top: var(--space-2);
 }
 
-.merge-complexity{
+.insertion-code{
+  background: rgba(6, 12, 28, 0.65);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 16px;
+  font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+
+.insertion-complexity{
   margin: 0;
   padding-left: 18px;
   color: var(--muted);
 }
 
-.merge-step-hint{
+.insertion-step-hint{
   margin: 0 0 var(--space-2);
   color: var(--muted);
   font-size: var(--fs-0);
 }
 
-.merge-steps{
+.insertion-steps{
   margin: 0;
   padding-left: 20px;
   display: grid;
@@ -591,7 +538,7 @@
   overflow: auto;
 }
 
-.merge-steps li{
+.insertion-steps li{
   background: rgba(255, 255, 255, 0.02);
   border-radius: 10px;
   padding: 8px 10px;
@@ -600,18 +547,60 @@
   font-size: 0.9rem;
 }
 
-.merge-steps li.is-current{
+.insertion-steps li.is-current{
   border-color: color-mix(in oklab, var(--accent), #ffffff 24%);
   color: var(--text);
   box-shadow: 0 0 16px color-mix(in oklab, var(--accent), transparent 70%);
   background: color-mix(in oklab, var(--accent), transparent 88%);
 }
 
+.sort-bar.is-key{
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--neon-yellow), #ffffff 22%),
+    color-mix(in oklab, var(--neon-orange), transparent 40%)
+  );
+  box-shadow:
+    0 0 20px color-mix(in oklab, var(--neon-yellow), transparent 45%),
+    inset 0 0 14px color-mix(in oklab, var(--neon-orange), transparent 60%);
+  transform: translateY(-10px);
+}
+
+/* Compared element */
+.sort-bar.is-compare{
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--neon-pink), #ffffff 18%),
+    color-mix(in oklab, var(--neon-magenta), transparent 40%)
+  );
+  box-shadow: 0 0 18px color-mix(in oklab, var(--neon-pink), transparent 55%);
+}
+
+/* Shifted element */
+.sort-bar.is-shift{
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--neon-orange), #ffffff 18%),
+    color-mix(in oklab, var(--neon-yellow), transparent 40%)
+  );
+  box-shadow: 0 0 18px color-mix(in oklab, var(--neon-orange), transparent 55%);
+  transform: translateY(-6px);
+}
+
+.sort-bar.is-sorted{
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--neon-green), #ffffff 12%),
+    color-mix(in oklab, var(--neon-green), transparent 40%)
+  );
+  box-shadow: 0 0 18px color-mix(in oklab, var(--neon-green), transparent 60%);
+}
+
 @media (max-width: 960px){
-  .merge-grid{
+  .insertion-grid{
     grid-template-columns: 1fr;
   }
-  .merge-visual-grid{
+  .insertion-visual-grid{
     grid-template-columns: 1fr;
   }
 }
@@ -731,4 +720,3 @@
     min-width: 12px;
   }
 }
-
