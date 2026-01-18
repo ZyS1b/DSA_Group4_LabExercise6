@@ -1,4 +1,7 @@
 from flask import Blueprint, current_app, render_template, request
+import json
+import urllib.error
+import urllib.request
 
 from . import state
 from .data_structures import BinarySearchTree, BinaryTree, Deque, Queue
@@ -445,14 +448,39 @@ def about():
 def contact():
     submitted = False
     name = None
+    error = None
     if request.method == "POST":
-        submitted = True
-        name = request.form.get("name")
+        name = (request.form.get("name") or "").strip()
+        email = (request.form.get("email") or "").strip()
+        message = (request.form.get("message") or "").strip()
+
+        payload = json.dumps({
+            "name": name,
+            "email": email,
+            "message": message
+        }).encode("utf-8")
+
+        req = urllib.request.Request(
+            "https://formspree.io/f/mreepvjz",
+            data=payload,
+            headers={"Content-Type": "application/json"},
+            method="POST"
+        )
+
+        try:
+            with urllib.request.urlopen(req, timeout=10) as response:
+                if 200 <= response.status < 300:
+                    submitted = True
+                else:
+                    error = "Message could not be sent. Please try again."
+        except (urllib.error.URLError, urllib.error.HTTPError):
+            error = "Message could not be sent. Please try again."
     site_name = current_app.config.get("SITE_NAME", state.SITE_NAME)
     return render_template(
         "contact.html",
         site_name=site_name,
         submitted=submitted,
         name=name,
+        error=error,
         page_class="theme-contact",
     )

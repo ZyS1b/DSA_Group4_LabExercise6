@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <h2 class="brand">Contact Us</h2>
-<p class="panel">Have questions or feedback? We’d love to hear from you!</p>
+<p class="panel">Have questions or feedback? We'd love to hear from you!</p>
 
 <div class="card card-outline">
   <form method="POST" class="grid" style="grid-template-columns:1fr">
@@ -19,9 +19,11 @@
 
   <p class="note" style="margin-top: var(--space-3)">
     {% if submitted %}
-      <span class="success">Message received{% if name %}, {{ name }}{% endif %}! We’ll get back to you soon.</span>
+      <span class="success">Message received{% if name %}, {{ name }}{% endif %}! We'll get back to you soon.</span>
+    {% elif error %}
+      <span class="danger">{{ error }}</span>
     {% else %}
-      We usually reply within 24–48 hours.
+      We usually reply within 24-48 hours.
     {% endif %}
   </p>
 </div>
