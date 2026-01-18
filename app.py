@@ -646,6 +646,71 @@ def bubble_sort_steps():
     return jsonify({"actions": actions, "values": cleaned})
 
 # ---------------------------
+# Sorting Algorithms (Selection Sort)
+# ---------------------------
+def build_selection_sort_actions(values):
+    actions = []
+    arr = list(values)
+
+    n = len(arr)
+    for i in range(n - 1):
+        min_index = i
+        actions.append({
+            "type": "start_pass",
+            "index": i,
+            "desc": f"Start pass for position {i}, find min in subarray {i}-{n-1}."
+        })
+        for j in range(i + 1, n):
+            actions.append({
+                "type": "compare",
+                "indices": [min_index, j],
+                "desc": f"Compare current min {arr[min_index]} with {arr[j]}."
+            })
+            if arr[j] < arr[min_index]:
+                min_index = j
+                actions.append({
+                    "type": "min_found",
+                    "index": min_index,
+                    "desc": f"New min found: {arr[min_index]} at index {min_index}."
+                })
+        if min_index != i:
+            actions.append({
+                "type": "swap",
+                "i": i,
+                "j": min_index,
+                "desc": f"Swap {arr[i]} at index {i} with min {arr[min_index]} at index {min_index}."
+            })
+            arr[i], arr[min_index] = arr[min_index], arr[i]
+        actions.append({
+            "type": "sorted",
+            "index": i,
+            "desc": f"Position {i} is now sorted."
+        })
+
+    actions.append({"type": "done", "desc": "Array sorted."})
+    return actions
+
+
+@app.route("/works/sorting/selection-steps", methods=["POST"])
+def selection_sort_steps():
+    data = request.get_json(silent=True) or {}
+    raw_values = data.get("values", [])
+
+    cleaned = []
+    for value in raw_values:
+        try:
+            num = int(value)
+        except (TypeError, ValueError):
+            continue
+        num = max(2, min(99, num))
+        cleaned.append(num)
+        if len(cleaned) >= 14:
+            break
+
+    actions = build_selection_sort_actions(cleaned)
+    return jsonify({"actions": actions, "values": cleaned})
+
+# ---------------------------
 # Sorting Algorithms (Quick Sort)
 # ---------------------------
 def build_quick_sort_actions(values):

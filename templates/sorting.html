@@ -72,9 +72,76 @@
     <script src="{{ url_for('static', filename='bubble_sort.js') }}"></script>
 </div>
 
-<div id="Selection" class="card card-outline" style="margin-bottom: 40px;">
+<div id="selection" class="card card-outline" style="margin-bottom: 40px;">
     <h3>Selection Sort</h3>
+    <p class="note">Selection Sort is a simple comparison-based sorting algorithm that divides the input list into two parts: a sorted sublist of items which is built up from left to right at the front (left) of the list and a sublist of the remaining unsorted items that occupy the rest of the list.</p>
+
+    <div class="selection-grid">
+        <section class="selection-panel selection-panel-wide">
+            <h4>How does Selection Sort Algorithm Work?</h4>
+            <p>
+                The visualization below demonstrates the selection sort process, where we repeatedly select the smallest (or largest) element from the unsorted portion and move it to the sorted portion.
+            </p>
+            <p>
+                There are mainly three steps in the algorithm: <br><br>
+
+1. Find the Minimum: Scan the unsorted part of the array to find the smallest element.<br><br>
+2. Swap: Swap the found minimum element with the first element of the unsorted part.<br><br>
+3. Repeat: Repeat the process for the remaining unsorted part of the array.<br><br>
+4. Base Case: The process continues until the entire array is sorted, with each pass reducing the unsorted portion by one element.
+            </p>
+
+            <div class="selection-subpanel">
+                <h5>Big O Complexity</h5>
+                <ul class="selection-complexity">
+                    <li>Best: O(n^2) due to nested loops.</li>
+                    <li>Average: O(n^2) for all cases.</li>
+                    <li>Worst: O(n^2) even for sorted input.</li>
+                    <li>Space: O(1) as it sorts in-place.</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <div class="selection-visual-grid">
+        <section class="selection-panel">
+            <h4>Step Trace</h4>
+            <p class="selection-step-hint">Steps appear as the algorithm runs. Current step is highlighted.</p>
+            <ol id="selection-steps-list" class="selection-steps"></ol>
+        </section>
+
+        <div class="sorter">
+            <div class="sorter-controls">
+                <label class="sorter-label" for="selection-input">Numbers</label>
+                <input id="selection-input" type="text" placeholder="32, 11, 5, 26, 18, 9, 41, 15">
+
+                <div class="sorter-actions">
+                    <button id="selection-load" type="button" class="cta">Load</button>
+                    <button id="selection-random" type="button" class="ghost">Random</button>
+                    <button id="selection-start" type="button" class="cta">Animate</button>
+                    <button id="selection-reset" type="button" class="ghost">Reset</button>
+                </div>
+
+                <div class="sorter-controls-row">
+                    <label class="sorter-label" for="selection-speed">Speed</label>
+                    <input id="selection-speed" type="range" min="60" max="3600" step="20" value="220">
+                    <span id="selection-speed-label" class="sorter-meta-text">220ms</span>
+                </div>
+
+                <div class="sorter-meta">
+                    <span>Current Min: <strong id="selection-min">-</strong></span>
+                    <span>Steps: <strong id="selection-steps">0/0</strong></span>
+                </div>
+            </div>
+
+            <div class="sorter-stage">
+                <div id="selection-bars" class="sorter-bars" role="img" aria-label="Selection sort visualization"></div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script src="{{ url_for('static', filename='selection_sort.js') }}"></script>
 
 <div id="Insertion" class="card card-outline" style="margin-bottom: 40px;">
     <h3>Insertion Sort</h3>
