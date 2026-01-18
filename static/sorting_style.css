@@ -1,0 +1,71 @@
+/* =========================================
+   Dropdown Menu for Sorting
+   ========================================= */
+
+/* The Container */
+.dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Button Override */
+.dropdown-wrapper .cta {
+  cursor: pointer;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  border: none;       /* Reset for button tag */
+  display: flex;      /* Center text */
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* The Menu */
+.dropdown-content {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 110%;
+  left: 0;
+  min-width: 180px;
+  background-color: var(--panel); 
+  border: 1px solid color-mix(in oklab, var(--accent), #fff 20%);
+  border-radius: 12px;
+  padding: 8px 0;
+  z-index: 999; 
+  box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+  transition: all 0.2s ease;
+  transform: translateY(10px);
+}
+
+/* Links inside the menu */
+.dropdown-content a {
+  display: block;
+  padding: 10px 16px;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.95rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: background 0.2s;
+  max-height: 200px;
+  overflow-y: auto
+}
+
+.dropdown-content a:last-child {
+  border-bottom: none;
+}
+
+.dropdown-content a:hover {
+  background-color: color-mix(in oklab, var(--accent), transparent 85%);
+  color: #fff;
+  padding-left: 20px;
+}
+
+/* Trigger Hover Effect */
+.dropdown-wrapper:hover .dropdown-content {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}

@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request
 import uuid
 from queue import Queue as PyQueue 
+from sorting_routes import sorting_blueprint
 
 app = Flask(__name__)
+app.register_blueprint(sorting_blueprint)
 
 # ---------------------------
 # Linked-List Data Structures
