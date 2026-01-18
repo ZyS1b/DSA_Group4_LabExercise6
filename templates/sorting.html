@@ -21,6 +21,72 @@
 
 <div id="quick" class="card card-outline" style="margin-bottom: 40px;">
     <h3>Quick Sort</h3>
+    <p class="note">Quick Sort is a sorting algorithm based on the Divide and Conquer that picks an element as a pivot and partitions the given array around the picked pivot by placing piviots in its correct position in the sorted array.</p>
+
+    <div class="quick-grid">
+        <section class="quick-panel quick-panel-wide">
+            <h4>How does Quicksort Algorithm Work?</h4>
+            <p>
+                The visualization below uses the Lomuto partition scheme, since this partition algorithm is simple, where we assume the pivot element as the last element.
+            </p>
+            <p>
+                There are mainly three steps in the algorithm: <br><br>
+
+1. Choose a Pivot: Select an element from the array as the pivot. The choice of pivot can vary (e.g., first element, last element, random element, or median).<br><br>
+2. Partition the Array: Re arrange the array around the pivot. After partitioning, all elements smaller than the pivot will be on its left, and all elements greater than the pivot will be on its right.<br><br>
+3. Recursively Call: Recursively apply the same process to the two partitioned sub-arrays.<br><br>
+4. Base Case: The recursion stops when there is only one element left in the sub-array, as a single element is already sorted.
+            </p>
+
+            <div class="quick-subpanel">
+                <h5>Big O Complexity</h5>
+                <ul class="quick-complexity">
+                    <li>Best: O(n log n) when partitions are balanced.</li>
+                    <li>Average: O(n log n) for random or mixed input.</li>
+                    <li>Worst: O(n^2) when the pivot is always min/max (already sorted).</li>
+                    <li>Space: O(log n) average (recursion stack), O(n) worst case.</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <div class="quick-visual-grid">
+        <section class="quick-panel">
+            <h4>Step Trace</h4>
+            <p class="quick-step-hint">Steps appear as the algorithm runs. Current step is highlighted.</p>
+            <ol id="quick-steps-list" class="quick-steps"></ol>
+        </section>
+
+        <div class="sorter">
+            <div class="sorter-controls">
+                <label class="sorter-label" for="quick-input">Numbers</label>
+                <input id="quick-input" type="text" placeholder="32, 11, 5, 26, 18, 9, 41, 15">
+
+                <div class="sorter-actions">
+                    <button id="quick-load" type="button" class="cta">Load</button>
+                    <button id="quick-random" type="button" class="ghost">Random</button>
+                    <button id="quick-start" type="button" class="cta">Animate</button>
+                    <button id="quick-reset" type="button" class="ghost">Reset</button>
+                </div>
+
+                <div class="sorter-controls-row">
+                    <label class="sorter-label" for="quick-speed">Speed</label>
+                    <input id="quick-speed" type="range" min="60" max="3600" step="20" value="220">
+                    <span id="quick-speed-label" class="sorter-meta-text">220ms</span>
+                </div>
+
+                <div class="sorter-meta">
+                    <span>Pivot: <strong id="quick-pivot">-</strong></span>
+                    <span>Steps: <strong id="quick-steps">0/0</strong></span>
+                </div>
+            </div>
+
+            <div class="sorter-stage">
+                <div id="quick-bars" class="sorter-bars" role="img" aria-label="Quick sort visualization"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
+<script src="{{ url_for('static', filename='quick_sort.js') }}"></script>
 {% endblock %}

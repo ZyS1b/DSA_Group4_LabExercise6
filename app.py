@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import uuid
 from queue import Queue as PyQueue 
 from sorting_routes import sorting_blueprint
@@ -586,6 +586,94 @@ queue_ds = Queue()
 deque_ds = Deque()
 tree_ds = BinaryTree()
 bst_ds = BinarySearchTree()
+
+
+# ---------------------------
+# Sorting Algorithms (Quick Sort)
+# ---------------------------
+def build_quick_sort_actions(values):
+    actions = []
+    arr = list(values)
+
+    def partition(lo, hi):
+        pivot_index = hi
+        pivot_value = arr[pivot_index]
+        actions.append({
+            "type": "pivot",
+            "index": pivot_index,
+            "desc": f"Pick pivot {pivot_value} at index {pivot_index} (range {lo}-{hi})."
+        })
+
+        i = lo
+        for j in range(lo, hi):
+            actions.append({
+                "type": "compare",
+                "indices": [j, pivot_index],
+                "desc": f"Compare {arr[j]} with pivot {pivot_value}."
+            })
+            if arr[j] <= pivot_value:
+                if i != j:
+                    actions.append({
+                        "type": "swap",
+                        "i": i,
+                        "j": j,
+                        "desc": f"Swap {arr[i]} at index {i} with {arr[j]} at index {j}."
+                    })
+                    arr[i], arr[j] = arr[j], arr[i]
+                i += 1
+
+        if i != hi:
+            actions.append({
+                "type": "swap",
+                "i": i,
+                "j": hi,
+                "desc": f"Swap {arr[i]} at index {i} with pivot {arr[hi]} at index {hi}."
+            })
+            arr[i], arr[hi] = arr[hi], arr[i]
+
+        actions.append({
+            "type": "pivot_done",
+            "index": i,
+            "desc": f"Pivot {pivot_value} placed at index {i}."
+        })
+        return i
+
+    def quick_sort(lo, hi):
+        if lo >= hi:
+            return
+        actions.append({
+            "type": "range",
+            "range": [lo, hi],
+            "desc": f"Sort subarray indices {lo}-{hi}."
+        })
+        pivot = partition(lo, hi)
+        quick_sort(lo, pivot - 1)
+        quick_sort(pivot + 1, hi)
+
+    if arr:
+        quick_sort(0, len(arr) - 1)
+    actions.append({"type": "done", "desc": "Array sorted."})
+    return actions
+
+
+@app.route("/works/sorting/quick-steps", methods=["POST"])
+def quick_sort_steps():
+    data = request.get_json(silent=True) or {}
+    raw_values = data.get("values", [])
+
+    cleaned = []
+    for value in raw_values:
+        try:
+            num = int(value)
+        except (TypeError, ValueError):
+            continue
+        num = max(2, min(99, num))
+        cleaned.append(num)
+        if len(cleaned) >= 14:
+            break
+
+    actions = build_quick_sort_actions(cleaned)
+    return jsonify({"actions": actions, "values": cleaned})
 
 
 # ---------------------------
