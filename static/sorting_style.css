@@ -69,6 +69,10 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* =========================================
+   Sorting Page (Bubble Sort)
+   ========================================= */
 #bubble {
   --accent: var(--neon-pink);
   --accent-2: var(--neon-magenta);
