@@ -1,17 +1,17 @@
 (() => {
-  const barsEl = document.getElementById("insertion-bars");
+  const barsEl = document.getElementById("bubble-bars");
   if (!barsEl) return;
 
-  const inputEl = document.getElementById("insertion-input");
-  const speedEl = document.getElementById("insertion-speed");
-  const speedLabelEl = document.getElementById("insertion-speed-label");
-  const stepsEl = document.getElementById("insertion-steps");
-  const stepsListEl = document.getElementById("insertion-steps-list");
+  const inputEl = document.getElementById("bubble-input");
+  const speedEl = document.getElementById("bubble-speed");
+  const speedLabelEl = document.getElementById("bubble-speed-label");
+  const stepsEl = document.getElementById("bubble-steps");
+  const stepsListEl = document.getElementById("bubble-steps-list");
 
-  const loadBtn = document.getElementById("insertion-load");
-  const randomBtn = document.getElementById("insertion-random");
-  const startBtn = document.getElementById("insertion-start");
-  const resetBtn = document.getElementById("insertion-reset");
+  const loadBtn = document.getElementById("bubble-load");
+  const randomBtn = document.getElementById("bubble-random");
+  const startBtn = document.getElementById("bubble-start");
+  const resetBtn = document.getElementById("bubble-reset");
 
   const maxBars = 14;
   const defaultValues = [32, 11, 5, 26, 18, 9, 41, 15];
