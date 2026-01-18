@@ -41,38 +41,44 @@
     </div>
 
     <div class="bubble-visual-grid">
-        
-        <section class="bubble-panel">
-            <h4>Step Trace</h4>
-            <p class="bubble-step-hint">Steps appear as the algorithm runs.</p>
-            <ol id="bubble-steps-list" class="bubble-steps"></ol>
-        </section>
-
         <div class="sorter">
-            <div class="sorter-controls">
-                <label class="sorter-label" for="bubble-input">Numbers</label>
-                <input id="bubble-input" type="text" placeholder="32, 11, 5, 26, 18, 9, 41, 15">
-
-                <div class="sorter-actions">
-                    <button id="bubble-load" type="button" class="cta">Load</button>
-                    <button id="bubble-random" type="button" class="ghost">Random</button>
-                    <button id="bubble-start" type="button" class="cta">Animate</button>
-                    <button id="bubble-reset" type="button" class="ghost">Reset</button>
-                </div>
-
-                <div class="sorter-controls-row">
-                    <label class="sorter-label" for="bubble-speed">Speed</label>
-                    <input id="bubble-speed" type="range" min="60" max="3600" step="20" value="220">
-                    <span id="bubble-speed-label" class="sorter-meta-text">220ms</span>
-                </div>
-
-                <div class="sorter-meta">
-                    <span>Steps: <strong id="bubble-steps">0/0</strong></span>
-                </div>
-            </div>
-
             <div class="sorter-stage">
                 <div id="bubble-bars" class="sorter-bars" role="img" aria-label="Bubble sort visualization"></div>
+            </div>
+
+            <div class="sorter-bottom">
+                <div class="sorter-controls">
+                    <label class="sorter-label" for="bubble-input">Numbers</label>
+                    <input id="bubble-input" type="text" placeholder="32, 11, 5, 26, 18, 9, 41, 15">
+
+                    <div class="sorter-actions">
+                        <button id="bubble-load" type="button" class="cta">Load</button>
+                        <button id="bubble-random" type="button" class="ghost">Random</button>
+                        <button id="bubble-start" type="button" class="cta">Animate</button>
+                        <button id="bubble-reset" type="button" class="ghost">Reset</button>
+                    </div>
+
+                    <div class="sorter-controls-row">
+                        <label class="sorter-label" for="bubble-speed">Speed</label>
+                        <input id="bubble-speed" type="range" min="0.5" max="10" step="0.5" value="1">
+                        <span id="bubble-speed-label" class="sorter-meta-text">1x</span>
+                    </div>
+
+                    <div class="sorter-controls-row">
+                        <label class="sorter-label" for="bubble-count">Random N</label>
+                    <input id="bubble-count" type="number" min="2" max="50" value="10">
+                    </div>
+
+                    <div class="sorter-meta">
+                        <span>Steps: <strong id="bubble-steps">0/0</strong></span>
+                    </div>
+                </div>
+
+                <section class="bubble-panel">
+                    <h4>Step Trace</h4>
+                    <p class="bubble-step-hint">Steps appear as the algorithm runs.</p>
+                    <ol id="bubble-steps-list" class="bubble-steps"></ol>
+                </section>
             </div>
         </div>
     </div>
@@ -112,38 +118,45 @@
     </div>
 
     <div class="selection-visual-grid">
-        <section class="selection-panel">
-            <h4>Step Trace</h4>
-            <p class="selection-step-hint">Steps appear as the algorithm runs. Current step is highlighted.</p>
-            <ol id="selection-steps-list" class="selection-steps"></ol>
-        </section>
-
         <div class="sorter">
-            <div class="sorter-controls">
-                <label class="sorter-label" for="selection-input">Numbers</label>
-                <input id="selection-input" type="text" placeholder="32, 11, 5, 26, 18, 9, 41, 15">
-
-                <div class="sorter-actions">
-                    <button id="selection-load" type="button" class="cta">Load</button>
-                    <button id="selection-random" type="button" class="ghost">Random</button>
-                    <button id="selection-start" type="button" class="cta">Animate</button>
-                    <button id="selection-reset" type="button" class="ghost">Reset</button>
-                </div>
-
-                <div class="sorter-controls-row">
-                    <label class="sorter-label" for="selection-speed">Speed</label>
-                    <input id="selection-speed" type="range" min="60" max="3600" step="20" value="220">
-                    <span id="selection-speed-label" class="sorter-meta-text">220ms</span>
-                </div>
-
-                <div class="sorter-meta">
-                    <span>Current Min: <strong id="selection-min">-</strong></span>
-                    <span>Steps: <strong id="selection-steps">0/0</strong></span>
-                </div>
-            </div>
-
             <div class="sorter-stage">
                 <div id="selection-bars" class="sorter-bars" role="img" aria-label="Selection sort visualization"></div>
+            </div>
+
+            <div class="sorter-bottom">
+                <div class="sorter-controls">
+                    <label class="sorter-label" for="selection-input">Numbers</label>
+                    <input id="selection-input" type="text" placeholder="32, 11, 5, 26, 18, 9, 41, 15">
+
+                    <div class="sorter-actions">
+                        <button id="selection-load" type="button" class="cta">Load</button>
+                        <button id="selection-random" type="button" class="ghost">Random</button>
+                        <button id="selection-start" type="button" class="cta">Animate</button>
+                        <button id="selection-reset" type="button" class="ghost">Reset</button>
+                    </div>
+
+                    <div class="sorter-controls-row">
+                        <label class="sorter-label" for="selection-speed">Speed</label>
+                        <input id="selection-speed" type="range" min="0.5" max="10" step="0.5" value="1">
+                        <span id="selection-speed-label" class="sorter-meta-text">1x</span>
+                    </div>
+
+                    <div class="sorter-controls-row">
+                        <label class="sorter-label" for="selection-count">Random N</label>
+                    <input id="selection-count" type="number" min="2" max="50" value="10">
+                    </div>
+
+                    <div class="sorter-meta">
+                        <span>Current Min: <strong id="selection-min">-</strong></span>
+                        <span>Steps: <strong id="selection-steps">0/0</strong></span>
+                    </div>
+                </div>
+
+                <section class="selection-panel">
+                    <h4>Step Trace</h4>
+                    <p class="selection-step-hint">Steps appear as the algorithm runs. Current step is highlighted.</p>
+                    <ol id="selection-steps-list" class="selection-steps"></ol>
+                </section>
             </div>
         </div>
     </div>
@@ -187,37 +200,44 @@
     </div>
 
     <div class="merge-visual-grid">
-        <section class="merge-panel">
-            <h4>Step Trace</h4>
-            <p class="merge-step-hint">Steps appear as the algorithm runs. Current step is highlighted.</p>
-            <ol id="merge-steps-list" class="merge-steps"></ol>
-        </section>
-
         <div class="sorter">
-            <div class="sorter-controls">
-                <label class="sorter-label" for="merge-input">Numbers</label>
-                <input id="merge-input" type="text" placeholder="42, 16, 8, 23, 4, 15, 9, 50">
-
-                <div class="sorter-actions">
-                    <button id="merge-load" type="button" class="cta">Load</button>
-                    <button id="merge-random" type="button" class="ghost">Random</button>
-                    <button id="merge-start" type="button" class="cta">Animate</button>
-                    <button id="merge-reset" type="button" class="ghost">Reset</button>
-                </div>
-
-                <div class="sorter-controls-row">
-                    <label class="sorter-label" for="merge-speed">Speed</label>
-                    <input id="merge-speed" type="range" min="60" max="3600" step="20" value="220">
-                    <span id="merge-speed-label" class="sorter-meta-text">220ms</span>
-                </div>
-
-                <div class="sorter-meta">
-                    <span>Steps: <strong id="merge-steps">0/0</strong></span>
-                </div>
-            </div>
-
             <div class="sorter-stage">
                 <div id="merge-bars" class="sorter-bars" role="img" aria-label="Merge sort visualization"></div>
+            </div>
+
+            <div class="sorter-bottom">
+                <div class="sorter-controls">
+                    <label class="sorter-label" for="merge-input">Numbers</label>
+                    <input id="merge-input" type="text" placeholder="42, 16, 8, 23, 4, 15, 9, 50">
+
+                    <div class="sorter-actions">
+                        <button id="merge-load" type="button" class="cta">Load</button>
+                        <button id="merge-random" type="button" class="ghost">Random</button>
+                        <button id="merge-start" type="button" class="cta">Animate</button>
+                        <button id="merge-reset" type="button" class="ghost">Reset</button>
+                    </div>
+
+                    <div class="sorter-controls-row">
+                        <label class="sorter-label" for="merge-speed">Speed</label>
+                        <input id="merge-speed" type="range" min="0.5" max="10" step="0.5" value="1">
+                        <span id="merge-speed-label" class="sorter-meta-text">1x</span>
+                    </div>
+
+                    <div class="sorter-controls-row">
+                        <label class="sorter-label" for="merge-count">Random N</label>
+                    <input id="merge-count" type="number" min="2" max="50" value="10">
+                    </div>
+
+                    <div class="sorter-meta">
+                        <span>Steps: <strong id="merge-steps">0/0</strong></span>
+                    </div>
+                </div>
+
+                <section class="merge-panel">
+                    <h4>Step Trace</h4>
+                    <p class="merge-step-hint">Steps appear as the algorithm runs. Current step is highlighted.</p>
+                    <ol id="merge-steps-list" class="merge-steps"></ol>
+                </section>
             </div>
         </div>
     </div>
@@ -257,38 +277,45 @@
     </div>
 
     <div class="quick-visual-grid">
-        <section class="quick-panel">
-            <h4>Step Trace</h4>
-            <p class="quick-step-hint">Steps appear as the algorithm runs. Current step is highlighted.</p>
-            <ol id="quick-steps-list" class="quick-steps"></ol>
-        </section>
-
         <div class="sorter">
-            <div class="sorter-controls">
-                <label class="sorter-label" for="quick-input">Numbers</label>
-                <input id="quick-input" type="text" placeholder="32, 11, 5, 26, 18, 9, 41, 15">
-
-                <div class="sorter-actions">
-                    <button id="quick-load" type="button" class="cta">Load</button>
-                    <button id="quick-random" type="button" class="ghost">Random</button>
-                    <button id="quick-start" type="button" class="cta">Animate</button>
-                    <button id="quick-reset" type="button" class="ghost">Reset</button>
-                </div>
-
-                <div class="sorter-controls-row">
-                    <label class="sorter-label" for="quick-speed">Speed</label>
-                    <input id="quick-speed" type="range" min="60" max="3600" step="20" value="220">
-                    <span id="quick-speed-label" class="sorter-meta-text">220ms</span>
-                </div>
-
-                <div class="sorter-meta">
-                    <span>Pivot: <strong id="quick-pivot">-</strong></span>
-                    <span>Steps: <strong id="quick-steps">0/0</strong></span>
-                </div>
-            </div>
-
             <div class="sorter-stage">
                 <div id="quick-bars" class="sorter-bars" role="img" aria-label="Quick sort visualization"></div>
+            </div>
+
+            <div class="sorter-bottom">
+                <div class="sorter-controls">
+                    <label class="sorter-label" for="quick-input">Numbers</label>
+                    <input id="quick-input" type="text" placeholder="32, 11, 5, 26, 18, 9, 41, 15">
+
+                    <div class="sorter-actions">
+                        <button id="quick-load" type="button" class="cta">Load</button>
+                        <button id="quick-random" type="button" class="ghost">Random</button>
+                        <button id="quick-start" type="button" class="cta">Animate</button>
+                        <button id="quick-reset" type="button" class="ghost">Reset</button>
+                    </div>
+
+                    <div class="sorter-controls-row">
+                        <label class="sorter-label" for="quick-speed">Speed</label>
+                        <input id="quick-speed" type="range" min="0.5" max="10" step="0.5" value="1">
+                        <span id="quick-speed-label" class="sorter-meta-text">1x</span>
+                    </div>
+
+                    <div class="sorter-controls-row">
+                        <label class="sorter-label" for="quick-count">Random N</label>
+                    <input id="quick-count" type="number" min="2" max="50" value="10">
+                    </div>
+
+                    <div class="sorter-meta">
+                        <span>Pivot: <strong id="quick-pivot">-</strong></span>
+                        <span>Steps: <strong id="quick-steps">0/0</strong></span>
+                    </div>
+                </div>
+
+                <section class="quick-panel">
+                    <h4>Step Trace</h4>
+                    <p class="quick-step-hint">Steps appear as the algorithm runs. Current step is highlighted.</p>
+                    <ol id="quick-steps-list" class="quick-steps"></ol>
+                </section>
             </div>
         </div>
     </div>

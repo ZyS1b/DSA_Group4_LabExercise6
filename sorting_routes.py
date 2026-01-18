@@ -61,7 +61,7 @@ def bubble_sort_steps():
             continue
         num = max(2, min(99, num))
         cleaned.append(num)
-        if len(cleaned) >= 14:
+        if len(cleaned) >= 50:
             break
 
     actions = build_bubble_sort_actions(cleaned)
@@ -127,7 +127,7 @@ def selection_sort_steps():
             continue
         num = max(2, min(99, num))
         cleaned.append(num)
-        if len(cleaned) >= 14:
+        if len(cleaned) >= 50:
             break
 
     actions = build_selection_sort_actions(cleaned)
@@ -205,7 +205,7 @@ def merge_sort_steps():
             continue
         num = max(2, min(99, num))
         cleaned.append(num)
-        if len(cleaned) >= 14:
+        if len(cleaned) >= 50:
             break
 
     actions = build_merge_sort_actions(cleaned)
@@ -293,7 +293,7 @@ def quick_sort_steps():
             continue
         num = max(2, min(99, num))
         cleaned.append(num)
-        if len(cleaned) >= 14:
+        if len(cleaned) >= 50:
             break
 
     actions = build_quick_sort_actions(cleaned)

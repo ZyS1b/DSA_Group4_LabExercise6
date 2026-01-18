@@ -5,6 +5,7 @@
   const inputEl = document.getElementById("merge-input");
   const speedEl = document.getElementById("merge-speed");
   const speedLabelEl = document.getElementById("merge-speed-label");
+  const countEl = document.getElementById("merge-count");
   const stepsEl = document.getElementById("merge-steps");
   const stepsListEl = document.getElementById("merge-steps-list");
 
@@ -13,16 +14,17 @@
   const startBtn = document.getElementById("merge-start");
   const resetBtn = document.getElementById("merge-reset");
 
-  const maxBars = 14;
+  const maxBars = 50;
   const defaultValues = [42, 16, 8, 23, 4, 15, 9, 50];
 
+  const baseDelay = 220;
   const state = {
     values: [],
     initial: [],
     actions: [],
     actionIndex: 0,
     running: false,
-    speed: parseInt(speedEl.value, 10) || 220,
+    speed: parseFloat(speedEl.value) || 1,
     currentStepItem: null
   };
 
@@ -39,7 +41,7 @@
   };
 
   const updateSpeedLabel = () => {
-    speedLabelEl.textContent = `${state.speed}ms`;
+    speedLabelEl.textContent = `${state.speed}x`;
   };
 
   const setSteps = (current, total) => {
@@ -73,7 +75,7 @@
     }
     item.classList.add("is-current");
     state.currentStepItem = item;
-    item.scrollIntoView({ block: "nearest" });
+    stepsListEl.scrollTop = stepsListEl.scrollHeight;
   };
 
   const parseValues = (raw) => {
@@ -91,8 +93,11 @@
   };
 
   const randomValues = () => {
-    const size = 8 + Math.floor(Math.random() * 5);
-    const values = Array.from({ length: size }, () => 8 + Math.floor(Math.random() * 80));
+    const fallbackSize = 8 + Math.floor(Math.random() * 5);
+    const desired = parseInt(countEl?.value, 10);
+    const size = Number.isFinite(desired) ? desired : fallbackSize;
+    const finalSize = Math.max(2, Math.min(maxBars, size));
+    const values = Array.from({ length: finalSize }, () => 8 + Math.floor(Math.random() * 80));
     return normalizeValues(values);
   };
 
@@ -255,7 +260,8 @@
     state.running = true;
     setControlsDisabled(true);
 
-    const response = await fetchActions(state.initial.slice());
+    const sourceValues = state.values.length ? state.values : state.initial;
+    const response = await fetchActions(sourceValues.slice());
     state.actions = response.actions;
     state.actionIndex = 0;
     state.values = response.values.slice();
@@ -269,7 +275,7 @@
       appendStep(state.actions[state.actionIndex]);
       applyAction(state.actions[state.actionIndex]);
       setSteps(state.actionIndex + 1, state.actions.length);
-      await sleep(state.speed);
+      await sleep(baseDelay / state.speed);
     }
 
     state.running = false;
@@ -306,8 +312,8 @@
   });
 
   speedEl.addEventListener("input", (event) => {
-    const nextValue = parseInt(event.target.value, 10);
-    state.speed = Number.isFinite(nextValue) ? nextValue : 220;
+    const nextValue = parseFloat(event.target.value);
+    state.speed = Number.isFinite(nextValue) ? nextValue : 1;
     updateSpeedLabel();
   });
 

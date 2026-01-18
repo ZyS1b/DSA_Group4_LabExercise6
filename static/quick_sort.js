@@ -5,6 +5,7 @@
   const inputEl = document.getElementById("quick-input");
   const speedEl = document.getElementById("quick-speed");
   const speedLabelEl = document.getElementById("quick-speed-label");
+  const countEl = document.getElementById("quick-count");
   const pivotEl = document.getElementById("quick-pivot");
   const stepsEl = document.getElementById("quick-steps");
   const stepsListEl = document.getElementById("quick-steps-list");
@@ -14,16 +15,17 @@
   const startBtn = document.getElementById("quick-start");
   const resetBtn = document.getElementById("quick-reset");
 
-  const maxBars = 14;
+  const maxBars = 50;
   const defaultValues = [32, 11, 5, 26, 18, 9, 41, 15];
 
+  const baseDelay = 220;
   const state = {
     values: [],
     initial: [],
     actions: [],
     actionIndex: 0,
     running: false,
-    speed: parseInt(speedEl.value, 10) || 220,
+    speed: parseFloat(speedEl.value) || 1,
     currentStepItem: null
   };
 
@@ -40,7 +42,7 @@
   };
 
   const updateSpeedLabel = () => {
-    speedLabelEl.textContent = `${state.speed}ms`;
+    speedLabelEl.textContent = `${state.speed}x`;
   };
 
   const setSteps = (current, total) => {
@@ -76,7 +78,7 @@
     }
     item.classList.add("is-current");
     state.currentStepItem = item;
-    item.scrollIntoView({ block: "nearest" });
+    stepsListEl.scrollTop = stepsListEl.scrollHeight;
   };
 
   const parseValues = (raw) => {
@@ -94,8 +96,11 @@
   };
 
   const randomValues = () => {
-    const size = 8 + Math.floor(Math.random() * 5);
-    const values = Array.from({ length: size }, () => 8 + Math.floor(Math.random() * 80));
+    const fallbackSize = 8 + Math.floor(Math.random() * 5);
+    const desired = parseInt(countEl?.value, 10);
+    const size = Number.isFinite(desired) ? desired : fallbackSize;
+    const finalSize = Math.max(2, Math.min(maxBars, size));
+    const values = Array.from({ length: finalSize }, () => 8 + Math.floor(Math.random() * 80));
     return normalizeValues(values);
   };
 
@@ -225,7 +230,54 @@
     }
   };
 
-  const applyAction = (action) => {
+  const animateSwap = (i, j) => {
+    const bars = getBars();
+    const barA = bars[i];
+    const barB = bars[j];
+    if (!barA || !barB || barA === barB) return Promise.resolve();
+
+    const rectA = barA.getBoundingClientRect();
+    const rectB = barB.getBoundingClientRect();
+
+    const parent = barsEl;
+    const barA_next = barA.nextSibling;
+    const barB_next = barB.nextSibling;
+    parent.insertBefore(barB, barA_next);
+    parent.insertBefore(barA, barB_next);
+
+    const rectA_after = barA.getBoundingClientRect();
+    const rectB_after = barB.getBoundingClientRect();
+
+    const deltaA = rectA.left - rectA_after.left;
+    const deltaB = rectB.left - rectB_after.left;
+
+    barA.style.transition = "none";
+    barB.style.transition = "none";
+    barA.style.transform = `translateX(${deltaA}px)`;
+    barB.style.transform = `translateX(${deltaB}px)`;
+    barA.getBoundingClientRect();
+
+    barA.style.transition = "transform 200ms var(--ease)";
+    barB.style.transition = "transform 200ms var(--ease)";
+    barA.style.transform = "";
+    barB.style.transform = "";
+
+    return new Promise((resolve) => {
+      let done = 0;
+      const finish = () => {
+        done += 1;
+        if (done < 2) return;
+        barA.style.transition = "";
+        barB.style.transition = "";
+        resolve();
+      };
+      barA.addEventListener("transitionend", finish, { once: true });
+      barB.addEventListener("transitionend", finish, { once: true });
+      setTimeout(finish, 260);
+    });
+  };
+
+  const applyAction = async (action) => {
     const bars = getBars();
     clearHighlights();
 
@@ -246,7 +298,7 @@
       if (bars[action.i]) bars[action.i].classList.add("is-swap");
       if (bars[action.j]) bars[action.j].classList.add("is-swap");
       [state.values[action.i], state.values[action.j]] = [state.values[action.j], state.values[action.i]];
-      syncBars(state.values);
+      await animateSwap(action.i, action.j);
       return;
     }
 
@@ -280,7 +332,8 @@
     state.running = true;
     setControlsDisabled(true);
 
-    const response = await fetchActions(state.initial.slice());
+    const sourceValues = state.values.length ? state.values : state.initial;
+    const response = await fetchActions(sourceValues.slice());
     state.actions = response.actions;
     state.actionIndex = 0;
     state.values = response.values.slice();
@@ -292,9 +345,9 @@
     for (; state.actionIndex < state.actions.length; state.actionIndex += 1) {
       if (!state.running) break;
       appendStep(state.actions[state.actionIndex]);
-      applyAction(state.actions[state.actionIndex]);
+      await applyAction(state.actions[state.actionIndex]);
       setSteps(state.actionIndex + 1, state.actions.length);
-      await sleep(state.speed);
+      await sleep(baseDelay / state.speed);
     }
 
     state.running = false;
@@ -331,8 +384,8 @@
   });
 
   speedEl.addEventListener("input", (event) => {
-    const nextValue = parseInt(event.target.value, 10);
-    state.speed = Number.isFinite(nextValue) ? nextValue : 220;
+    const nextValue = parseFloat(event.target.value);
+    state.speed = Number.isFinite(nextValue) ? nextValue : 1;
     updateSpeedLabel();
   });
 
