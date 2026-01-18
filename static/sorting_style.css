@@ -185,6 +185,32 @@
   --bg-aurora-3: var(--neon-cyan);
 }
 
+#selection {
+  --accent: #00ff41;
+  --accent-2: #008f11;
+
+  --text-highlight: #00ff41;
+  --glow-color: rgba(0, 255, 65, 0.6);
+}
+
+#selection h3,
+#selection h4,
+#selection h5 {
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--glow-color)
+}
+
+#selection .note{
+  color: #ccffda;
+}
+
+#selection .sort-bar.is-sorted {
+  background: var(--accent) !important;
+  box-shadow: 0 0 18px var(--accent) !important;
+  border-color: #fff !important;
+  opacity: 1;
+}
+
 .sorter{
   display: grid;
   grid-template-columns: minmax(240px, 1fr) 2.2fr;
