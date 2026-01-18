@@ -32,8 +32,8 @@
                 <h5>Big O Complexity</h5>
                 <ul class="bubble-complexity">
                     <li>Best: O(n) when the array is already sorted.</li>
-                    <li>Average: O(n²) for random or mixed input.</li>
-                    <li>Worst: O(n²) when the array is sorted in reverse.</li>
+                    <li>Average: O(n<sup>2</sup>) for random or mixed input.</li>
+                    <li>Worst: O(n<sup>2</sup>) when the array is sorted in reverse.</li>
                     <li>Space: O(1) auxiliary (swapping happens in-place).</li>
                 </ul>
             </div>
@@ -47,6 +47,30 @@
             </div>
 
             <div class="sorter-bottom">
+                <div class="sorter-media">
+                    <input id="bubble-step-slider" type="range" min="0" max="0" step="1" value="0">
+                    <div class="media-buttons">
+                        <button id="bubble-first" type="button" class="ghost" aria-label="Back to start">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6V5zm4 1v12l8-6-8-6z"/></svg>
+                        </button>
+                        <button id="bubble-prev" type="button" class="ghost" aria-label="Previous step">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 6v12l-8-6 8-6zm10 0v12l-8-6 8-6z"/></svg>
+                        </button>
+                        <button id="bubble-play" type="button" class="cta" aria-label="Play">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7V5z"/></svg>
+                        </button>
+                        <button id="bubble-stop" type="button" class="ghost" aria-label="Stop">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h12v12H6V6z"/></svg>
+                        </button>
+                        <button id="bubble-next" type="button" class="ghost" aria-label="Next step">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 6v12l8-6-8-6zM3 6v12l8-6-8-6z"/></svg>
+                        </button>
+                        <button id="bubble-end" type="button" class="ghost" aria-label="Skip to end">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2V5zM6 6v12l8-6-8-6z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="sorter-controls">
                     <label class="sorter-label" for="bubble-input">Numbers</label>
                     <input id="bubble-input" type="text" placeholder="32, 11, 5, 26, 18, 9, 41, 15">
@@ -60,7 +84,7 @@
 
                     <div class="sorter-controls-row">
                         <label class="sorter-label" for="bubble-speed">Speed</label>
-                        <input id="bubble-speed" type="range" min="0.5" max="10" step="0.5" value="1">
+                    <input id="bubble-speed" type="range" min="0.5" max="20" step="0.5" value="1">
                         <span id="bubble-speed-label" class="sorter-meta-text">1x</span>
                     </div>
 
@@ -108,9 +132,9 @@
             <div class="selection-subpanel">
                 <h5>Big O Complexity</h5>
                 <ul class="selection-complexity">
-                    <li>Best: O(n^2) due to nested loops.</li>
-                    <li>Average: O(n^2) for all cases.</li>
-                    <li>Worst: O(n^2) even for sorted input.</li>
+                    <li>Best: O(n<sup>2</sup>) due to nested loops.</li>
+                    <li>Average: O(n<sup>2</sup>) for all cases.</li>
+                    <li>Worst: O(n<sup>2</sup>) even for sorted input.</li>
                     <li>Space: O(1) as it sorts in-place.</li>
                 </ul>
             </div>
@@ -124,6 +148,30 @@
             </div>
 
             <div class="sorter-bottom">
+                <div class="sorter-media">
+                    <input id="selection-step-slider" type="range" min="0" max="0" step="1" value="0">
+                    <div class="media-buttons">
+                        <button id="selection-first" type="button" class="ghost" aria-label="Back to start">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6V5zm4 1v12l8-6-8-6z"/></svg>
+                        </button>
+                        <button id="selection-prev" type="button" class="ghost" aria-label="Previous step">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 6v12l-8-6 8-6zm10 0v12l-8-6 8-6z"/></svg>
+                        </button>
+                        <button id="selection-play" type="button" class="cta" aria-label="Play">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7V5z"/></svg>
+                        </button>
+                        <button id="selection-stop" type="button" class="ghost" aria-label="Stop">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h12v12H6V6z"/></svg>
+                        </button>
+                        <button id="selection-next" type="button" class="ghost" aria-label="Next step">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 6v12l8-6-8-6zM3 6v12l8-6-8-6z"/></svg>
+                        </button>
+                        <button id="selection-end" type="button" class="ghost" aria-label="Skip to end">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2V5zM6 6v12l8-6-8-6z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="sorter-controls">
                     <label class="sorter-label" for="selection-input">Numbers</label>
                     <input id="selection-input" type="text" placeholder="32, 11, 5, 26, 18, 9, 41, 15">
@@ -137,7 +185,7 @@
 
                     <div class="sorter-controls-row">
                         <label class="sorter-label" for="selection-speed">Speed</label>
-                        <input id="selection-speed" type="range" min="0.5" max="10" step="0.5" value="1">
+                    <input id="selection-speed" type="range" min="0.5" max="20" step="0.5" value="1">
                         <span id="selection-speed-label" class="sorter-meta-text">1x</span>
                     </div>
 
@@ -187,8 +235,8 @@
                 <h5>Big O Complexity</h5>
                 <ul class="insertion-complexity">
                     <li>Best: O(n) when the array is already sorted.</li>
-                    <li>Average: O(n^2) for random input.</li>
-                    <li>Worst: O(n^2) when the array is reverse sorted.</li>
+                    <li>Average: O(n<sup>2</sup>) for random input.</li>
+                    <li>Worst: O(n<sup>2</sup>) when the array is reverse sorted.</li>
                     <li>Space: O(1) auxiliary (in-place).</li>
                 </ul>
             </div>
@@ -202,6 +250,30 @@
             </div>
 
             <div class="sorter-bottom">
+                <div class="sorter-media">
+                    <input id="insertion-step-slider" type="range" min="0" max="0" step="1" value="0">
+                    <div class="media-buttons">
+                        <button id="insertion-first" type="button" class="ghost" aria-label="Back to start">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6V5zm4 1v12l8-6-8-6z"/></svg>
+                        </button>
+                        <button id="insertion-prev" type="button" class="ghost" aria-label="Previous step">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 6v12l-8-6 8-6zm10 0v12l-8-6 8-6z"/></svg>
+                        </button>
+                        <button id="insertion-play" type="button" class="cta" aria-label="Play">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7V5z"/></svg>
+                        </button>
+                        <button id="insertion-stop" type="button" class="ghost" aria-label="Stop">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h12v12H6V6z"/></svg>
+                        </button>
+                        <button id="insertion-next" type="button" class="ghost" aria-label="Next step">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 6v12l8-6-8-6zM3 6v12l8-6-8-6z"/></svg>
+                        </button>
+                        <button id="insertion-end" type="button" class="ghost" aria-label="Skip to end">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2V5zM6 6v12l8-6-8-6z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="sorter-controls">
                     <label class="sorter-label" for="insertion-input">Numbers</label>
                     <input id="insertion-input" type="text" placeholder="29, 12, 33, 5, 17, 9, 41, 21">
@@ -215,7 +287,7 @@
 
                     <div class="sorter-controls-row">
                         <label class="sorter-label" for="insertion-speed">Speed</label>
-                        <input id="insertion-speed" type="range" min="0.5" max="10" step="0.5" value="1">
+                    <input id="insertion-speed" type="range" min="0.5" max="20" step="0.5" value="1">
                         <span id="insertion-speed-label" class="sorter-meta-text">1x</span>
                     </div>
 
@@ -279,6 +351,30 @@
             </div>
 
             <div class="sorter-bottom">
+                <div class="sorter-media">
+                    <input id="merge-step-slider" type="range" min="0" max="0" step="1" value="0">
+                    <div class="media-buttons">
+                        <button id="merge-first" type="button" class="ghost" aria-label="Back to start">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6V5zm4 1v12l8-6-8-6z"/></svg>
+                        </button>
+                        <button id="merge-prev" type="button" class="ghost" aria-label="Previous step">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 6v12l-8-6 8-6zm10 0v12l-8-6 8-6z"/></svg>
+                        </button>
+                        <button id="merge-play" type="button" class="cta" aria-label="Play">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7V5z"/></svg>
+                        </button>
+                        <button id="merge-stop" type="button" class="ghost" aria-label="Stop">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h12v12H6V6z"/></svg>
+                        </button>
+                        <button id="merge-next" type="button" class="ghost" aria-label="Next step">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 6v12l8-6-8-6zM3 6v12l8-6-8-6z"/></svg>
+                        </button>
+                        <button id="merge-end" type="button" class="ghost" aria-label="Skip to end">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2V5zM6 6v12l8-6-8-6z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="sorter-controls">
                     <label class="sorter-label" for="merge-input">Numbers</label>
                     <input id="merge-input" type="text" placeholder="42, 16, 8, 23, 4, 15, 9, 50">
@@ -292,7 +388,7 @@
 
                     <div class="sorter-controls-row">
                         <label class="sorter-label" for="merge-speed">Speed</label>
-                        <input id="merge-speed" type="range" min="0.5" max="10" step="0.5" value="1">
+                    <input id="merge-speed" type="range" min="0.5" max="20" step="0.5" value="1">
                         <span id="merge-speed-label" class="sorter-meta-text">1x</span>
                     </div>
 
@@ -342,7 +438,7 @@
                 <ul class="quick-complexity">
                     <li>Best: O(n log n) when partitions are balanced.</li>
                     <li>Average: O(n log n) for random or mixed input.</li>
-                    <li>Worst: O(n^2) when the pivot is always min/max (already sorted).</li>
+                    <li>Worst: O(n<sup>2</sup>) when the pivot is always min/max (already sorted).</li>
                     <li>Space: O(log n) average (recursion stack), O(n) worst case.</li>
                 </ul>
             </div>
@@ -356,6 +452,30 @@
             </div>
 
             <div class="sorter-bottom">
+                <div class="sorter-media">
+                    <input id="quick-step-slider" type="range" min="0" max="0" step="1" value="0">
+                    <div class="media-buttons">
+                        <button id="quick-first" type="button" class="ghost" aria-label="Back to start">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6V5zm4 1v12l8-6-8-6z"/></svg>
+                        </button>
+                        <button id="quick-prev" type="button" class="ghost" aria-label="Previous step">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 6v12l-8-6 8-6zm10 0v12l-8-6 8-6z"/></svg>
+                        </button>
+                        <button id="quick-play" type="button" class="cta" aria-label="Play">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7V5z"/></svg>
+                        </button>
+                        <button id="quick-stop" type="button" class="ghost" aria-label="Stop">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h12v12H6V6z"/></svg>
+                        </button>
+                        <button id="quick-next" type="button" class="ghost" aria-label="Next step">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 6v12l8-6-8-6zM3 6v12l8-6-8-6z"/></svg>
+                        </button>
+                        <button id="quick-end" type="button" class="ghost" aria-label="Skip to end">
+                            <svg class="media-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2V5zM6 6v12l8-6-8-6z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="sorter-controls">
                     <label class="sorter-label" for="quick-input">Numbers</label>
                     <input id="quick-input" type="text" placeholder="32, 11, 5, 26, 18, 9, 41, 15">
@@ -369,7 +489,7 @@
 
                     <div class="sorter-controls-row">
                         <label class="sorter-label" for="quick-speed">Speed</label>
-                        <input id="quick-speed" type="range" min="0.5" max="10" step="0.5" value="1">
+                    <input id="quick-speed" type="range" min="0.5" max="20" step="0.5" value="1">
                         <span id="quick-speed-label" class="sorter-meta-text">1x</span>
                     </div>
 

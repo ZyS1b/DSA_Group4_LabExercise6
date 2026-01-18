@@ -113,8 +113,24 @@
 .sorting-section h3,
 .sorting-section h4,
 .sorting-section h5{
-  color: var(--accent);
-  text-shadow: 0 0 8px color-mix(in oklab, var(--accent), transparent 40%);
+  color: var(--text-highlight, var(--accent));
+  text-shadow:
+    0 0 10px var(--glow-color, color-mix(in oklab, var(--accent), transparent 35%)),
+    0 0 22px color-mix(in oklab, var(--accent), transparent 45%),
+    0 0 36px color-mix(in oklab, var(--accent), transparent 60%);
+}
+
+.sorting-section p{
+  font-size: var(--fs-1);
+}
+
+.sorting-section .note{
+  font-size: var(--fs-1);
+}
+
+.sorting-section ul,
+.sorting-section ol{
+  font-size: var(--fs-0);
 }
 
 /* =========================================
@@ -126,16 +142,18 @@
   --bg-aurora-1: #8f4bff;
   --bg-aurora-2: #c76bff;
   --bg-aurora-3: #6d28d9;
+  --text-highlight: #e7d9ff;
+  --glow-color: rgba(143, 75, 255, 0.85);
 }
 
 #selection {
   --accent: #00ff41;
-  --accent-2: #008f11;
+  --accent-2: #7dff9a;
   --bg-aurora-1: #00ff41;
   --bg-aurora-2: #008f11;
   --bg-aurora-3: #00c853;
 
-  --text-highlight: #caffd6;
+  --text-highlight: #eaffef;
   --glow-color: rgba(0, 255, 65, 0.95);
 }
 
@@ -145,6 +163,8 @@
   --bg-aurora-1: var(--neon-blue);
   --bg-aurora-2: var(--neon-cyan);
   --bg-aurora-3: var(--neon-blue);
+  --text-highlight: #d9f0ff;
+  --glow-color: rgba(49, 168, 255, 0.85);
 }
 
 #merge{
@@ -153,6 +173,8 @@
   --bg-aurora-1: #ff1f3d;
   --bg-aurora-2: #ff6b3d;
   --bg-aurora-3: #ff0028;
+  --text-highlight: #ffd6da;
+  --glow-color: rgba(255, 31, 61, 0.85);
 }
 
 #quick{
@@ -161,6 +183,8 @@
   --bg-aurora-1: var(--neon-orange);
   --bg-aurora-2: var(--neon-yellow);
   --bg-aurora-3: var(--neon-orange);
+  --text-highlight: #ffe3c9;
+  --glow-color: rgba(255, 154, 60, 0.85);
 }
 
 .bubble-grid{
@@ -290,10 +314,10 @@
 }
 
 #selection .sort-bar.is-sorted {
-  background: linear-gradient(180deg, color-mix(in oklab, var(--accent), #ffffff 30%), color-mix(in oklab, var(--accent-2), #ffffff 10%)) !important;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--accent), #ffffff 40%), color-mix(in oklab, var(--accent-2), #ffffff 20%)) !important;
   box-shadow:
-    0 0 18px color-mix(in oklab, var(--accent), transparent 35%) !important,
-    0 0 32px color-mix(in oklab, var(--accent), transparent 55%) !important;
+    0 0 20px color-mix(in oklab, var(--accent), transparent 30%) !important,
+    0 0 36px color-mix(in oklab, var(--accent), transparent 45%) !important;
   border-color: #fff !important;
   opacity: 1;
 }
@@ -312,6 +336,42 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
   gap: var(--space-4);
   align-items: start;
+}
+
+.sorter-media{
+  grid-column: 1 / -1;
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  justify-items: center;
+}
+
+.sorter-media input[type="range"]{
+  width: min(100%, 520px);
+  margin: 0 auto;
+}
+
+.media-buttons{
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: center;
+}
+
+.media-buttons .cta,
+.media-buttons .ghost{
+  flex: 0 0 52px;
+  height: 52px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-icon{
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
 }
 
 .sorter-controls{
@@ -339,7 +399,48 @@
 
 .sorter-controls-row input[type="range"]{
   width: 100%;
+  margin: 0;
+  padding: 0;
 }
+
+.sorting-section input[type="range"]{
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  height: 14px;
+}
+
+.sorting-section input[type="range"]::-webkit-slider-runnable-track{
+  height: 8px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--accent), #0b0b1a 45%);
+}
+
+.sorting-section input[type="range"]::-moz-range-track{
+  height: 8px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--accent), #0b0b1a 45%);
+}
+
+.sorting-section input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid color-mix(in oklab, var(--accent), #ffffff 20%);
+  margin-top: -5px;
+}
+
+.sorting-section input[type="range"]::-moz-range-thumb{
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid color-mix(in oklab, var(--accent), #ffffff 20%);
+}
+
 
 .sorter-meta{
   display: flex;
@@ -351,6 +452,50 @@
 
 .sorter-meta-text{
   color: var(--muted);
+}
+
+.bubble-steps,
+.selection-steps,
+.insertion-steps,
+.merge-steps,
+.quick-steps{
+  padding-left: 0;
+  margin-left: 0;
+  list-style-position: inside;
+}
+
+.sorting-section .bubble-steps,
+.sorting-section .selection-steps,
+.sorting-section .insertion-steps,
+.sorting-section .merge-steps,
+.sorting-section .quick-steps{
+  scrollbar-color: var(--accent) transparent;
+  scrollbar-width: thin;
+}
+
+.sorting-section .bubble-steps::-webkit-scrollbar,
+.sorting-section .selection-steps::-webkit-scrollbar,
+.sorting-section .insertion-steps::-webkit-scrollbar,
+.sorting-section .merge-steps::-webkit-scrollbar,
+.sorting-section .quick-steps::-webkit-scrollbar{
+  width: 8px;
+}
+
+.sorting-section .bubble-steps::-webkit-scrollbar-track,
+.sorting-section .selection-steps::-webkit-scrollbar-track,
+.sorting-section .insertion-steps::-webkit-scrollbar-track,
+.sorting-section .merge-steps::-webkit-scrollbar-track,
+.sorting-section .quick-steps::-webkit-scrollbar-track{
+  background: transparent;
+}
+
+.sorting-section .bubble-steps::-webkit-scrollbar-thumb,
+.sorting-section .selection-steps::-webkit-scrollbar-thumb,
+.sorting-section .insertion-steps::-webkit-scrollbar-thumb,
+.sorting-section .merge-steps::-webkit-scrollbar-thumb,
+.sorting-section .quick-steps::-webkit-scrollbar-thumb{
+  background-color: var(--accent);
+  border-radius: 999px;
 }
 
 .sorter-stage{
@@ -384,7 +529,7 @@
     0 0 16px color-mix(in oklab, var(--accent), transparent 65%),
     inset 0 0 12px color-mix(in oklab, var(--accent-2), transparent 70%);
   position: relative;
-  transition: height 200ms var(--ease), transform 180ms var(--ease), box-shadow 180ms var(--ease);
+  transition: height 200ms ease-in-out, transform 180ms ease-in-out, box-shadow 180ms ease-in-out;
 }
 
 .sort-bar .bar-label{
@@ -397,32 +542,31 @@
 }
 
 .sort-bar.is-pivot{
-  background: linear-gradient(180deg, color-mix(in oklab, var(--neon-yellow), #ffffff 24%), color-mix(in oklab, var(--neon-orange), transparent 35%));
+  background: linear-gradient(180deg, color-mix(in oklab, var(--accent-2), #ffffff 28%), color-mix(in oklab, var(--accent), transparent 45%));
   box-shadow:
-    0 0 20px color-mix(in oklab, var(--neon-yellow), transparent 40%),
-    inset 0 0 14px color-mix(in oklab, var(--neon-orange), transparent 60%);
+    0 0 20px color-mix(in oklab, var(--accent-2), transparent 40%),
+    inset 0 0 14px color-mix(in oklab, var(--accent), transparent 60%);
   transform: translateY(-8px);
 }
 
 .sort-bar.is-compare{
-  background: linear-gradient(180deg, color-mix(in oklab, var(--accent), transparent 55%), color-mix(in oklab, var(--accent-2), transparent 70%));
-  border: 1px dashed color-mix(in oklab, var(--accent), #ffffff 35%);
-  box-shadow: 0 0 14px color-mix(in oklab, var(--accent), transparent 65%);
-  opacity: 0.6;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--accent), transparent 65%), color-mix(in oklab, var(--accent-2), transparent 80%));
+  box-shadow: 0 0 12px color-mix(in oklab, var(--accent), transparent 70%);
+  opacity: 0.5;
 }
 
 .sort-bar.is-swap{
-  background: linear-gradient(180deg, color-mix(in oklab, var(--accent-2), #ffffff 20%), color-mix(in oklab, var(--accent), transparent 55%));
-  box-shadow: 0 0 18px color-mix(in oklab, var(--accent-2), transparent 55%);
+  background: linear-gradient(180deg, color-mix(in oklab, var(--accent-2), #ffffff 30%), color-mix(in oklab, var(--accent), transparent 40%));
+  box-shadow: 0 0 18px color-mix(in oklab, var(--accent-2), transparent 45%);
   opacity: 0.75;
   transform: translateY(-6px);
 }
 
 .sort-bar.is-sorted{
-  background: linear-gradient(180deg, color-mix(in oklab, var(--accent), #ffffff 30%), color-mix(in oklab, var(--accent-2), #ffffff 10%));
+  background: linear-gradient(180deg, color-mix(in oklab, var(--accent), #ffffff 40%), color-mix(in oklab, var(--accent-2), #ffffff 20%));
   box-shadow:
-    0 0 18px color-mix(in oklab, var(--accent), transparent 40%),
-    0 0 32px color-mix(in oklab, var(--accent), transparent 55%);
+    0 0 20px color-mix(in oklab, var(--accent), transparent 30%),
+    0 0 36px color-mix(in oklab, var(--accent), transparent 45%);
 }
 
 .selection-grid{
@@ -726,179 +870,6 @@
 }
 
 /* =========================================
-   Sorting Page (Insertion Sort)
-   ========================================= */
-
-#insertion h3,
-#insertion h4,
-#insertion h5 {
-  color: var(--accent);
-  text-shadow: 0 0 8px color-mix(in oklab, var(--accent), transparent 40%);
-}
-
-.insertion-grid{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-4);
-  margin-top: var(--space-3);
-}
-
-.insertion-visual-grid{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-4);
-  margin-top: var(--space-4);
-  align-items: start;
-}
-
-.insertion-visual-grid .sorter{
-  margin-top: 0;
-}
-
-.insertion-panel-wide{
-  grid-column: 1 / -1;
-}
-
-.insertion-panel{
-  background: var(--panel);
-  border-radius: var(--radius-2);
-  border: 1px solid color-mix(in oklab, var(--accent), #ffffff 14%);
-  padding: var(--space-3);
-  box-shadow: 0 0 34px color-mix(in oklab, var(--accent), transparent 88%);
-}
-
-.insertion-panel h4{
-  margin: 0 0 var(--space-2);
-  font-family: 'Orbitron';
-  font-size: var(--fs-2);
-}
-
-.insertion-panel h5{
-  margin: var(--space-2) 0 var(--space-1);
-  font-size: var(--fs-1);
-  color: color-mix(in oklab, var(--text), #ffffff 8%);
-}
-
-.insertion-subpanel + .insertion-subpanel{
-  margin-top: var(--space-2);
-}
-
-.insertion-code{
-  background: rgba(6, 12, 28, 0.65);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 14px 16px;
-  font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  overflow-x: auto;
-}
-
-.insertion-complexity{
-  margin: 0;
-  padding-left: 18px;
-  color: var(--muted);
-}
-
-.insertion-step-hint{
-  margin: 0 0 var(--space-2);
-  color: var(--muted);
-  font-size: var(--fs-0);
-}
-
-.insertion-steps{
-  margin: 0;
-  padding-left: 20px;
-  display: grid;
-  gap: 8px;
-  max-height: 360px;
-  overflow: auto;
-}
-
-.insertion-steps li{
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 10px;
-  padding: 8px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
-.insertion-steps li.is-current{
-  border-color: color-mix(in oklab, var(--accent), #ffffff 24%);
-  color: var(--text);
-  box-shadow: 0 0 16px color-mix(in oklab, var(--accent), transparent 70%);
-  background: color-mix(in oklab, var(--accent), transparent 88%);
-}
-
-.sort-bar.is-key{
-  background: linear-gradient(
-    180deg,
-    color-mix(in oklab, var(--neon-yellow), #ffffff 28%),
-    color-mix(in oklab, var(--neon-orange), transparent 45%)
-  );
-
-  box-shadow:
-    0 0 26px color-mix(in oklab, var(--neon-yellow), transparent 35%),
-    inset 0 0 18px color-mix(in oklab, var(--neon-orange), transparent 55%);
-
-  transform: translateY(-14px) scale(1.04);
-  z-index: 3;
-}
-
-.sort-bar.is-compare{
-  background: linear-gradient(
-    180deg,
-    color-mix(in oklab, var(--neon-pink), #ffffff 18%),
-    color-mix(in oklab, var(--neon-magenta), transparent 40%)
-  );
-  box-shadow: 0 0 18px color-mix(in oklab, var(--neon-pink), transparent 55%);
-}
-
-.sort-bar.is-shift{
-  background: linear-gradient(
-    180deg,
-    color-mix(in oklab, var(--neon-orange), #ffffff 14%),
-    color-mix(in oklab, var(--neon-yellow), transparent 50%)
-  );
-
-  box-shadow:
-    0 0 14px color-mix(in oklab, var(--neon-orange), transparent 65%);
-
-  transform: translateX(4px) translateY(-6px);
-  opacity: 0.92;
-}
-
-.sort-bar.is-prefix{
-  background: linear-gradient(
-    180deg,
-    color-mix(in oklab, var(--neon-green), #ffffff 6%),
-    color-mix(in oklab, var(--neon-green), transparent 55%)
-  );
-
-  box-shadow:
-    inset 0 -4px 0 color-mix(in oklab, var(--neon-green), transparent 50%);
-}
-
-.sort-bar.is-sorted{
-  background: linear-gradient(
-    180deg,
-    color-mix(in oklab, var(--neon-green), #ffffff 12%),
-    color-mix(in oklab, var(--neon-green), transparent 40%)
-  );
-  box-shadow: 0 0 18px color-mix(in oklab, var(--neon-green), transparent 60%);
-}
-
-@media (max-width: 960px){
-  .insertion-grid{
-    grid-template-columns: 1fr;
-  }
-  .insertion-visual-grid{
-    grid-template-columns: 1fr;
-  }
-}
-
-/* =========================================
    Sorting Page (Quick Sort)
    ========================================= */
 .quick-grid{
@@ -1013,3 +984,5 @@
     min-width: 12px;
   }
 }
+
+
