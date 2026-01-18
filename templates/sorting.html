@@ -3,7 +3,15 @@
 {% block content%}
 <h2 class="brand">Sorting Algorithms</h2>
 
-<div id="bubble" class="card card-outline sorting-section">
+<div class="sorting-tabs" role="tablist" aria-label="Sorting algorithm tabs">
+    <button type="button" class="sorting-tab" role="tab" aria-controls="bubble" data-tab-target="bubble">Bubble Sort</button>
+    <button type="button" class="sorting-tab" role="tab" aria-controls="selection" data-tab-target="selection">Selection Sort</button>
+    <button type="button" class="sorting-tab" role="tab" aria-controls="insertion" data-tab-target="insertion">Insertion Sort</button>
+    <button type="button" class="sorting-tab" role="tab" aria-controls="merge" data-tab-target="merge">Merge Sort</button>
+    <button type="button" class="sorting-tab" role="tab" aria-controls="quick" data-tab-target="quick">Quick Sort</button>
+</div>
+
+<div id="bubble" class="card card-outline sorting-section is-active" role="tabpanel">
     <h3>Bubble Sort</h3>
     <p class="note">Bubble Sort is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.</p>
 
@@ -72,7 +80,7 @@
     <script src="{{ url_for('static', filename='bubble_sort.js') }}"></script>
 </div>
 
-<div id="selection" class="card card-outline sorting-section">
+<div id="selection" class="card card-outline sorting-section" role="tabpanel">
     <h3>Selection Sort</h3>
     <p class="note">Selection Sort is a simple comparison-based sorting algorithm that divides the input list into two parts: a sorted sublist of items which is built up from left to right at the front (left) of the list and a sublist of the remaining unsorted items that occupy the rest of the list.</p>
 
@@ -143,15 +151,81 @@
 
 <script src="{{ url_for('static', filename='selection_sort.js') }}"></script>
 
-<div id="Insertion" class="card card-outline sorting-section">
+<div id="insertion" class="card card-outline sorting-section" role="tabpanel">
     <h3>Insertion Sort</h3>
 </div>
 
-<div id="merge" class="card card-outline sorting-section">
+<div id="merge" class="card card-outline sorting-section" role="tabpanel">
     <h3>Merge Sort</h3>
+    <p class="note">Merge Sort is a divide-and-conquer algorithm that splits the array into halves, sorts them, and merges the results.</p>
+
+    <div class="merge-grid">
+        <section class="merge-panel merge-panel-wide">
+            <h4>How does Merge Sort Algorithm Work?</h4>
+            <p>
+                Merge Sort repeatedly divides the list into smaller halves until each subarray has one element, then merges
+                those subarrays back together in sorted order.
+            </p>
+            <p>
+                There are mainly four steps in the algorithm: <br><br>
+                1. Divide: Split the array into two halves.<br><br>
+                2. Conquer: Recursively sort each half.<br><br>
+                3. Merge: Combine two sorted halves into one sorted array.<br><br>
+                4. Repeat: Continue until the whole array is merged back.
+            </p>
+
+            <div class="merge-subpanel">
+                <h5>Big O Complexity</h5>
+                <ul class="merge-complexity">
+                    <li>Best: O(n log n) for all cases.</li>
+                    <li>Average: O(n log n) due to balanced splits and merges.</li>
+                    <li>Worst: O(n log n) even for sorted input.</li>
+                    <li>Space: O(n) auxiliary array for merging.</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <div class="merge-visual-grid">
+        <section class="merge-panel">
+            <h4>Step Trace</h4>
+            <p class="merge-step-hint">Steps appear as the algorithm runs. Current step is highlighted.</p>
+            <ol id="merge-steps-list" class="merge-steps"></ol>
+        </section>
+
+        <div class="sorter">
+            <div class="sorter-controls">
+                <label class="sorter-label" for="merge-input">Numbers</label>
+                <input id="merge-input" type="text" placeholder="42, 16, 8, 23, 4, 15, 9, 50">
+
+                <div class="sorter-actions">
+                    <button id="merge-load" type="button" class="cta">Load</button>
+                    <button id="merge-random" type="button" class="ghost">Random</button>
+                    <button id="merge-start" type="button" class="cta">Animate</button>
+                    <button id="merge-reset" type="button" class="ghost">Reset</button>
+                </div>
+
+                <div class="sorter-controls-row">
+                    <label class="sorter-label" for="merge-speed">Speed</label>
+                    <input id="merge-speed" type="range" min="60" max="3600" step="20" value="220">
+                    <span id="merge-speed-label" class="sorter-meta-text">220ms</span>
+                </div>
+
+                <div class="sorter-meta">
+                    <span>Steps: <strong id="merge-steps">0/0</strong></span>
+                </div>
+            </div>
+
+            <div class="sorter-stage">
+                <div id="merge-bars" class="sorter-bars" role="img" aria-label="Merge sort visualization"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div id="quick" class="card card-outline sorting-section">
+<script src="{{ url_for('static', filename='merge_sort.js') }}"></script>
+
+<div id="quick" class="card card-outline sorting-section" role="tabpanel">
     <h3>Quick Sort</h3>
     <p class="note">Quick Sort is a sorting algorithm based on the Divide and Conquer that picks an element as a pivot and partitions the given array around the picked pivot by placing piviots in its correct position in the sorted array.</p>
 
@@ -221,4 +295,53 @@
 </div>
 
 <script src="{{ url_for('static', filename='quick_sort.js') }}"></script>
+
+<script>
+(() => {
+  const tabs = Array.from(document.querySelectorAll(".sorting-tab"));
+  const panels = Array.from(document.querySelectorAll(".sorting-section"));
+  if (!tabs.length || !panels.length) return;
+
+  const applyTheme = (panel) => {
+    const styles = window.getComputedStyle(panel);
+    const keys = ["--accent", "--accent-2", "--bg-aurora-1", "--bg-aurora-2", "--bg-aurora-3"];
+    keys.forEach((key) => {
+      const value = styles.getPropertyValue(key).trim();
+      if (value) {
+        document.body.style.setProperty(key, value);
+      }
+    });
+  };
+
+  const setActive = (targetId, updateHash) => {
+    panels.forEach((panel) => {
+      panel.classList.toggle("is-active", panel.id === targetId);
+    });
+    tabs.forEach((tab) => {
+      const isActive = tab.dataset.tabTarget === targetId;
+      tab.classList.toggle("is-active", isActive);
+      tab.setAttribute("aria-selected", isActive ? "true" : "false");
+      tab.tabIndex = isActive ? 0 : -1;
+    });
+    const activePanel = panels.find((panel) => panel.id === targetId);
+    if (activePanel) {
+      applyTheme(activePanel);
+    }
+    if (updateHash) {
+      history.replaceState(null, "", `#${targetId}`);
+    }
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      setActive(tab.dataset.tabTarget, true);
+    });
+  });
+
+  const initial = window.location.hash.replace("#", "");
+  const hasMatch = tabs.some((tab) => tab.dataset.tabTarget === initial);
+  const defaultId = tabs[0].dataset.tabTarget;
+  setActive(hasMatch ? initial : defaultId, false);
+})();
+</script>
 {% endblock %}

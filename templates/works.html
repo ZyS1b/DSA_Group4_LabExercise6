@@ -33,20 +33,12 @@
     <a class="cta" href="{{ url_for('works_graph') }}">Open Graph</a>
   </div>
 
-  <div class="card card-outline" style="overflow: visible;">
+  <div class="card card-outline">
     <h3>Sorting Algorithms</h3>
-    
-    <div class="dropdown-wrapper">
-      <button class="cta">Open Sorting ▾</button>
+    <p>Compare classic sorting approaches with step traces and animated visualizations.</p>
+    <a class="cta" href="{{ url_for('sorting_blueprint.sorting_page') }}">Open Sorting</a>
 
-      <div class="dropdown-content">
-        <a href="{{ url_for('sorting_blueprint.sorting_page') }}#bubble">Bubble Sort</a>
-        <a href="{{ url_for('sorting_blueprint.sorting_page') }}#selection">Selection Sort</a>
-        <a href="{{ url_for('sorting_blueprint.sorting_page') }}#insertion">Insertion Sort</a>
-        <a href="{{ url_for('sorting_blueprint.sorting_page') }}#merge">Merge Sort</a>
-        <a href="{{ url_for('sorting_blueprint.sorting_page') }}#quick">Quick Sort</a>
-      </div>
-    </div>
   </div>
 </div>
 {% endblock %}
+

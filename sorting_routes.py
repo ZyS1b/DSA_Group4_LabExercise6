@@ -135,6 +135,84 @@ def selection_sort_steps():
 
 
 # ---------------------------
+# Sorting Algorithms (Merge Sort)
+# ---------------------------
+def build_merge_sort_actions(values):
+    actions = []
+    arr = list(values)
+
+    def merge(lo, mid, hi):
+        actions.append({
+            "type": "range",
+            "range": [lo, hi],
+            "desc": f"Merge subarray indices {lo}-{hi}."
+        })
+        left = arr[lo:mid + 1]
+        right = arr[mid + 1:hi + 1]
+        i = 0
+        j = 0
+        for k in range(lo, hi + 1):
+            if i >= len(left):
+                value = right[j]
+                j += 1
+            elif j >= len(right):
+                value = left[i]
+                i += 1
+            else:
+                actions.append({
+                    "type": "compare",
+                    "indices": [lo + i, mid + 1 + j],
+                    "desc": f"Compare {left[i]} with {right[j]}."
+                })
+                if left[i] <= right[j]:
+                    value = left[i]
+                    i += 1
+                else:
+                    value = right[j]
+                    j += 1
+            actions.append({
+                "type": "write",
+                "index": k,
+                "value": value,
+                "desc": f"Write {value} to index {k}."
+            })
+            arr[k] = value
+
+    def merge_sort(lo, hi):
+        if lo >= hi:
+            return
+        mid = (lo + hi) // 2
+        merge_sort(lo, mid)
+        merge_sort(mid + 1, hi)
+        merge(lo, mid, hi)
+
+    if arr:
+        merge_sort(0, len(arr) - 1)
+    actions.append({"type": "done", "desc": "Array sorted."})
+    return actions
+
+
+@sorting_blueprint.route("/works/sorting/merge-steps", methods=["POST"])
+def merge_sort_steps():
+    data = request.get_json(silent=True) or {}
+    raw_values = data.get("values", [])
+
+    cleaned = []
+    for value in raw_values:
+        try:
+            num = int(value)
+        except (TypeError, ValueError):
+            continue
+        num = max(2, min(99, num))
+        cleaned.append(num)
+        if len(cleaned) >= 14:
+            break
+
+    actions = build_merge_sort_actions(cleaned)
+    return jsonify({"actions": actions, "values": cleaned})
+
+
+# ---------------------------
 # Sorting Algorithms (Quick Sort)
 # ---------------------------
 def build_quick_sort_actions(values):
