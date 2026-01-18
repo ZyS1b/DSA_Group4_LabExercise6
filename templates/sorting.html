@@ -5,6 +5,71 @@
 
 <div id="bubble" class="card card-outline" style="margin-bottom: 40px;">
     <h3>Bubble Sort</h3>
+    <p class="note">Bubble Sort is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.</p>
+
+    <div class="quick-grid">
+        <section class="quick-panel quick-panel-wide">
+            <h4>How does Bubble Sort Algorithm Work?</h4>
+            <p>
+                Bubble Sort works by comparing adjacent elements and swapping them if they are in the wrong order. This process causes larger values to "bubble" to the end of the list with each iteration.
+            </p>
+            <p>
+                There are mainly three steps in the algorithm: <br><br>
+                1. Traverse: Start from the first element and move toward the last.<br><br>
+                2. Compare & Swap: Compare the current element with the next one. If the current element is greater, swap them.<br><br>
+                3. Repeat: Continue this for each pair. After one full pass, the largest element is guaranteed to be at the end.
+            </p>
+
+            <div class="quick-subpanel">
+                <h5>Big O Complexity</h5>
+                <ul class="quick-complexity">
+                    <li>Best: O(n) when the array is already sorted.</li>
+                    <li>Average: O(n²) for random or mixed input.</li>
+                    <li>Worst: O(n²) when the array is sorted in reverse.</li>
+                    <li>Space: O(1) auxiliary (swapping happens in-place).</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <div class="quick-visual-grid">
+        
+        <section class="quick-panel">
+            <h4>Step Trace</h4>
+            <p class="quick-step-hint">Steps appear as the algorithm runs.</p>
+            <ol id="bubble-steps-list" class="quick-steps"></ol>
+        </section>
+
+        <div class="sorter">
+            <div class="sorter-controls">
+                <label class="sorter-label" for="bubble-input">Numbers</label>
+                <input id="bubble-input" type="text" placeholder="32, 11, 5, 26, 18, 9, 41, 15">
+
+                <div class="sorter-actions">
+                    <button id="bubble-load" type="button" class="cta">Load</button>
+                    <button id="bubble-random" type="button" class="ghost">Random</button>
+                    <button id="bubble-start" type="button" class="cta">Animate</button>
+                    <button id="bubble-reset" type="button" class="ghost">Reset</button>
+                </div>
+
+                <div class="sorter-controls-row">
+                    <label class="sorter-label" for="bubble-speed">Speed</label>
+                    <input id="bubble-speed" type="range" min="60" max="3600" step="20" value="220">
+                    <span id="bubble-speed-label" class="sorter-meta-text">220ms</span>
+                </div>
+
+                <div class="sorter-meta">
+                    <span>Steps: <strong id="bubble-steps">0/0</strong></span>
+                </div>
+            </div>
+
+            <div class="sorter-stage">
+                <div id="bubble-bars" class="sorter-bars" role="img" aria-label="Bubble sort visualization"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='bubble_sort.js') }}"></script>
 </div>
 
 <div id="Selection" class="card card-outline" style="margin-bottom: 40px;">

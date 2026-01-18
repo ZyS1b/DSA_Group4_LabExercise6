@@ -587,6 +587,63 @@ deque_ds = Deque()
 tree_ds = BinaryTree()
 bst_ds = BinarySearchTree()
 
+# ---------------------------
+# Sorting Algorithms (Bubble Sort)
+# ---------------------------
+def build_bubble_sort_actions(values):
+    actions = []
+    arr = list(values)
+    n = len(arr)
+
+    for i in range(n):
+        swapped = False
+        for j in range(0, n - i - 1):
+            actions.append({
+                "type": "compare",
+                "indices": [j, j + 1],
+                "desc": f"Compare {arr[j]} with {arr[j + 1]}."
+            })
+
+            if arr[j] > arr[j + 1]:
+                actions.append({
+                    "type": "swap",
+                    "i": j,
+                    "j": j + 1,
+                    "desc": f"Swap {arr[j]} at index {j} with {arr[j + 1]} at index {j + 1}."
+                })
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                swapped = True
+
+        actions.append({
+            "type": "locked", 
+            "index": n - 1 - i,
+            "desc": f"Value {arr[n - 1 - i]} is now in its sorted position."
+        })
+
+        if not swapped:
+            break
+    actions.append({"type": "done", "desc": "Array sorted."})
+    return actions
+
+
+@app.route("/works/sorting/bubble-steps", methods=["POST"])
+def bubble_sort_steps():
+    data = request.get_json(silent=True) or {}
+    raw_values = data.get("values", [])
+
+    cleaned = []
+    for value in raw_values:
+        try:
+            num = int(value)
+        except (TypeError, ValueError):
+            continue
+        num = max(2, min(99, num))
+        cleaned.append(num)
+        if len(cleaned) >= 14:
+            break
+
+    actions = build_bubble_sort_actions(cleaned)
+    return jsonify({"actions": actions, "values": cleaned})
 
 # ---------------------------
 # Sorting Algorithms (Quick Sort)
