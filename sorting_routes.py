@@ -135,65 +135,44 @@ def selection_sort_steps():
 
 
 # ---------------------------
-# Sorting Algorithms (Merge Sort)
+# Sorting Algorithms (Insertion Sort)
 # ---------------------------
-def build_merge_sort_actions(values):
+def build_insertion_sort_actions(values):
     actions = []
     arr = list(values)
 
-    def merge(lo, mid, hi):
+    for i in range(1, len(arr)):
         actions.append({
-            "type": "range",
-            "range": [lo, hi],
-            "desc": f"Merge subarray indices {lo}-{hi}."
+            "type": "key",
+            "index": i,
+            "desc": f"Select key {arr[i]} at index {i}."
         })
-        left = arr[lo:mid + 1]
-        right = arr[mid + 1:hi + 1]
-        i = 0
-        j = 0
-        for k in range(lo, hi + 1):
-            if i >= len(left):
-                value = right[j]
-                j += 1
-            elif j >= len(right):
-                value = left[i]
-                i += 1
-            else:
-                actions.append({
-                    "type": "compare",
-                    "indices": [lo + i, mid + 1 + j],
-                    "desc": f"Compare {left[i]} with {right[j]}."
-                })
-                if left[i] <= right[j]:
-                    value = left[i]
-                    i += 1
-                else:
-                    value = right[j]
-                    j += 1
+        j = i
+        while j > 0 and arr[j - 1] > arr[j]:
             actions.append({
-                "type": "write",
-                "index": k,
-                "value": value,
-                "desc": f"Write {value} to index {k}."
+                "type": "compare",
+                "indices": [j - 1, j],
+                "desc": f"Compare {arr[j - 1]} with {arr[j]}."
             })
-            arr[k] = value
+            actions.append({
+                "type": "swap",
+                "i": j - 1,
+                "j": j,
+                "desc": f"Swap {arr[j - 1]} at index {j - 1} with {arr[j]} at index {j}."
+            })
+            arr[j - 1], arr[j] = arr[j], arr[j - 1]
+            j -= 1
+        actions.append({
+            "type": "locked",
+            "index": j,
+            "desc": f"Position {j} is now sorted."
+        })
 
-    def merge_sort(lo, hi):
-        if lo >= hi:
-            return
-        mid = (lo + hi) // 2
-        merge_sort(lo, mid)
-        merge_sort(mid + 1, hi)
-        merge(lo, mid, hi)
-
-    if arr:
-        merge_sort(0, len(arr) - 1)
     actions.append({"type": "done", "desc": "Array sorted."})
     return actions
 
-
-@sorting_blueprint.route("/works/sorting/merge-steps", methods=["POST"])
-def merge_sort_steps():
+@sorting_blueprint.route("/works/sorting/insertion-steps", methods=["POST"])
+def insertion_sort_steps():
     data = request.get_json(silent=True) or {}
     raw_values = data.get("values", [])
 
@@ -208,9 +187,8 @@ def merge_sort_steps():
         if len(cleaned) >= 50:
             break
 
-    actions = build_merge_sort_actions(cleaned)
+    actions = build_insertion_sort_actions(cleaned)
     return jsonify({"actions": actions, "values": cleaned})
-
 
 # ---------------------------
 # Sorting Algorithms (Quick Sort)

@@ -166,7 +166,80 @@
 
 <div id="insertion" class="card card-outline sorting-section" role="tabpanel">
     <h3>Insertion Sort</h3>
+    <p class="note">Insertion Sort builds a sorted section by repeatedly inserting the next element into its correct position.</p>
+
+    <div class="insertion-grid">
+        <section class="insertion-panel insertion-panel-wide">
+            <h4>How does Insertion Sort Algorithm Work?</h4>
+            <p>
+                Insertion Sort takes one element at a time and inserts it into the already-sorted portion of the list,
+                shifting larger values to the right.
+            </p>
+            <p>
+                There are mainly four steps in the algorithm: <br><br>
+                1. Start: Treat the first element as sorted.<br><br>
+                2. Select: Pick the next element as the key.<br><br>
+                3. Shift: Move larger elements one position to the right.<br><br>
+                4. Insert: Place the key in its correct position.
+            </p>
+
+            <div class="insertion-subpanel">
+                <h5>Big O Complexity</h5>
+                <ul class="insertion-complexity">
+                    <li>Best: O(n) when the array is already sorted.</li>
+                    <li>Average: O(n^2) for random input.</li>
+                    <li>Worst: O(n^2) when the array is reverse sorted.</li>
+                    <li>Space: O(1) auxiliary (in-place).</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <div class="insertion-visual-grid">
+        <div class="sorter">
+            <div class="sorter-stage">
+                <div id="insertion-bars" class="sorter-bars" role="img" aria-label="Insertion sort visualization"></div>
+            </div>
+
+            <div class="sorter-bottom">
+                <div class="sorter-controls">
+                    <label class="sorter-label" for="insertion-input">Numbers</label>
+                    <input id="insertion-input" type="text" placeholder="29, 12, 33, 5, 17, 9, 41, 21">
+
+                    <div class="sorter-actions">
+                        <button id="insertion-load" type="button" class="cta">Load</button>
+                        <button id="insertion-random" type="button" class="ghost">Random</button>
+                        <button id="insertion-start" type="button" class="cta">Animate</button>
+                        <button id="insertion-reset" type="button" class="ghost">Reset</button>
+                    </div>
+
+                    <div class="sorter-controls-row">
+                        <label class="sorter-label" for="insertion-speed">Speed</label>
+                        <input id="insertion-speed" type="range" min="0.5" max="10" step="0.5" value="1">
+                        <span id="insertion-speed-label" class="sorter-meta-text">1x</span>
+                    </div>
+
+                    <div class="sorter-controls-row">
+                        <label class="sorter-label" for="insertion-count">Random N</label>
+                        <input id="insertion-count" type="number" min="2" max="50" value="10">
+                    </div>
+
+                    <div class="sorter-meta">
+                        <span>Steps: <strong id="insertion-steps">0/0</strong></span>
+                    </div>
+                </div>
+
+                <section class="insertion-panel">
+                    <h4>Step Trace</h4>
+                    <p class="insertion-step-hint">Steps appear as the algorithm runs. Current step is highlighted.</p>
+                    <ol id="insertion-steps-list" class="insertion-steps"></ol>
+                </section>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script src="{{ url_for('static', filename='insertion_sort.js') }}"></script>
 
 <div id="merge" class="card card-outline sorting-section" role="tabpanel">
     <h3>Merge Sort</h3>
