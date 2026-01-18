@@ -13,6 +13,7 @@ Our web portfolio is a Flask-based website with a futuristic neon and glass look
 ```
 DSA_Group4_LabExercise6/
 ├─ app.py
+├─ requirements.txt
 ├─ README.md
 ├─ LICENSE
 ├─ .gitignore
