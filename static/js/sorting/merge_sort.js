@@ -131,7 +131,7 @@
 
   const normalizeValues = (values) => {
     const cleaned = values
-      .map((value) => Math.max(2, Math.min(99, value)))
+      .map((value) => Math.max(1, Math.min(99, value)))
       .slice(0, maxBars);
     return cleaned;
   };
@@ -161,7 +161,7 @@
     const fallbackSize = 8 + Math.floor(Math.random() * 5);
     const desired = parseInt(countEl?.value, 10);
     const size = Number.isFinite(desired) ? desired : fallbackSize;
-    const finalSize = Math.max(2, Math.min(maxBars, size));
+    const finalSize = Math.max(1, Math.min(maxBars, size));
     const values = Array.from({ length: finalSize }, () => 8 + Math.floor(Math.random() * 80));
     return normalizeValues(values);
   };
@@ -430,6 +430,23 @@
     renderStepList(clamped);
   };
 
+  const stepTo = async (stepIndex, options = {}) => {
+    await ensureActions();
+    const clamped = Math.max(0, Math.min(stepIndex, state.actions.length));
+    const forwardAction = state.actions[state.actionIndex];
+    if (options.animate && clamped === state.actionIndex + 1 && forwardAction) {
+      if (forwardAction.type === "write") {
+        await applyAction(forwardAction);
+        state.actionIndex = clamped;
+        setSteps(clamped, state.actions.length);
+        updateStepSlider();
+        renderStepList(clamped);
+        return;
+      }
+    }
+    renderAtStep(clamped);
+  };
+
   const runAnimation = async () => {
     if (state.running) return;
     if (state.initial.length < 2) return;
@@ -484,6 +501,10 @@
     setValues(values);
   });
 
+  inputEl.addEventListener("input", () => {
+    inputEl.value = inputEl.value.replace(/[^0-9,\\s]/g, "");
+  });
+
   startBtn.addEventListener("click", () => {
     runAnimation();
   });
@@ -519,17 +540,15 @@
   });
 
   prevBtn?.addEventListener("click", async () => {
-    await ensureActions();
     state.paused = true;
     setPlayState(false);
-    renderAtStep(state.actionIndex - 1);
+    await stepTo(state.actionIndex - 1, { animate: true });
   });
 
   nextBtn?.addEventListener("click", async () => {
-    await ensureActions();
     state.paused = true;
     setPlayState(false);
-    renderAtStep(state.actionIndex + 1);
+    await stepTo(state.actionIndex + 1, { animate: true });
   });
 
   lastBtn?.addEventListener("click", async () => {
@@ -540,11 +559,10 @@
   });
 
   stepSliderEl?.addEventListener("input", async (event) => {
-    await ensureActions();
     state.paused = true;
     setPlayState(false);
     const nextValue = parseInt(event.target.value, 10);
-    renderAtStep(Number.isFinite(nextValue) ? nextValue : 0);
+    await stepTo(Number.isFinite(nextValue) ? nextValue : 0, { animate: true });
   });
 
   speedEl.addEventListener("input", (event) => {

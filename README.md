@@ -25,8 +25,11 @@ DSA_Group4_LabExercise6/
 │  └─ state.py
 ├─ static/
 │  ├─ css/
-│  │  ├─ sorting_style.css
-│  │  └─ style.css
+│  │  ├─ base.css
+│  │  ├─ components.css
+│  │  ├─ layout.css
+│  │  ├─ pages.css
+│  │  └─ sorting_style.css
 │  ├─ js/
 │  │  ├─ base.js
 │  │  ├─ graph.js

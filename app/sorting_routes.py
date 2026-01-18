@@ -59,7 +59,7 @@ def bubble_sort_steps():
             num = int(value)
         except (TypeError, ValueError):
             continue
-        num = max(2, min(99, num))
+        num = max(1, min(99, num))
         cleaned.append(num)
         if len(cleaned) >= 50:
             break
@@ -125,7 +125,7 @@ def selection_sort_steps():
             num = int(value)
         except (TypeError, ValueError):
             continue
-        num = max(2, min(99, num))
+        num = max(1, min(99, num))
         cleaned.append(num)
         if len(cleaned) >= 50:
             break
@@ -182,7 +182,7 @@ def insertion_sort_steps():
             num = int(value)
         except (TypeError, ValueError):
             continue
-        num = max(2, min(99, num))
+        num = max(1, min(99, num))
         cleaned.append(num)
         if len(cleaned) >= 50:
             break
@@ -269,7 +269,7 @@ def quick_sort_steps():
             num = int(value)
         except (TypeError, ValueError):
             continue
-        num = max(2, min(99, num))
+        num = max(1, min(99, num))
         cleaned.append(num)
         if len(cleaned) >= 50:
             break
