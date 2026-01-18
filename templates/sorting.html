@@ -3,7 +3,7 @@
 {% block content%}
 <h2 class="brand">Sorting Algorithms</h2>
 
-<div id="bubble" class="card card-outline" style="margin-bottom: 40px;">
+<div id="bubble" class="card card-outline sorting-section">
     <h3>Bubble Sort</h3>
     <p class="note">Bubble Sort is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.</p>
 
@@ -72,7 +72,7 @@
     <script src="{{ url_for('static', filename='bubble_sort.js') }}"></script>
 </div>
 
-<div id="selection" class="card card-outline" style="margin-bottom: 40px;">
+<div id="selection" class="card card-outline sorting-section">
     <h3>Selection Sort</h3>
     <p class="note">Selection Sort is a simple comparison-based sorting algorithm that divides the input list into two parts: a sorted sublist of items which is built up from left to right at the front (left) of the list and a sublist of the remaining unsorted items that occupy the rest of the list.</p>
 
@@ -143,15 +143,15 @@
 
 <script src="{{ url_for('static', filename='selection_sort.js') }}"></script>
 
-<div id="Insertion" class="card card-outline" style="margin-bottom: 40px;">
+<div id="Insertion" class="card card-outline sorting-section">
     <h3>Insertion Sort</h3>
 </div>
 
-<div id="merge" class="card card-outline" style="margin-bottom: 40px;">
+<div id="merge" class="card card-outline sorting-section">
     <h3>Merge Sort</h3>
 </div>
 
-<div id="quick" class="card card-outline" style="margin-bottom: 40px;">
+<div id="quick" class="card card-outline sorting-section">
     <h3>Quick Sort</h3>
     <p class="note">Quick Sort is a sorting algorithm based on the Divide and Conquer that picks an element as a pivot and partitions the given array around the picked pivot by placing piviots in its correct position in the sorted array.</p>
 
