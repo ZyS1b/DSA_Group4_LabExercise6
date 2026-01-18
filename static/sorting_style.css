@@ -834,16 +834,18 @@
 .sort-bar.is-key{
   background: linear-gradient(
     180deg,
-    color-mix(in oklab, var(--neon-yellow), #ffffff 22%),
-    color-mix(in oklab, var(--neon-orange), transparent 40%)
+    color-mix(in oklab, var(--neon-yellow), #ffffff 28%),
+    color-mix(in oklab, var(--neon-orange), transparent 45%)
   );
+
   box-shadow:
-    0 0 20px color-mix(in oklab, var(--neon-yellow), transparent 45%),
-    inset 0 0 14px color-mix(in oklab, var(--neon-orange), transparent 60%);
-  transform: translateY(-10px);
+    0 0 26px color-mix(in oklab, var(--neon-yellow), transparent 35%),
+    inset 0 0 18px color-mix(in oklab, var(--neon-orange), transparent 55%);
+
+  transform: translateY(-14px) scale(1.04);
+  z-index: 3;
 }
 
-/* Compared element */
 .sort-bar.is-compare{
   background: linear-gradient(
     180deg,
@@ -853,15 +855,29 @@
   box-shadow: 0 0 18px color-mix(in oklab, var(--neon-pink), transparent 55%);
 }
 
-/* Shifted element */
 .sort-bar.is-shift{
   background: linear-gradient(
     180deg,
-    color-mix(in oklab, var(--neon-orange), #ffffff 18%),
-    color-mix(in oklab, var(--neon-yellow), transparent 40%)
+    color-mix(in oklab, var(--neon-orange), #ffffff 14%),
+    color-mix(in oklab, var(--neon-yellow), transparent 50%)
   );
-  box-shadow: 0 0 18px color-mix(in oklab, var(--neon-orange), transparent 55%);
-  transform: translateY(-6px);
+
+  box-shadow:
+    0 0 14px color-mix(in oklab, var(--neon-orange), transparent 65%);
+
+  transform: translateX(4px) translateY(-6px);
+  opacity: 0.92;
+}
+
+.sort-bar.is-prefix{
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--neon-green), #ffffff 6%),
+    color-mix(in oklab, var(--neon-green), transparent 55%)
+  );
+
+  box-shadow:
+    inset 0 -4px 0 color-mix(in oklab, var(--neon-green), transparent 50%);
 }
 
 .sort-bar.is-sorted{
