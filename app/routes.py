@@ -1,4 +1,4 @@
-from flask import Blueprint, current_app, render_template, request
+from flask import Blueprint, current_app, render_template, request, session
 import json
 import urllib.error
 import urllib.request
@@ -8,6 +8,52 @@ from .data_structures import BinarySearchTree, BinaryTree, Deque, Queue
 
 
 main_blueprint = Blueprint("main", __name__)
+
+
+def load_queue():
+    items = session.get("queue_items", [])
+    queue = Queue()
+    for item in items:
+        queue.enqueue(item)
+    return queue
+
+
+def save_queue(queue):
+    session["queue_items"] = queue.display()
+
+
+def load_deque():
+    items = session.get("deque_items", [])
+    deque = Deque()
+    for item in items:
+        deque.enqueue_tail(item)
+    return deque
+
+
+def save_deque(deque):
+    session["deque_items"] = deque.display()
+
+
+def load_tree():
+    data = session.get("tree_data")
+    if data:
+        return BinaryTree.from_dict(data)
+    return BinaryTree()
+
+
+def save_tree(tree):
+    session["tree_data"] = tree.to_dict()
+
+
+def load_bst():
+    data = session.get("bst_data")
+    if data:
+        return BinarySearchTree.from_dict(data)
+    return BinarySearchTree()
+
+
+def save_bst(tree):
+    session["bst_data"] = tree.to_dict()
 
 
 @main_blueprint.route("/")
@@ -26,6 +72,7 @@ def works():
 def works_queue():
     message = None
     category = None
+    queue_ds = load_queue()
 
     if request.method == "POST":
         action = request.form.get("action")
@@ -33,7 +80,7 @@ def works_queue():
 
         if action == "enqueue":
             if value:
-                state.queue_ds.enqueue(value)
+                queue_ds.enqueue(value)
                 message = f"Enqueued: {value}"
                 category = "success"
             else:
@@ -41,7 +88,7 @@ def works_queue():
                 category = "warning"
 
         elif action == "dequeue":
-            removed = state.queue_ds.dequeue()
+            removed = queue_ds.dequeue()
             if removed is None:
                 message = "Queue is empty."
                 category = "danger"
@@ -50,11 +97,12 @@ def works_queue():
                 category = "success"
 
         elif action == "reset":
-            state.queue_ds = Queue()
+            queue_ds = Queue()
             message = "Queue has been reset."
             category = "success"
 
-    items = state.queue_ds.display()
+    save_queue(queue_ds)
+    items = queue_ds.display()
     site_name = current_app.config.get("SITE_NAME", state.SITE_NAME)
     return render_template(
         "queue.html",
@@ -70,6 +118,7 @@ def works_queue():
 def works_deque():
     message = None
     category = None
+    deque_ds = load_deque()
 
     if request.method == "POST":
         action = request.form.get("action")
@@ -77,7 +126,7 @@ def works_deque():
 
         if action == "enqueue":
             if value:
-                state.deque_ds.enqueue_tail(value)
+                deque_ds.enqueue_tail(value)
                 message = f"Enqueued at tail: {value}"
                 category = "success"
             else:
@@ -86,7 +135,7 @@ def works_deque():
 
         elif action == "enqueue_head":
             if value:
-                state.deque_ds.enqueue_head(value)
+                deque_ds.enqueue_head(value)
                 message = f"Enqueued at head: {value}"
                 category = "success"
             else:
@@ -94,7 +143,7 @@ def works_deque():
                 category = "warning"
 
         elif action == "dequeue":
-            removed = state.deque_ds.dequeue_tail()
+            removed = deque_ds.dequeue_tail()
             if removed is None:
                 message = "Deque is empty."
                 category = "danger"
@@ -103,7 +152,7 @@ def works_deque():
                 category = "success"
 
         elif action == "dequeue_head":
-            removed = state.deque_ds.dequeue_head()
+            removed = deque_ds.dequeue_head()
             if removed is None:
                 message = "Deque is empty."
                 category = "danger"
@@ -112,11 +161,12 @@ def works_deque():
                 category = "success"
 
         elif action == "reset":
-            state.deque_ds = Deque()
+            deque_ds = Deque()
             message = "Deque has been reset."
             category = "success"
 
-    items = state.deque_ds.display()
+    save_deque(deque_ds)
+    items = deque_ds.display()
     site_name = current_app.config.get("SITE_NAME", state.SITE_NAME)
     return render_template(
         "deque.html",
@@ -135,6 +185,7 @@ def works_tree():
     traversal_type = "inorder"
     traversal_output = None
     found_id = None
+    tree_ds = load_tree()
 
     if request.method == "POST":
         action = request.form.get("action")
@@ -147,14 +198,14 @@ def works_tree():
             category = "warning"
 
         elif action == "insert":
-            ok, msg = state.tree_ds.insert(value)
+            ok, msg = tree_ds.insert(value)
             message = msg
             category = "success" if ok else "danger"
 
         elif action == "insert_left":
-            parent = state.tree_ds.search_id(state.tree_ds.root, parent_id)
+            parent = tree_ds.search_id(tree_ds.root, parent_id)
             if parent:
-                ok, msg = state.tree_ds.insert_left(parent, value)
+                ok, msg = tree_ds.insert_left(parent, value)
                 message = msg
                 category = "success" if ok else "danger"
             else:
@@ -162,9 +213,9 @@ def works_tree():
                 category = "danger"
 
         elif action == "insert_right":
-            parent = state.tree_ds.search_id(state.tree_ds.root, parent_id)
+            parent = tree_ds.search_id(tree_ds.root, parent_id)
             if parent:
-                ok, msg = state.tree_ds.insert_right(parent, value)
+                ok, msg = tree_ds.insert_right(parent, value)
                 message = msg
                 category = "success" if ok else "danger"
             else:
@@ -172,7 +223,7 @@ def works_tree():
                 category = "danger"
 
         elif action == "search":
-            found = state.tree_ds.search_value(state.tree_ds.root, value)
+            found = tree_ds.search_value(tree_ds.root, value)
             if found:
                 found_id = found.id
                 message = f"Found: {value}"
@@ -182,34 +233,35 @@ def works_tree():
                 category = "danger"
 
         elif action == "delete":
-            deleted = state.tree_ds.delete_value(value)
+            deleted = tree_ds.delete_value(value)
             message = f"Deleted {value}." if deleted else f"{value} not found."
             category = "success" if deleted else "danger"
 
         elif action == "reset":
-            state.tree_ds = BinaryTree()
+            tree_ds = BinaryTree()
             message = "Tree reset (empty)."
             category = "success"
 
         elif action == "traversal":
             traversal_output = []
-            if state.tree_ds.root:
+            if tree_ds.root:
                 if traversal_type == "inorder":
-                    state.tree_ds.inorder(state.tree_ds.root, traversal_output)
+                    tree_ds.inorder(tree_ds.root, traversal_output)
                 elif traversal_type == "preorder":
-                    state.tree_ds.preorder(state.tree_ds.root, traversal_output)
+                    tree_ds.preorder(tree_ds.root, traversal_output)
                 elif traversal_type == "postorder":
-                    state.tree_ds.postorder(state.tree_ds.root, traversal_output)
+                    tree_ds.postorder(tree_ds.root, traversal_output)
 
-    nodes_for_ref = state.tree_ds.collect_nodes(state.tree_ds.root, only_not_full=True)
-    default_ref = state.tree_ds.first_not_full_node()
+    save_tree(tree_ds)
+    nodes_for_ref = tree_ds.collect_nodes(tree_ds.root, only_not_full=True)
+    default_ref = tree_ds.first_not_full_node()
     default_ref_id = default_ref.id if default_ref else None
     site_name = current_app.config.get("SITE_NAME", state.SITE_NAME)
 
     return render_template(
         "tree.html",
         site_name=site_name,
-        root=state.tree_ds.root,
+        root=tree_ds.root,
         nodes_for_ref=nodes_for_ref,
         default_ref_id=default_ref_id,
         traversal_type=traversal_type,
@@ -230,6 +282,7 @@ def works_bst():
     found_id = None
     max_value = None
     height_value = None
+    bst_ds = load_bst()
 
     if request.method == "POST":
         action = request.form.get("action")
@@ -249,12 +302,12 @@ def works_bst():
             category = "warning"
 
         elif action == "insert":
-            ok, msg = state.bst_ds.insert(val)
+            ok, msg = bst_ds.insert(val)
             message = msg
             category = "success"
 
         elif action == "search":
-            found = state.bst_ds.search(state.bst_ds.root, val)
+            found = bst_ds.search(bst_ds.root, val)
             if found:
                 found_id = found.id
                 message = f"Found: {val}"
@@ -264,40 +317,41 @@ def works_bst():
                 category = "danger"
 
         elif action == "delete":
-            state.bst_ds.root, deleted = state.bst_ds.delete(state.bst_ds.root, val)
+            bst_ds.root, deleted = bst_ds.delete(bst_ds.root, val)
             message = f"Deleted {val}." if deleted else f"{val} not found."
             category = "success" if deleted else "danger"
 
         elif action == "get_max":
-            max_value = state.bst_ds.get_max_value(state.bst_ds.root)
+            max_value = bst_ds.get_max_value(bst_ds.root)
             message = f"Max value: {max_value}" if max_value is not None else "BST is empty."
             category = "success" if max_value is not None else "danger"
 
         elif action == "height":
-            height_value = state.bst_ds.find_height(state.bst_ds.root)
-            message = f"Height (edges): {height_value}" if state.bst_ds.root else "BST is empty."
-            category = "success" if state.bst_ds.root else "danger"
+            height_value = bst_ds.find_height(bst_ds.root)
+            message = f"Height (edges): {height_value}" if bst_ds.root else "BST is empty."
+            category = "success" if bst_ds.root else "danger"
 
         elif action == "reset":
-            state.bst_ds = BinarySearchTree()
+            bst_ds = BinarySearchTree()
             message = "BST reset (empty)."
             category = "success"
 
         elif action == "traversal":
             traversal_output = []
-            if state.bst_ds.root:
+            if bst_ds.root:
                 if traversal_type == "inorder":
-                    state.bst_ds.inorder(state.bst_ds.root, traversal_output)
+                    bst_ds.inorder(bst_ds.root, traversal_output)
                 elif traversal_type == "preorder":
-                    state.bst_ds.preorder(state.bst_ds.root, traversal_output)
+                    bst_ds.preorder(bst_ds.root, traversal_output)
                 elif traversal_type == "postorder":
-                    state.bst_ds.postorder(state.bst_ds.root, traversal_output)
+                    bst_ds.postorder(bst_ds.root, traversal_output)
 
+    save_bst(bst_ds)
     site_name = current_app.config.get("SITE_NAME", state.SITE_NAME)
     return render_template(
         "bst.html",
         site_name=site_name,
-        root=state.bst_ds.root,
+        root=bst_ds.root,
         traversal_type=traversal_type,
         traversal_output=traversal_output,
         message=message,

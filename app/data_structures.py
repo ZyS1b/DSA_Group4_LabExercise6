@@ -112,11 +112,11 @@ class Deque:
 
 
 class TreeNode:
-    def __init__(self, value):
+    def __init__(self, value, node_id=None):
         self.value = value
         self.left = None
         self.right = None
-        self.id = str(uuid.uuid4())
+        self.id = node_id or str(uuid.uuid4())
 
 
 class BinaryTree:
@@ -262,13 +262,42 @@ class BinaryTree:
         nodes = self.collect_nodes(self.root, only_not_full=True)
         return nodes[0] if nodes else None
 
+    @staticmethod
+    def node_to_dict(node):
+        if node is None:
+            return None
+        return {
+            "id": node.id,
+            "value": node.value,
+            "left": BinaryTree.node_to_dict(node.left),
+            "right": BinaryTree.node_to_dict(node.right),
+        }
+
+    @staticmethod
+    def dict_to_node(data):
+        if not data:
+            return None
+        node = TreeNode(data.get("value"), data.get("id"))
+        node.left = BinaryTree.dict_to_node(data.get("left"))
+        node.right = BinaryTree.dict_to_node(data.get("right"))
+        return node
+
+    def to_dict(self):
+        return self.node_to_dict(self.root)
+
+    @classmethod
+    def from_dict(cls, data):
+        tree = cls()
+        tree.root = cls.dict_to_node(data)
+        return tree
+
 
 class BSTNode:
-    def __init__(self, value):
+    def __init__(self, value, node_id=None):
         self.value = value
         self.left = None
         self.right = None
-        self.id = str(uuid.uuid4())
+        self.id = node_id or str(uuid.uuid4())
 
 
 class BinarySearchTree:
@@ -364,6 +393,35 @@ class BinarySearchTree:
             self.postorder(node.left, out)
             self.postorder(node.right, out)
             out.append(node.value)
+
+    @staticmethod
+    def node_to_dict(node):
+        if node is None:
+            return None
+        return {
+            "id": node.id,
+            "value": node.value,
+            "left": BinarySearchTree.node_to_dict(node.left),
+            "right": BinarySearchTree.node_to_dict(node.right),
+        }
+
+    @staticmethod
+    def dict_to_node(data):
+        if not data:
+            return None
+        node = BSTNode(data.get("value"), data.get("id"))
+        node.left = BinarySearchTree.dict_to_node(data.get("left"))
+        node.right = BinarySearchTree.dict_to_node(data.get("right"))
+        return node
+
+    def to_dict(self):
+        return self.node_to_dict(self.root)
+
+    @classmethod
+    def from_dict(cls, data):
+        tree = cls()
+        tree.root = cls.dict_to_node(data)
+        return tree
 
 
 class RailGraph:
